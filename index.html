@@ -347,4 +347,1448 @@
     <button class="tab" data-tab="zakat"><span class="ic">🕌</span><span data-i18n="tab_zakat">الزكاة</span></button>
     <button class="tab" data-tab="loan"><span class="ic">🏦</span><span data-i18n="tab_loan">القروض والأقساط</span></button>
     <button class="tab" data-tab="currency"><span class="ic">💱</span><span data-i18n="tab_currency">تحويل العملات</span></button>
-    <button class=
+    <button class="tab" data-tab="dates"><span class="ic">📅</span><span data-i18n="tab_dates">حاسبة التواريخ</span></button>
+  </div>
+
+  <div class="card">
+
+    <!-- ============ TAB: PERCENTAGE ============ -->
+    <div id="pct" class="panel" data-keywords="نسبة مئوية percentage">
+      <div class="section-title"><span class="ic">🧮</span><span data-i18n="pct_title">حاسبة النسبة المئوية</span></div>
+      <p class="section-sub" data-i18n="pct_sub">اختار الخانة اللي عايز تحسبها، واملأ الخانتين التانيين.</p>
+
+      <div class="mode-row">
+        <button class="mode-btn active" data-target="result" data-i18n="pct_mode_result">احسب الناتج</button>
+        <button class="mode-btn" data-target="percent" data-i18n="pct_mode_percent">احسب النسبة</button>
+        <button class="mode-btn" data-target="number" data-i18n="pct_mode_number">احسب العدد</button>
+      </div>
+
+      <div class="field"><label><span data-i18n="pct_lbl_number">العدد</span> <span class="tag" id="pct-num-tag"></span></label><input type="number" id="pct-number" placeholder="مثال: 100" data-i18n-placeholder="pct_ph_number" inputmode="decimal"></div>
+      <div class="field"><label><span data-i18n="pct_lbl_percent">النسبة %</span> <span class="tag" id="pct-per-tag"></span></label><input type="number" id="pct-percent" placeholder="مثال: 5" data-i18n-placeholder="pct_ph_percent" inputmode="decimal"></div>
+      <div class="field"><label><span data-i18n="pct_lbl_result">الناتج</span> <span class="tag" id="pct-res-tag"></span></label><input type="number" id="pct-result" placeholder="مثال: 5" data-i18n-placeholder="pct_ph_result" inputmode="decimal"></div>
+
+      <div class="error-msg" id="pct-error" data-i18n="pct_error">من فضلك املأ الخانتين التانيين بأرقام صحيحة</div>
+      <div class="result-card" id="pct-receipt" style="display:none;">
+        <div class="r-label" id="pct-out-label">الناتج</div>
+        <div class="r-value" id="pct-out-value">—</div>
+      </div>
+      <button class="btn-secondary" id="pct-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+    </div>
+
+    <!-- ============ TAB: COMPOUND ============ -->
+    <div id="comp" class="panel" data-keywords="نسبة تراكمية مركبة compound" style="display:none;">
+      <div class="section-title"><span class="ic">📈</span><span data-i18n="comp_title">النسبة التراكمية</span></div>
+      <p class="section-sub" data-i18n="comp_sub">قيمة بتزيد (أو تقل) بنسبة معينة كل يوم، لحد عدد أيام معين.</p>
+
+      <div class="toggle-row">
+        <button class="active" id="comp-mode-compound" data-i18n="mode_compound">تراكمية (مركبة)</button>
+        <button id="comp-mode-simple" data-i18n="mode_simple">بسيطة (على الأصل)</button>
+      </div>
+
+      <div class="row2">
+        <div class="field"><label data-i18n="comp_lbl_base">العدد الأساسي</label><input type="number" id="comp-base" placeholder="1000" data-i18n-placeholder="comp_ph_base" inputmode="decimal"></div>
+        <div class="field"><label data-i18n="comp_lbl_percent">النسبة % لكل يوم</label><input type="number" id="comp-percent" placeholder="2" data-i18n-placeholder="comp_ph_percent" inputmode="decimal"></div>
+      </div>
+      <div class="field"><label data-i18n="comp_lbl_days">عدد الأيام</label><input type="number" id="comp-days" placeholder="10" data-i18n-placeholder="comp_ph_days" inputmode="decimal" min="1" max="500"></div>
+
+      <button class="btn-primary" id="comp-calc" data-i18n="btn_calc_table">احسب الجدول</button>
+      <div class="error-msg" id="comp-error" data-i18n="comp_error">من فضلك أدخل قيم صحيحة (عدد الأيام لازم يكون رقم موجب)</div>
+
+      <div class="summary-grid" id="comp-summary" style="display:none;">
+        <div class="summary-card"><div class="s-label" data-i18n="comp_sum_final">القيمة النهائية</div><div class="s-value" id="comp-final">—</div></div>
+        <div class="summary-card"><div class="s-label" data-i18n="comp_sum_increase">إجمالي الزيادة</div><div class="s-value" id="comp-total-increase">—</div></div>
+      </div>
+      <div class="table-wrap" id="comp-table-wrap" style="display:none;">
+        <table><thead><tr><th data-i18n="th_day">اليوم</th><th data-i18n="th_value">القيمة</th><th data-i18n="th_increase">الزيادة</th></tr></thead><tbody id="comp-tbody"></tbody></table>
+      </div>
+      <button class="btn-secondary" id="comp-export" style="display:none;" data-i18n="btn_export">⬇️ تصدير CSV</button>
+      <button class="btn-secondary" id="comp-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+    </div>
+
+    <!-- ============ TAB: GROW ============ -->
+    <div id="grow" class="panel" data-keywords="استثمار صناديق عائد ادخار توفير roi invest saving" style="display:none;">
+      <div class="section-title"><span class="ic">💹</span><span data-i18n="grow_title">الاستثمار والادخار</span></div>
+      <p class="section-sub" data-i18n="grow_sub">استثمار مبلغ لمرة واحدة، ادخار دوري، أو احسب العائد على استثمار قديم.</p>
+
+      <div class="mode-row">
+        <button class="mode-btn active" data-gm="lumpsum" data-i18n="grow_mode_lumpsum">استثمار مبلغ</button>
+        <button class="mode-btn" data-gm="recurring" data-i18n="grow_mode_recurring">ادخار دوري</button>
+        <button class="mode-btn" data-gm="roi" data-i18n="grow_mode_roi">احسب العائد</button>
+        <button class="mode-btn" data-gm="combo" data-i18n="grow_mode_combo">خطة شاملة</button>
+      </div>
+
+      <div id="grow-lumpsum" class="grow-panel">
+        <div class="field"><label data-i18n="gl_lbl_amount">المبلغ الأولي</label><input type="number" id="gl-amount" placeholder="10000" data-i18n-placeholder="gl_ph_amount" inputmode="decimal"></div>
+        <div class="row2">
+          <div class="field"><label data-i18n="gl_lbl_rate">نسبة العائد %</label><input type="number" id="gl-rate" placeholder="0.5" data-i18n-placeholder="gl_ph_rate" inputmode="decimal" step="0.01"></div>
+          <div class="field">
+            <label data-i18n="gl_lbl_rate_freq">دورية النسبة</label>
+            <select id="gl-rate-freq"><option value="365" data-i18n="opt_daily">يومية</option><option value="12" selected data-i18n="opt_monthly">شهرية</option><option value="1" data-i18n="opt_yearly">سنوية</option></select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field"><label data-i18n="lbl_duration">مدة الاستثمار</label><input type="number" id="gl-duration" placeholder="6" data-i18n-placeholder="gl_ph_duration" inputmode="decimal"></div>
+          <div class="field">
+            <label data-i18n="lbl_unit">الوحدة</label>
+            <select id="gl-duration-unit"><option value="1" data-i18n="opt_day">يوم</option><option value="30" selected data-i18n="opt_month">شهر</option><option value="365" data-i18n="opt_year">سنة</option></select>
+          </div>
+        </div>
+        <div class="toggle-row">
+          <button class="active" id="gl-mode-compound" data-i18n="gl_mode_compound">تراكمي (مركب)</button>
+          <button id="gl-mode-simple" data-i18n="gl_mode_simple">غير تراكمي (بسيط)</button>
+        </div>
+      </div>
+
+      <div id="grow-recurring" class="grow-panel" style="display:none;">
+        <div class="row2">
+          <div class="field"><label data-i18n="gr_lbl_deposit">مبلغ الإيداع الدوري</label><input type="number" id="gr-deposit" placeholder="1000" data-i18n-placeholder="gr_ph_deposit" inputmode="decimal"></div>
+          <div class="field">
+            <label data-i18n="gr_lbl_deposit_freq">دورية الإيداع</label>
+            <select id="gr-deposit-freq"><option value="365" data-i18n="opt_daily2">يومي</option><option value="12" selected data-i18n="opt_monthly2">شهري</option><option value="1" data-i18n="opt_yearly2">سنوي</option></select>
+          </div>
+        </div>
+        <div class="field"><label data-i18n="gr_lbl_annual_rate">نسبة العائد السنوية المتوقعة %</label><input type="number" id="gr-annual-rate" placeholder="10" data-i18n-placeholder="gr_ph_rate" inputmode="decimal"></div>
+        <div class="row2">
+          <div class="field"><label data-i18n="lbl_duration">مدة الادخار</label><input type="number" id="gr-duration" placeholder="5" data-i18n-placeholder="gr_ph_duration" inputmode="decimal"></div>
+          <div class="field">
+            <label data-i18n="lbl_unit">الوحدة</label>
+            <select id="gr-duration-unit"><option value="1" data-i18n="opt_day">يوم</option><option value="30" data-i18n="opt_month">شهر</option><option value="365" selected data-i18n="opt_year">سنة</option></select>
+          </div>
+        </div>
+      </div>
+
+      <div id="grow-roi" class="grow-panel" style="display:none;">
+        <div class="row2">
+          <div class="field"><label data-i18n="groi_lbl_initial">المبلغ الأولي</label><input type="number" id="groi-initial" placeholder="10000" data-i18n-placeholder="gl_ph_amount" inputmode="decimal"></div>
+          <div class="field"><label data-i18n="groi_lbl_final">القيمة النهائية</label><input type="number" id="groi-final" placeholder="12500" data-i18n-placeholder="groi_ph_final" inputmode="decimal"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label data-i18n="groi_lbl_duration">المدة (اختياري)</label><input type="number" id="groi-duration" placeholder="1" data-i18n-placeholder="groi_ph_duration" inputmode="decimal"></div>
+          <div class="field">
+            <label data-i18n="lbl_unit">الوحدة</label>
+            <select id="groi-duration-unit"><option value="1" data-i18n="opt_day">يوم</option><option value="30" data-i18n="opt_month">شهر</option><option value="365" selected data-i18n="opt_year">سنة</option></select>
+          </div>
+        </div>
+      </div>
+
+      <div id="grow-combo" class="grow-panel" style="display:none;">
+        <p class="section-sub" data-i18n="gc_sub">كل الخانات دي اختيارية ومتغيرة — املأ اللي يناسب خطتك.</p>
+        <div class="row2">
+          <div class="field"><label data-i18n="gc_lbl_lumpsum">مبلغ مجمد (دفعة أولى) <span class="tag" data-i18n="tag_optional">(اختياري)</span></label><input type="number" id="gc-lumpsum" placeholder="300000" data-i18n-placeholder="gc_ph_lumpsum" inputmode="decimal"></div>
+          <div class="field"><label data-i18n="gc_lbl_monthly">مبلغ شهري إضافي <span class="tag" data-i18n="tag_optional">(اختياري)</span></label><input type="number" id="gc-monthly" placeholder="1000" data-i18n-placeholder="gc_ph_monthly" inputmode="decimal"></div>
+        </div>
+        <div class="section-sub" data-i18n="gc_timing_note">المبلغ الشهري بيتضاف أول كل شهر قبل ما يبدأ العائد يشتغل عليه.</div>
+        <div class="row2">
+          <div class="field"><label data-i18n="gc_lbl_annual_rate">نسبة العائد السنوية %</label><input type="number" id="gc-annual-rate" placeholder="17.5" data-i18n-placeholder="gc_ph_rate" inputmode="decimal" step="0.01"></div>
+          <div class="field">
+            <label data-i18n="gc_lbl_freq">دورية التراكم</label>
+            <select id="gc-freq"><option value="daily" selected data-i18n="opt_daily2">يومي</option><option value="weekly" data-i18n="opt_weekly">أسبوعي</option><option value="monthly" data-i18n="opt_monthly2">شهري</option></select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field"><label data-i18n="lbl_duration">المدة</label><input type="number" id="gc-duration" placeholder="12" data-i18n-placeholder="gc_ph_duration" inputmode="decimal"></div>
+          <div class="field">
+            <label data-i18n="lbl_unit">الوحدة</label>
+            <select id="gc-duration-unit"><option value="1" data-i18n="opt_day">يوم</option><option value="30" selected data-i18n="opt_month">شهر</option><option value="365" data-i18n="opt_year">سنة</option></select>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="grow-calc" data-i18n="btn_calc">احسب</button>
+      <div class="error-msg" id="grow-error" data-i18n="grow_error">من فضلك أدخل قيم صحيحة وأكبر من صفر</div>
+
+      <div class="summary-grid" id="grow-summary" style="display:none;"></div>
+      <div class="toggle-row" id="gc-view-toggle" style="display:none;">
+        <button class="active" id="gc-view-daily" data-view="daily" data-i18n="gc_view_daily">يومي (الشهر الأول)</button>
+        <button id="gc-view-monthly" data-view="monthly" data-i18n="gc_view_monthly">شهري</button>
+        <button id="gc-view-yearly" data-view="yearly" data-i18n="gc_view_yearly">سنوي</button>
+      </div>
+      <div class="table-wrap" id="grow-table-wrap" style="display:none;">
+        <table><thead id="grow-thead"><tr><th data-i18n="th_period">الفترة</th><th data-i18n="th_value">القيمة</th><th data-i18n="th_profit_cum">الربح التراكمي</th></tr></thead><tbody id="grow-tbody"></tbody></table>
+      </div>
+      <button class="btn-secondary" id="grow-export" style="display:none;" data-i18n="btn_export">⬇️ تصدير CSV</button>
+      <button class="btn-secondary" id="grow-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <p class="disclaimer" data-i18n="grow_disclaimer">الحسابات افتراضية بتفترض إن معدل العائد ثابت طول المدة، والعائد الفعلي للاستثمارات بيتغير حسب أداء السوق.</p>
+    </div>
+
+    <!-- ============ TAB: PRICING ============ -->
+    <div id="pricing" class="panel" data-keywords="خصم زيادة تخفيض ضريبة قيمة مضافة vat ربح هامش ماركاب discount tax margin" style="display:none;">
+      <div class="section-title"><span class="ic">🏷️</span><span data-i18n="pricing_title">الأسعار والنسب</span></div>
+      <p class="section-sub" data-i18n="pricing_sub">خصومات، زيادات، ضريبة القيمة المضافة، أو هامش الربح — في مكان واحد.</p>
+
+      <div class="mode-row">
+        <button class="mode-btn active" data-prm="discount" data-i18n="pricing_mode_discount">خصم / زيادة</button>
+        <button class="mode-btn" data-prm="tax" data-i18n="pricing_mode_tax">الضريبة</button>
+        <button class="mode-btn" data-prm="margin" data-i18n="pricing_mode_margin">هامش الربح</button>
+      </div>
+
+      <div id="pricing-discount" class="pricing-panel">
+        <div class="toggle-row">
+          <button class="active" id="disc-mode-down" data-i18n="disc_mode_down">خصم (تنزيل)</button>
+          <button id="disc-mode-up" data-i18n="disc_mode_up">زيادة</button>
+        </div>
+        <div class="mode-row">
+          <button class="mode-btn active" data-dtarget="final" data-i18n="disc_dtarget_final">احسب السعر النهائي</button>
+          <button class="mode-btn" data-dtarget="percent" data-i18n="disc_dtarget_percent">احسب النسبة</button>
+          <button class="mode-btn" data-dtarget="original" data-i18n="disc_dtarget_original">احسب السعر الأصلي</button>
+        </div>
+        <div class="field"><label><span data-i18n="disc_lbl_original">السعر الأصلي</span> <span class="tag" id="disc-orig-tag"></span></label><input type="number" id="disc-original" placeholder="200" data-i18n-placeholder="disc_ph_original" inputmode="decimal"></div>
+        <div class="field"><label><span data-i18n="pct_lbl_percent">النسبة %</span> <span class="tag" id="disc-per-tag"></span></label><input type="number" id="disc-percent" placeholder="25" data-i18n-placeholder="disc_ph_percent" inputmode="decimal"></div>
+        <div class="field"><label><span data-i18n="disc_lbl_final">السعر النهائي</span> <span class="tag" id="disc-final-tag"></span></label><input type="number" id="disc-finalprice" placeholder="150" data-i18n-placeholder="disc_ph_final" inputmode="decimal"></div>
+        <div class="error-msg" id="disc-error" data-i18n="pct_error">من فضلك املأ الخانتين التانيين بأرقام صحيحة</div>
+        <div class="result-card" id="disc-receipt" style="display:none;">
+          <div class="r-label" id="disc-out-label">السعر النهائي</div>
+          <div class="r-value" id="disc-out-value">—</div>
+        </div>
+        <button class="btn-secondary" id="disc-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      </div>
+
+      <div id="pricing-tax" class="pricing-panel" style="display:none;">
+        <div class="toggle-row">
+          <button class="active" id="tax-mode-add" data-i18n="tax_mode_add">إضافة ضريبة</button>
+          <button id="tax-mode-remove" data-i18n="tax_mode_remove">حذف ضريبة (السعر شامل)</button>
+        </div>
+        <div class="chip-row">
+          <button class="chip" data-rate="5" data-i18n="chip_5">5%</button>
+          <button class="chip" data-rate="14" data-i18n="chip_14">14%</button>
+          <button class="chip" data-rate="15" data-i18n="chip_15">15%</button>
+        </div>
+        <div class="field"><label data-i18n="tax_lbl_price">السعر</label><input type="number" id="tax-price" placeholder="100" data-i18n-placeholder="tax_ph_price" inputmode="decimal"></div>
+        <div class="field"><label data-i18n="tax_lbl_rate">نسبة الضريبة %</label><input type="number" id="tax-rate" placeholder="14" data-i18n-placeholder="tax_ph_rate" inputmode="decimal"></div>
+        <button class="btn-primary" id="tax-calc" data-i18n="btn_calc">احسب</button>
+        <div class="error-msg" id="tax-error" data-i18n="tax_error">من فضلك أدخل قيم صحيحة</div>
+        <div class="summary-grid" id="tax-summary" style="display:none;">
+          <div class="summary-card"><div class="s-label" data-i18n="tax_sum_before">السعر قبل الضريبة</div><div class="s-value" id="tax-before">—</div></div>
+          <div class="summary-card"><div class="s-label" data-i18n="tax_sum_amount">قيمة الضريبة</div><div class="s-value" id="tax-amount">—</div></div>
+          <div class="summary-card" style="grid-column:1/-1;"><div class="s-label" data-i18n="tax_sum_after">السعر شامل الضريبة</div><div class="s-value" id="tax-after">—</div></div>
+        </div>
+        <button class="btn-secondary" id="tax-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      </div>
+
+      <div id="pricing-margin" class="pricing-panel" style="display:none;">
+        <div class="row2">
+          <div class="field"><label data-i18n="pm_lbl_cost">تكلفة المنتج</label><input type="number" id="pm-cost" placeholder="60" data-i18n-placeholder="pm_ph_cost" inputmode="decimal"></div>
+          <div class="field"><label data-i18n="pm_lbl_price">سعر البيع</label><input type="number" id="pm-price" placeholder="100" data-i18n-placeholder="pm_ph_price" inputmode="decimal"></div>
+        </div>
+        <button class="btn-primary" id="pm-calc" data-i18n="btn_calc">احسب</button>
+        <div class="error-msg" id="pm-error" data-i18n="tax_error">من فضلك أدخل قيم صحيحة</div>
+        <div class="summary-grid" id="pm-summary" style="display:none;">
+          <div class="summary-card"><div class="s-label" data-i18n="pm_sum_profit">الربح</div><div class="s-value" id="pm-profit">—</div></div>
+          <div class="summary-card"><div class="s-label" data-i18n="pm_sum_margin">هامش الربح Margin</div><div class="s-value" id="pm-margin">—</div></div>
+          <div class="summary-card" style="grid-column:1/-1;"><div class="s-label" data-i18n="pm_sum_markup">نسبة الماركاپ Markup</div><div class="s-value" id="pm-markup">—</div></div>
+        </div>
+        <button class="btn-secondary" id="pm-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      </div>
+    </div>
+
+    <!-- ============ TAB: ZAKAT ============ -->
+    <div id="zakat" class="panel" data-keywords="زكاة ذهب فضة مال zakat gold silver" style="display:none;">
+      <div class="section-title"><span class="ic">🕌</span><span data-i18n="zakat_title">حاسبة الزكاة</span></div>
+      <p class="section-sub" data-i18n="zakat_sub">اختار نوع الزكاة اللي عايز تحسبها.</p>
+
+      <div class="mode-row">
+        <button class="mode-btn active" data-ztarget="gold" data-i18n="zakat_mode_gold">ذهب</button>
+        <button class="mode-btn" data-ztarget="silver" data-i18n="zakat_mode_silver">فضة</button>
+        <button class="mode-btn" data-ztarget="money" data-i18n="zakat_mode_money">زكاة المال</button>
+      </div>
+
+      <div id="zakat-gold" class="zakat-panel">
+        <div class="row2">
+          <div class="field"><label data-i18n="zg_lbl_weight">وزن الذهب (جرام)</label><input type="number" id="zg-weight" placeholder="100" data-i18n-placeholder="zg_ph_weight" inputmode="decimal"></div>
+          <div class="field"><label data-i18n="zg_lbl_price">سعر جرام الذهب</label><input type="number" id="zg-price" placeholder="4000" data-i18n-placeholder="zg_ph_price" inputmode="decimal"></div>
+        </div>
+        <div class="section-sub" data-i18n="zg_note">نصاب الذهب = ٨٥ جرام (عيار ٢١). لو الوزن أقل من كده، مفيش زكاة واجبة.</div>
+      </div>
+
+      <div id="zakat-silver" class="zakat-panel" style="display:none;">
+        <div class="row2">
+          <div class="field"><label data-i18n="zs_lbl_weight">وزن الفضة (جرام)</label><input type="number" id="zs-weight" placeholder="700" data-i18n-placeholder="zs_ph_weight" inputmode="decimal"></div>
+          <div class="field"><label data-i18n="zs_lbl_price">سعر جرام الفضة</label><input type="number" id="zs-price" placeholder="45" data-i18n-placeholder="zs_ph_price" inputmode="decimal"></div>
+        </div>
+        <div class="section-sub" data-i18n="zs_note">نصاب الفضة = ٥٩٥ جرام. لو الوزن أقل من كده، مفيش زكاة واجبة.</div>
+      </div>
+
+      <div id="zakat-money" class="zakat-panel" style="display:none;">
+        <div class="field"><label data-i18n="zm_lbl_amount">إجمالي المدخرات / الأموال</label><input type="number" id="zm-amount" placeholder="100000" data-i18n-placeholder="zm_ph_amount" inputmode="decimal"></div>
+        <div class="field"><label data-i18n="zm_lbl_silverprice">سعر جرام الفضة الحالي (لحساب النصاب)</label><input type="number" id="zm-silverprice" placeholder="45" data-i18n-placeholder="zs_ph_price" inputmode="decimal"></div>
+        <div class="section-sub" data-i18n="zm_note">نصاب زكاة المال = قيمة ٥٩٥ جرام فضة (بيتحسب أوتوماتيك). لازم يكون المبلغ فاضل عندك لمدة سنة هجرية كاملة (الحول).</div>
+      </div>
+
+      <button class="btn-primary" id="zakat-calc" data-i18n="zakat_btn_calc">احسب الزكاة</button>
+      <div class="error-msg" id="zakat-error" data-i18n="tax_error">من فضلك أدخل قيم صحيحة</div>
+
+      <div class="result-card" id="zakat-receipt" style="display:none;">
+        <div class="r-label" id="zakat-out-label">مقدار الزكاة (٢.٥٪)</div>
+        <div class="r-value" id="zakat-out-value">—</div>
+      </div>
+      <div class="info-msg" id="zakat-below-nisab" style="display:none;" data-i18n="zakat_below">المبلغ/الوزن أقل من النصاب، فمفيش زكاة واجبة عليه.</div>
+
+      <button class="btn-secondary" id="zakat-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <p class="disclaimer" data-i18n="zakat_disclaimer">الحسبة دي تقريبية بنسبة ٢.٥٪ (ربع العشر) وحسب أسعار بتدخلها انت. لحساب دقيق يُفضّل مراجعة دار الإفتاء أو جهة شرعية موثوقة.</p>
+    </div>
+
+    <!-- ============ TAB: LOAN ============ -->
+    <div id="loan" class="panel" data-keywords="قرض قروض اقساط تمويل loan" style="display:none;">
+      <div class="section-title"><span class="ic">🏦</span><span data-i18n="loan_title">حساب القروض والأقساط</span></div>
+      <p class="section-sub" data-i18n="loan_sub">أدخل مبلغ القرض، ونسبة الفايدة السنوية، وعدد السنين.</p>
+
+      <div class="field"><label data-i18n="loan_lbl_amount">مبلغ القرض</label><input type="number" id="loan-amount" placeholder="100000" data-i18n-placeholder="loan_ph_amount" inputmode="decimal"></div>
+      <div class="row2">
+        <div class="field"><label data-i18n="loan_lbl_rate">نسبة الفايدة السنوية %</label><input type="number" id="loan-rate" placeholder="8" data-i18n-placeholder="loan_ph_rate" inputmode="decimal"></div>
+        <div class="field"><label data-i18n="loan_lbl_years">عدد السنين</label><input type="number" id="loan-years" placeholder="5" data-i18n-placeholder="loan_ph_years" inputmode="decimal"></div>
+      </div>
+
+      <button class="btn-primary" id="loan-calc" data-i18n="loan_btn_calc">احسب القرض</button>
+      <div class="error-msg" id="loan-error" data-i18n="zakat_error">من فضلك أدخل قيم صحيحة وأكبر من صفر</div>
+
+      <div class="summary-grid" id="loan-summary" style="display:none;">
+        <div class="summary-card"><div class="s-label" data-i18n="loan_sum_monthly">القسط الشهري</div><div class="s-value" id="loan-monthly">—</div></div>
+        <div class="summary-card"><div class="s-label" data-i18n="loan_sum_count">عدد الأقساط</div><div class="s-value" id="loan-count">—</div></div>
+        <div class="summary-card"><div class="s-label" data-i18n="loan_sum_interest">إجمالي الفوائد</div><div class="s-value" id="loan-interest">—</div></div>
+        <div class="summary-card"><div class="s-label" data-i18n="loan_sum_total">إجمالي المسدد</div><div class="s-value" id="loan-total">—</div></div>
+      </div>
+
+      <div class="table-wrap" id="loan-table-wrap" style="display:none;">
+        <table><thead><tr><th data-i18n="th_installment">القسط</th><th data-i18n="th_amount">المبلغ</th><th data-i18n="th_interest">فايدة</th><th data-i18n="th_principal">أصل</th><th data-i18n="th_remaining">المتبقي</th></tr></thead><tbody id="loan-tbody"></tbody></table>
+      </div>
+      <button class="btn-secondary" id="loan-export" style="display:none;" data-i18n="btn_export">⬇️ تصدير CSV</button>
+
+      <div class="divider-label" data-i18n="loan_compare_title">مقارنة بقرض تاني (اختياري)</div>
+      <div class="toggle-row"><button id="loan-compare-toggle" data-i18n="loan_compare_off">فعّل المقارنة</button></div>
+      <div id="loan-compare-fields" style="display:none;">
+        <div class="field"><label data-i18n="loan2_lbl_amount">مبلغ القرض الثاني</label><input type="number" id="loan2-amount" placeholder="100000" data-i18n-placeholder="loan_ph_amount" inputmode="decimal"></div>
+        <div class="row2">
+          <div class="field"><label data-i18n="loan2_lbl_rate">نسبة الفايدة السنوية % (٢)</label><input type="number" id="loan2-rate" placeholder="6" data-i18n-placeholder="loan_ph_rate" inputmode="decimal"></div>
+          <div class="field"><label data-i18n="loan2_lbl_years">عدد السنين (٢)</label><input type="number" id="loan2-years" placeholder="4" data-i18n-placeholder="loan_ph_years" inputmode="decimal"></div>
+        </div>
+        <button class="btn-primary" id="loan2-calc" data-i18n="loan2_btn_calc">قارن القرضين</button>
+        <div class="summary-grid" id="loan-compare-summary" style="display:none;">
+          <div class="summary-card"><div class="s-label" data-i18n="loanc_sum_monthly1">قسط القرض ١ الشهري</div><div class="s-value" id="loanc-monthly1">—</div></div>
+          <div class="summary-card alt"><div class="s-label" data-i18n="loanc_sum_monthly2">قسط القرض ٢ الشهري</div><div class="s-value" id="loanc-monthly2">—</div></div>
+          <div class="summary-card"><div class="s-label" data-i18n="loanc_sum_interest1">فوائد القرض ١ الإجمالية</div><div class="s-value" id="loanc-interest1">—</div></div>
+          <div class="summary-card alt"><div class="s-label" data-i18n="loanc_sum_interest2">فوائد القرض ٢ الإجمالية</div><div class="s-value" id="loanc-interest2">—</div></div>
+        </div>
+      </div>
+
+      <button class="btn-secondary" id="loan-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+    </div>
+
+    <!-- ============ TAB: CURRENCY ============ -->
+    <div id="currency" class="panel" data-keywords="عملات دولار يورو تحويل صرف currency" style="display:none;">
+      <div class="section-title"><span class="ic">💱</span><span data-i18n="currency_title">تحويل العملات</span></div>
+      <p class="section-sub" data-i18n="currency_sub">أسعار الصرف بتتجاب لحظيًا من الإنترنت وقت الحساب.</p>
+
+      <div class="field"><label data-i18n="cur_lbl_amount">المبلغ</label><input type="number" id="cur-amount" placeholder="100" data-i18n-placeholder="tax_ph_price" inputmode="decimal"></div>
+      <div class="row2">
+        <div class="field"><label data-i18n="cur_lbl_from">من عملة</label><select id="cur-from"></select></div>
+        <div class="field"><label data-i18n="cur_lbl_to">إلى عملة</label><select id="cur-to"></select></div>
+      </div>
+
+      <button class="btn-primary" id="cur-calc" data-i18n="cur_btn_calc">حوّل الآن</button>
+      <div class="error-msg" id="cur-error" data-i18n="cur_error">تعذر جلب أسعار الصرف. تأكد من الاتصال بالإنترنت وحاول تاني.</div>
+
+      <div class="result-card" id="cur-receipt" style="display:none;">
+        <div class="r-label" id="cur-out-label">الناتج</div>
+        <div class="r-value" id="cur-out-value">—</div>
+      </div>
+      <button class="btn-secondary" id="cur-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <p class="disclaimer" data-i18n="cur_disclaimer">الأسعار مبنية على متوسط سوق الصرف وممكن تختلف شوية عن سعر البنك أو الصراف.</p>
+    </div>
+
+    <!-- ============ TAB: DATES ============ -->
+    <div id="dates" class="panel" data-keywords="تاريخ تواريخ عمر ايام date age" style="display:none;">
+      <div class="section-title"><span class="ic">📅</span><span data-i18n="dates_title">حاسبة التواريخ</span></div>
+      <p class="section-sub" data-i18n="dates_sub">اختار نوع الحساب اللي محتاجه.</p>
+
+      <div class="mode-row">
+        <button class="mode-btn active" data-dm="diff" data-i18n="dates_mode_diff">الفرق بين تاريخين</button>
+        <button class="mode-btn" data-dm="age" data-i18n="dates_mode_age">حساب العمر</button>
+        <button class="mode-btn" data-dm="add" data-i18n="dates_mode_add">إضافة/طرح أيام</button>
+        <button class="mode-btn" data-dm="workdays" data-i18n="dates_mode_workdays">أيام العمل</button>
+      </div>
+
+      <div id="date-diff" class="date-panel">
+        <div class="row2">
+          <div class="field"><label data-i18n="dd_lbl_first">التاريخ الأول</label><input type="date" id="dd-first"></div>
+          <div class="field"><label data-i18n="dd_lbl_second">التاريخ الثاني</label><input type="date" id="dd-second"></div>
+        </div>
+      </div>
+      <div id="date-age" class="date-panel" style="display:none;">
+        <div class="field"><label data-i18n="da_lbl_birth">تاريخ الميلاد</label><input type="date" id="da-birth"></div>
+      </div>
+      <div id="date-add" class="date-panel" style="display:none;">
+        <div class="field"><label data-i18n="dadd_lbl_base">التاريخ الأساسي</label><input type="date" id="dadd-base"></div>
+        <div class="row2">
+          <div class="field"><label data-i18n="dadd_lbl_days">عدد الأيام</label><input type="number" id="dadd-days" placeholder="30" data-i18n-placeholder="dadd_ph_days" inputmode="decimal"></div>
+          <div class="field"><label data-i18n="dadd_lbl_op">العملية</label><select id="dadd-op"><option value="add" data-i18n="dadd_op_add">إضافة</option><option value="sub" data-i18n="dadd_op_sub">طرح</option></select></div>
+        </div>
+      </div>
+      <div id="date-workdays" class="date-panel" style="display:none;">
+        <div class="row2">
+          <div class="field"><label data-i18n="dw_lbl_first">من تاريخ</label><input type="date" id="dw-first"></div>
+          <div class="field"><label data-i18n="dw_lbl_second">إلى تاريخ</label><input type="date" id="dw-second"></div>
+        </div>
+        <div class="section-sub" data-i18n="dw_note">الإجازة الأسبوعية المفترضة: الجمعة والسبت.</div>
+      </div>
+
+      <button class="btn-primary" id="date-calc" data-i18n="btn_calc">احسب</button>
+      <div class="error-msg" id="date-error" data-i18n="date_error">من فضلك اختار التواريخ المطلوبة</div>
+
+      <div class="result-card" id="date-receipt" style="display:none;">
+        <div class="r-label" id="date-out-label">النتيجة</div>
+        <div class="r-value" id="date-out-value" style="font-size:20px;">—</div>
+      </div>
+      <button class="btn-secondary" id="date-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+    </div>
+
+    <div class="footer-note" data-i18n="footer_note">الأرقام بتتقرب لأقرب رقمين عشريين</div>
+  </div>
+
+  <div class="app-footer">
+    <p data-i18n="copyright_line">جميع الحقوق محفوظة © Ahmed Abd-Elrahman - مصر - 2026</p>
+    <p><span class="phone-number">+201069296992</span></p>
+  </div>
+</div>
+</div>
+
+<script>
+// ================= TRANSLATIONS =================
+const translations = {
+  ar: {
+    h_tagline:'كل أدواتك المالية في مكان واحد', search_ph:'دور على أداة... مثلاً: قروض، عملات، زكاة',
+    tab_pct:'النسبة المئوية', tab_comp:'النسبة التراكمية', tab_grow:'الاستثمار والادخار', tab_pricing:'الأسعار والنسب',
+    tab_zakat:'الزكاة', tab_loan:'القروض والأقساط', tab_currency:'تحويل العملات', tab_dates:'حاسبة التواريخ',
+    pct_title:'حاسبة النسبة المئوية', pct_sub:'اختار الخانة اللي عايز تحسبها، واملأ الخانتين التانيين.',
+    pct_mode_result:'احسب الناتج', pct_mode_percent:'احسب النسبة', pct_mode_number:'احسب العدد',
+    pct_lbl_number:'العدد', pct_lbl_percent:'النسبة %', pct_lbl_result:'الناتج', required_tag:'(مطلوب)',
+    pct_error:'من فضلك املأ الخانتين التانيين بأرقام صحيحة', btn_save:'➕ حفظ في السجل',
+    pct_ph_number:'مثال: 100', pct_ph_percent:'مثال: 5', pct_ph_result:'مثال: 5',
+    comp_title:'النسبة التراكمية', comp_sub:'قيمة بتزيد (أو تقل) بنسبة معينة كل يوم، لحد عدد أيام معين.',
+    mode_compound:'تراكمية (مركبة)', mode_simple:'بسيطة (على الأصل)',
+    comp_lbl_base:'العدد الأساسي', comp_lbl_percent:'النسبة % لكل يوم', comp_lbl_days:'عدد الأيام',
+    comp_ph_base:'1000', comp_ph_percent:'2', comp_ph_days:'10',
+    btn_calc_table:'احسب الجدول', comp_error:'من فضلك أدخل قيم صحيحة (عدد الأيام لازم يكون رقم موجب)',
+    comp_sum_final:'القيمة النهائية', comp_sum_increase:'إجمالي الزيادة',
+    th_day:'اليوم', th_value:'القيمة', th_increase:'الزيادة', btn_export:'⬇️ تصدير CSV',
+    grow_title:'الاستثمار والادخار', grow_sub:'استثمار مبلغ لمرة واحدة، ادخار دوري، أو احسب العائد على استثمار قديم.',
+    grow_mode_lumpsum:'استثمار مبلغ', grow_mode_recurring:'ادخار دوري', grow_mode_roi:'احسب العائد', grow_mode_combo:'خطة شاملة',
+    gc_sub:'كل الخانات دي اختيارية ومتغيرة — املأ اللي يناسب خطتك.', tag_optional:'(اختياري)',
+    gc_lbl_lumpsum:'مبلغ مجمد (دفعة أولى)', gc_lbl_monthly:'مبلغ شهري إضافي',
+    gc_ph_lumpsum:'300000', gc_ph_monthly:'1000',
+    gc_timing_note:'المبلغ الشهري بيتضاف أول كل شهر قبل ما يبدأ العائد يشتغل عليه.',
+    gc_lbl_annual_rate:'نسبة العائد السنوية %', gc_ph_rate:'17.5', gc_ph_duration:'12',
+    gc_lbl_freq:'دورية التراكم', opt_weekly:'أسبوعي',
+    gc_view_daily:'يومي (الشهر الأول)', gc_view_monthly:'شهري', gc_view_yearly:'سنوي',
+    gc_sum_deposited:'إجمالي المودَع', gc_sum_periodicrate:'المعدل الدوري المشتق من النسبة السنوية',
+    th_year:'السنة',
+    gl_lbl_amount:'المبلغ الأولي', gl_lbl_rate:'نسبة العائد %', gl_lbl_rate_freq:'دورية النسبة',
+    gl_ph_amount:'10000', gl_ph_rate:'0.5',
+    opt_daily:'يومية', opt_monthly:'شهرية', opt_yearly:'سنوية',
+    opt_daily2:'يومي', opt_monthly2:'شهري', opt_yearly2:'سنوي',
+    lbl_duration:'مدة الاستثمار', lbl_unit:'الوحدة', gl_ph_duration:'6',
+    opt_day:'يوم', opt_month:'شهر', opt_year:'سنة',
+    gl_mode_compound:'تراكمي (مركب)', gl_mode_simple:'غير تراكمي (بسيط)',
+    gr_lbl_deposit:'مبلغ الإيداع الدوري', gr_lbl_deposit_freq:'دورية الإيداع', gr_ph_deposit:'1000',
+    gr_lbl_annual_rate:'نسبة العائد السنوية المتوقعة %', gr_ph_rate:'10', gr_ph_duration:'5',
+    groi_lbl_initial:'المبلغ الأولي', groi_lbl_final:'القيمة النهائية', groi_ph_final:'12500',
+    groi_lbl_duration:'المدة (اختياري)', groi_ph_duration:'1',
+    btn_calc:'احسب', grow_error:'من فضلك أدخل قيم صحيحة وأكبر من صفر',
+    th_period:'الفترة', th_profit_cum:'الربح التراكمي', th_deposited:'إجمالي مودع', th_profit:'الربح',
+    grow_disclaimer:'الحسابات افتراضية بتفترض إن معدل العائد ثابت طول المدة، والعائد الفعلي للاستثمارات بيتغير حسب أداء السوق.',
+    gl_sum_final:'القيمة النهائية', gl_sum_profit:'صافي الربح', gl_sum_totalpct:'نسبة العائد الإجمالية', gl_sum_periods:'عدد الفترات',
+    gr_sum_final:'القيمة المستقبلية', gr_sum_deposited:'إجمالي الإيداعات', gr_sum_profit:'صافي الربح من العائد',
+    groi_sum_profit:'الربح / الخسارة', groi_sum_roi:'نسبة العائد الإجمالية ROI', groi_sum_cagr:'معدل العائد السنوي المكافئ (CAGR)',
+    pricing_title:'الأسعار والنسب', pricing_sub:'خصومات، زيادات، ضريبة القيمة المضافة، أو هامش الربح — في مكان واحد.',
+    pricing_mode_discount:'خصم / زيادة', pricing_mode_tax:'الضريبة', pricing_mode_margin:'هامش الربح',
+    disc_mode_down:'خصم (تنزيل)', disc_mode_up:'زيادة',
+    disc_dtarget_final:'احسب السعر النهائي', disc_dtarget_percent:'احسب النسبة', disc_dtarget_original:'احسب السعر الأصلي',
+    disc_lbl_original:'السعر الأصلي', disc_lbl_final:'السعر النهائي',
+    disc_ph_original:'200', disc_ph_percent:'25', disc_ph_final:'150',
+    disc_out_final_down:'السعر بعد الخصم', disc_out_final_up:'السعر بعد الزيادة',
+    disc_out_percent_down:'نسبة الخصم %', disc_out_percent_up:'نسبة الزيادة %', disc_out_original:'السعر الأصلي',
+    tax_mode_add:'إضافة ضريبة', tax_mode_remove:'حذف ضريبة (السعر شامل)',
+    chip_5:'5%', chip_14:'14%', chip_15:'15%',
+    tax_lbl_price:'السعر', tax_lbl_rate:'نسبة الضريبة %', tax_ph_price:'100', tax_ph_rate:'14',
+    tax_error:'من فضلك أدخل قيم صحيحة',
+    tax_sum_before:'السعر قبل الضريبة', tax_sum_amount:'قيمة الضريبة', tax_sum_after:'السعر شامل الضريبة',
+    pm_lbl_cost:'تكلفة المنتج', pm_lbl_price:'سعر البيع', pm_ph_cost:'60', pm_ph_price:'100',
+    pm_sum_profit:'الربح', pm_sum_margin:'هامش الربح Margin', pm_sum_markup:'نسبة الماركاپ Markup',
+    zakat_title:'حاسبة الزكاة', zakat_sub:'اختار نوع الزكاة اللي عايز تحسبها.',
+    zakat_mode_gold:'ذهب', zakat_mode_silver:'فضة', zakat_mode_money:'زكاة المال',
+    zg_lbl_weight:'وزن الذهب (جرام)', zg_lbl_price:'سعر جرام الذهب', zg_ph_weight:'100', zg_ph_price:'4000',
+    zg_note:'نصاب الذهب = ٨٥ جرام (عيار ٢١). لو الوزن أقل من كده، مفيش زكاة واجبة.',
+    zs_lbl_weight:'وزن الفضة (جرام)', zs_lbl_price:'سعر جرام الفضة', zs_ph_weight:'700', zs_ph_price:'45',
+    zs_note:'نصاب الفضة = ٥٩٥ جرام. لو الوزن أقل من كده، مفيش زكاة واجبة.',
+    zm_lbl_amount:'إجمالي المدخرات / الأموال', zm_lbl_silverprice:'سعر جرام الفضة الحالي (لحساب النصاب)', zm_ph_amount:'100000',
+    zm_note:'نصاب زكاة المال = قيمة ٥٩٥ جرام فضة (بيتحسب أوتوماتيك). لازم يكون المبلغ فاضل عندك لمدة سنة هجرية كاملة (الحول).',
+    zakat_btn_calc:'احسب الزكاة', zakat_out_label:'مقدار الزكاة (٢.٥٪)',
+    zakat_below:'المبلغ/الوزن أقل من النصاب، فمفيش زكاة واجبة عليه.',
+    zakat_disclaimer:'الحسبة دي تقريبية بنسبة ٢.٥٪ (ربع العشر) وحسب أسعار بتدخلها انت. لحساب دقيق يُفضّل مراجعة دار الإفتاء أو جهة شرعية موثوقة.',
+    zakat_error:'من فضلك أدخل قيم صحيحة وأكبر من صفر',
+    loan_title:'حساب القروض والأقساط', loan_sub:'أدخل مبلغ القرض، ونسبة الفايدة السنوية، وعدد السنين.',
+    loan_lbl_amount:'مبلغ القرض', loan_lbl_rate:'نسبة الفايدة السنوية %', loan_lbl_years:'عدد السنين',
+    loan_ph_amount:'100000', loan_ph_rate:'8', loan_ph_years:'5',
+    loan_btn_calc:'احسب القرض',
+    loan_sum_monthly:'القسط الشهري', loan_sum_count:'عدد الأقساط', loan_sum_interest:'إجمالي الفوائد', loan_sum_total:'إجمالي المسدد',
+    th_installment:'القسط', th_amount:'المبلغ', th_interest:'فايدة', th_principal:'أصل', th_remaining:'المتبقي',
+    loan_compare_title:'مقارنة بقرض تاني (اختياري)', loan_compare_off:'فعّل المقارنة', loan_compare_on:'إخفاء المقارنة',
+    loan2_lbl_amount:'مبلغ القرض الثاني', loan2_lbl_rate:'نسبة الفايدة السنوية % (٢)', loan2_lbl_years:'عدد السنين (٢)',
+    loan2_btn_calc:'قارن القرضين',
+    loanc_sum_monthly1:'قسط القرض ١ الشهري', loanc_sum_monthly2:'قسط القرض ٢ الشهري',
+    loanc_sum_interest1:'فوائد القرض ١ الإجمالية', loanc_sum_interest2:'فوائد القرض ٢ الإجمالية',
+    currency_title:'تحويل العملات', currency_sub:'أسعار الصرف بتتجاب لحظيًا من الإنترنت وقت الحساب.',
+    cur_lbl_amount:'المبلغ', cur_lbl_from:'من عملة', cur_lbl_to:'إلى عملة', cur_btn_calc:'حوّل الآن', cur_loading:'جاري الجلب...',
+    cur_error:'تعذر جلب أسعار الصرف. تأكد من الاتصال بالإنترنت وحاول تاني.',
+    cur_error_amount:'من فضلك أدخل مبلغ صحيح',
+    cur_disclaimer:'الأسعار مبنية على متوسط سوق الصرف وممكن تختلف شوية عن سعر البنك أو الصراف.',
+    dates_title:'حاسبة التواريخ', dates_sub:'اختار نوع الحساب اللي محتاجه.',
+    dates_mode_diff:'الفرق بين تاريخين', dates_mode_age:'حساب العمر', dates_mode_add:'إضافة/طرح أيام', dates_mode_workdays:'أيام العمل',
+    dd_lbl_first:'التاريخ الأول', dd_lbl_second:'التاريخ الثاني', da_lbl_birth:'تاريخ الميلاد',
+    dadd_lbl_base:'التاريخ الأساسي', dadd_lbl_days:'عدد الأيام', dadd_lbl_op:'العملية', dadd_ph_days:'30',
+    dadd_op_add:'إضافة', dadd_op_sub:'طرح',
+    dw_lbl_first:'من تاريخ', dw_lbl_second:'إلى تاريخ', dw_note:'الإجازة الأسبوعية المفترضة: الجمعة والسبت.',
+    date_error:'من فضلك اختار التواريخ المطلوبة',
+    date_out_diff:'الفرق بين التاريخين', date_out_age:'العمر', date_out_add:'التاريخ بعد الإضافة', date_out_sub:'التاريخ بعد الطرح', date_out_workdays:'عدد أيام العمل',
+    footer_note:'الأرقام بتتقرب لأقرب رقمين عشريين',
+    history_title:'سجل العمليات', history_clear:'امسح السجل', history_empty:'لسه مفيش عمليات محفوظة في السجل.',
+    gate_sub:'دخول مخصص للمشتركين — اكتب اسمك والكود اللي معاك', gate_checking_session:'جاري التحقق من جلستك...',
+    gate_lbl_name:'الاسم', gate_lbl_code:'كود الدخول', gate_ph_name:'اسمك زي ما اتبعتلك', gate_ph_code:'الكود الخاص بيك',
+    gate_btn_submit:'دخول', gate_checking:'جاري التحقق...',
+    gate_note:'محتاج اتصال بالإنترنت وقت الدخول للتحقق من صلاحية اشتراكك.',
+    gate_err_required:'من فضلك اكتب الاسم والكود.', gate_err_invalid:'الاسم أو الكود مش صحيح.',
+    gate_err_expired:'اشتراكك انتهى بتاريخ', gate_err_network:'تعذر التحقق من بيانات الدخول. تأكد من الاتصال بالإنترنت وحاول تاني.',
+    sub_expiry_prefix:'اشتراكك ساري لغاية',
+    copyright_line:'جميع الحقوق محفوظة © Ahmed Abd-Elrahman - مصر - 2026',
+  },
+  en: {
+    h_tagline:'All your financial tools in one place', search_ph:'Search a tool... e.g. loans, currency, zakat',
+    tab_pct:'Percentage', tab_comp:'Compound %', tab_grow:'Invest & Save', tab_pricing:'Pricing & Rates',
+    tab_zakat:'Zakat', tab_loan:'Loans', tab_currency:'Currency', tab_dates:'Dates',
+    pct_title:'Percentage Calculator', pct_sub:'Choose the field you want to calculate, and fill in the other two.',
+    pct_mode_result:'Calculate Result', pct_mode_percent:'Calculate Percent', pct_mode_number:'Calculate Number',
+    pct_lbl_number:'Number', pct_lbl_percent:'Percent %', pct_lbl_result:'Result', required_tag:'(required)',
+    pct_error:'Please fill the other two fields with valid numbers', btn_save:'➕ Save to history',
+    pct_ph_number:'e.g. 100', pct_ph_percent:'e.g. 5', pct_ph_result:'e.g. 5',
+    comp_title:'Compound Percentage', comp_sub:'A value that grows (or shrinks) by a set percentage every day, for a number of days.',
+    mode_compound:'Compound', mode_simple:'Simple (on principal)',
+    comp_lbl_base:'Base amount', comp_lbl_percent:'Percent per day', comp_lbl_days:'Number of days',
+    comp_ph_base:'1000', comp_ph_percent:'2', comp_ph_days:'10',
+    btn_calc_table:'Calculate Table', comp_error:'Please enter valid values (days must be a positive number)',
+    comp_sum_final:'Final value', comp_sum_increase:'Total increase',
+    th_day:'Day', th_value:'Value', th_increase:'Increase', btn_export:'⬇️ Export CSV',
+    grow_title:'Invest & Save', grow_sub:'One-time investment, recurring savings, or calculate the return on an existing investment.',
+    grow_mode_lumpsum:'Lump-sum Invest', grow_mode_recurring:'Recurring Savings', grow_mode_roi:'Calculate ROI', grow_mode_combo:'Combined Plan',
+    gc_sub:'All fields here are optional and flexible — fill in whatever fits your plan.', tag_optional:'(optional)',
+    gc_lbl_lumpsum:'Lump sum (initial deposit)', gc_lbl_monthly:'Extra monthly amount',
+    gc_ph_lumpsum:'300000', gc_ph_monthly:'1000',
+    gc_timing_note:'The monthly amount is added at the start of each month before returns are applied to it.',
+    gc_lbl_annual_rate:'Annual return rate %', gc_ph_rate:'17.5', gc_ph_duration:'12',
+    gc_lbl_freq:'Compounding frequency', opt_weekly:'Weekly',
+    gc_view_daily:'Daily (first month)', gc_view_monthly:'Monthly', gc_view_yearly:'Yearly',
+    gc_sum_deposited:'Total deposited', gc_sum_periodicrate:'Periodic rate derived from annual rate',
+    th_year:'Year',
+    gl_lbl_amount:'Initial amount', gl_lbl_rate:'Return rate %', gl_lbl_rate_freq:'Rate frequency',
+    gl_ph_amount:'10000', gl_ph_rate:'0.5',
+    opt_daily:'Daily', opt_monthly:'Monthly', opt_yearly:'Yearly',
+    opt_daily2:'Daily', opt_monthly2:'Monthly', opt_yearly2:'Yearly',
+    lbl_duration:'Investment duration', lbl_unit:'Unit', gl_ph_duration:'6',
+    opt_day:'Day', opt_month:'Month', opt_year:'Year',
+    gl_mode_compound:'Compound', gl_mode_simple:'Simple',
+    gr_lbl_deposit:'Recurring deposit', gr_lbl_deposit_freq:'Deposit frequency', gr_ph_deposit:'1000',
+    gr_lbl_annual_rate:'Expected annual return %', gr_ph_rate:'10', gr_ph_duration:'5',
+    groi_lbl_initial:'Initial amount', groi_lbl_final:'Final value', groi_ph_final:'12500',
+    groi_lbl_duration:'Duration (optional)', groi_ph_duration:'1',
+    btn_calc:'Calculate', grow_error:'Please enter valid values greater than zero',
+    th_period:'Period', th_profit_cum:'Cumulative profit', th_deposited:'Total deposited', th_profit:'Profit',
+    grow_disclaimer:'These calculations assume a fixed return rate throughout; actual investment returns vary with market performance.',
+    gl_sum_final:'Final value', gl_sum_profit:'Net profit', gl_sum_totalpct:'Total return %', gl_sum_periods:'Number of periods',
+    gr_sum_final:'Future value', gr_sum_deposited:'Total deposits', gr_sum_profit:'Net profit from returns',
+    groi_sum_profit:'Profit / Loss', groi_sum_roi:'Total ROI', groi_sum_cagr:'Annualized return (CAGR)',
+    pricing_title:'Pricing & Rates', pricing_sub:'Discounts, increases, VAT, or profit margin — all in one place.',
+    pricing_mode_discount:'Discount / Increase', pricing_mode_tax:'Tax', pricing_mode_margin:'Profit Margin',
+    disc_mode_down:'Discount', disc_mode_up:'Increase',
+    disc_dtarget_final:'Calculate final price', disc_dtarget_percent:'Calculate percent', disc_dtarget_original:'Calculate original price',
+    disc_lbl_original:'Original price', disc_lbl_final:'Final price',
+    disc_ph_original:'200', disc_ph_percent:'25', disc_ph_final:'150',
+    disc_out_final_down:'Price after discount', disc_out_final_up:'Price after increase',
+    disc_out_percent_down:'Discount %', disc_out_percent_up:'Increase %', disc_out_original:'Original price',
+    tax_mode_add:'Add tax', tax_mode_remove:'Remove tax (price incl. tax)',
+    chip_5:'5%', chip_14:'14%', chip_15:'15%',
+    tax_lbl_price:'Price', tax_lbl_rate:'Tax rate %', tax_ph_price:'100', tax_ph_rate:'14',
+    tax_error:'Please enter valid values',
+    tax_sum_before:'Price before tax', tax_sum_amount:'Tax amount', tax_sum_after:'Price incl. tax',
+    pm_lbl_cost:'Product cost', pm_lbl_price:'Selling price', pm_ph_cost:'60', pm_ph_price:'100',
+    pm_sum_profit:'Profit', pm_sum_margin:'Profit Margin', pm_sum_markup:'Markup %',
+    zakat_title:'Zakat Calculator', zakat_sub:'Choose the type of zakat you want to calculate.',
+    zakat_mode_gold:'Gold', zakat_mode_silver:'Silver', zakat_mode_money:'Cash Zakat',
+    zg_lbl_weight:'Gold weight (grams)', zg_lbl_price:'Gold price per gram', zg_ph_weight:'100', zg_ph_price:'4000',
+    zg_note:'Gold nisab = 85 grams (21k). If the weight is below this, no zakat is due.',
+    zs_lbl_weight:'Silver weight (grams)', zs_lbl_price:'Silver price per gram', zs_ph_weight:'700', zs_ph_price:'45',
+    zs_note:'Silver nisab = 595 grams. If the weight is below this, no zakat is due.',
+    zm_lbl_amount:'Total savings / cash', zm_lbl_silverprice:'Current silver price per gram (for nisab)', zm_ph_amount:'100000',
+    zm_note:"Cash zakat nisab = value of 595g of silver (auto-calculated). The amount must have been held for a full lunar year (hawl).",
+    zakat_btn_calc:'Calculate Zakat', zakat_out_label:'Zakat due (2.5%)',
+    zakat_below:'The amount/weight is below nisab, so no zakat is due.',
+    zakat_disclaimer:'This is an approximate calculation at 2.5% based on prices you enter. For a precise ruling, consult a trusted religious authority.',
+    zakat_error:'Please enter valid values greater than zero',
+    loan_title:'Loan & Installment Calculator', loan_sub:'Enter the loan amount, annual interest rate, and number of years.',
+    loan_lbl_amount:'Loan amount', loan_lbl_rate:'Annual interest rate %', loan_lbl_years:'Number of years',
+    loan_ph_amount:'100000', loan_ph_rate:'8', loan_ph_years:'5',
+    loan_btn_calc:'Calculate Loan',
+    loan_sum_monthly:'Monthly payment', loan_sum_count:'Number of installments', loan_sum_interest:'Total interest', loan_sum_total:'Total paid',
+    th_installment:'#', th_amount:'Payment', th_interest:'Interest', th_principal:'Principal', th_remaining:'Remaining',
+    loan_compare_title:'Compare with another loan (optional)', loan_compare_off:'Enable comparison', loan_compare_on:'Hide comparison',
+    loan2_lbl_amount:'Second loan amount', loan2_lbl_rate:'Annual interest rate % (2)', loan2_lbl_years:'Number of years (2)',
+    loan2_btn_calc:'Compare loans',
+    loanc_sum_monthly1:'Loan 1 monthly payment', loanc_sum_monthly2:'Loan 2 monthly payment',
+    loanc_sum_interest1:'Loan 1 total interest', loanc_sum_interest2:'Loan 2 total interest',
+    currency_title:'Currency Converter', currency_sub:'Exchange rates are fetched live from the internet when you calculate.',
+    cur_lbl_amount:'Amount', cur_lbl_from:'From', cur_lbl_to:'To', cur_btn_calc:'Convert Now', cur_loading:'Fetching...',
+    cur_error:'Could not fetch exchange rates. Check your internet connection and try again.',
+    cur_error_amount:'Please enter a valid amount',
+    cur_disclaimer:'Rates are based on the market mid-rate and may differ slightly from bank or exchange rates.',
+    dates_title:'Date Calculator', dates_sub:'Choose the type of calculation you need.',
+    dates_mode_diff:'Difference between dates', dates_mode_age:'Age calculator', dates_mode_add:'Add/subtract days', dates_mode_workdays:'Working days',
+    dd_lbl_first:'First date', dd_lbl_second:'Second date', da_lbl_birth:'Date of birth',
+    dadd_lbl_base:'Base date', dadd_lbl_days:'Number of days', dadd_lbl_op:'Operation', dadd_ph_days:'30',
+    dadd_op_add:'Add', dadd_op_sub:'Subtract',
+    dw_lbl_first:'From date', dw_lbl_second:'To date', dw_note:'Assumed weekend: Friday and Saturday.',
+    date_error:'Please choose the required dates',
+    date_out_diff:'Difference between dates', date_out_age:'Age', date_out_add:'Date after adding', date_out_sub:'Date after subtracting', date_out_workdays:'Number of working days',
+    footer_note:'Numbers are rounded to the nearest two decimal places',
+    history_title:'History', history_clear:'Clear history', history_empty:'No saved calculations yet.',
+    gate_sub:'Subscriber login — enter your name and access code', gate_checking_session:'Checking your session...',
+    gate_lbl_name:'Name', gate_lbl_code:'Access code', gate_ph_name:'Your name as given to you', gate_ph_code:'Your access code',
+    gate_btn_submit:'Log in', gate_checking:'Checking...',
+    gate_note:'An internet connection is needed at login to verify your subscription.',
+    gate_err_required:'Please enter your name and code.', gate_err_invalid:'Name or code is incorrect.',
+    gate_err_expired:'Your subscription expired on', gate_err_network:'Could not verify your login. Check your internet connection and try again.',
+    sub_expiry_prefix:'Your subscription is valid until',
+    copyright_line:'All rights reserved © Ahmed Abd-Elrahman - Egypt - 2026',
+  }
+};
+let currentLang = 'ar';
+let currentTheme = 'dark';
+function t(key){ return (translations[currentLang] && translations[currentLang][key]!==undefined) ? translations[currentLang][key] : key; }
+
+function applyLanguage(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang==='ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(translations[lang][key]!==undefined) el.textContent = translations[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-placeholder');
+    if(translations[lang][key]!==undefined) el.placeholder = translations[lang][key];
+  });
+  document.querySelectorAll('.lang-toggle button[data-lang]').forEach(b=>{
+    b.classList.toggle('active', b.dataset.lang===lang);
+  });
+  // refresh required-tags currently shown
+  refreshRequiredTags();
+}
+document.querySelectorAll('.lang-toggle button[data-lang]').forEach(b=>{
+  b.addEventListener('click', ()=>applyLanguage(b.dataset.lang));
+});
+
+function applyTheme(theme){
+  currentTheme = theme;
+  document.body.classList.toggle('light', theme==='light');
+  document.querySelectorAll('.theme-toggle').forEach(b=>{ b.textContent = theme==='light' ? '☀️' : '🌙'; });
+}
+document.querySelectorAll('.theme-toggle').forEach(b=>{
+  b.addEventListener('click', ()=>{ applyTheme(currentTheme==='dark' ? 'light' : 'dark'); });
+});
+
+// ---------- helpers ----------
+function fmt(n){ if(n===null||n===undefined||isNaN(n)) return '—'; return Number(n).toLocaleString('en-US',{maximumFractionDigits:2,minimumFractionDigits:0}); }
+function toNum(v){ if(v===''||v===null||v===undefined) return null; const n=parseFloat(v); return isNaN(n)?null:n; }
+function round2(n){ return Math.round(n*100)/100; }
+function nowStr(){ const d=new Date(); return d.toLocaleString(currentLang==='ar'?'ar-EG':'en-US',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'}); }
+function downloadCSV(filename, rows){
+  const csv = rows.map(r=>r.join(',')).join('\n');
+  const blob = new Blob(["\uFEFF"+csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+
+// ---------- history ----------
+let history = [];
+function addHistory(type, text){ history.unshift({type,text,time:nowStr()}); renderHistory(); }
+function renderHistory(){
+  const badge=document.getElementById('history-badge'), list=document.getElementById('history-list');
+  badge.textContent = history.length; badge.style.display = history.length>0?'flex':'none';
+  if(history.length===0){ list.innerHTML = `<p class="empty-hist">${t('history_empty')}</p>`; return; }
+  list.innerHTML = history.map(h=>`<div class="hist-item"><div class="h-type">${h.type}</div><div class="h-text">${h.text}</div><div class="h-time">${h.time}</div></div>`).join('');
+}
+document.getElementById('history-open').addEventListener('click', ()=>document.getElementById('history-modal').classList.add('open'));
+document.getElementById('history-close').addEventListener('click', ()=>document.getElementById('history-modal').classList.remove('open'));
+document.getElementById('history-modal').addEventListener('click', (e)=>{ if(e.target.id==='history-modal') e.currentTarget.classList.remove('open'); });
+document.getElementById('history-clear').addEventListener('click', ()=>{ history=[]; renderHistory(); });
+
+// ---------- tabs ----------
+const tabs = document.querySelectorAll('.tab');
+tabs.forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    tabs.forEach(t2=>t2.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
+    document.getElementById(tab.dataset.tab).style.display='block';
+  });
+});
+
+// ---------- smart search ----------
+document.getElementById('tool-search').addEventListener('input', (e)=>{
+  const q = e.target.value.trim().toLowerCase();
+  tabs.forEach(tab=>{
+    const panel = document.getElementById(tab.dataset.tab);
+    const haystack = (tab.textContent + ' ' + (panel.dataset.keywords||'')).toLowerCase();
+    tab.classList.toggle('hidden-tab', !(q==='' || haystack.includes(q)));
+  });
+});
+
+// track which "required" tag is currently shown, to re-translate on language switch
+let requiredTagEl = null;
+function setRequiredTag(el){
+  document.querySelectorAll('.tag').forEach(x=>x.textContent='');
+  if(el){ el.textContent = t('required_tag'); requiredTagEl = el; } else { requiredTagEl = null; }
+}
+function refreshRequiredTags(){ if(requiredTagEl) requiredTagEl.textContent = t('required_tag'); }
+
+// ================= PERCENTAGE =================
+const modeBtns = document.querySelectorAll('#pct .mode-btn');
+const pctNumber=document.getElementById('pct-number'), pctPercent=document.getElementById('pct-percent'), pctResult=document.getElementById('pct-result');
+const pctError=document.getElementById('pct-error'), pctReceipt=document.getElementById('pct-receipt');
+const pctOutLabel=document.getElementById('pct-out-label'), pctOutValue=document.getElementById('pct-out-value');
+const tagNum=document.getElementById('pct-num-tag'), tagPer=document.getElementById('pct-per-tag'), tagRes=document.getElementById('pct-res-tag');
+const pctSave=document.getElementById('pct-save');
+let pctTarget='result';
+function setPctMode(target){
+  pctTarget=target;
+  modeBtns.forEach(b=>b.classList.toggle('active', b.dataset.target===target));
+  pctNumber.disabled=target==='number'; pctPercent.disabled=target==='percent'; pctResult.disabled=target==='result';
+  setRequiredTag(target==='number'?tagNum:(target==='percent'?tagPer:(target==='result'?tagRes:null)));
+  tagNum.textContent = target==='number'? t('required_tag') : ''; tagPer.textContent = target==='percent'? t('required_tag') : ''; tagRes.textContent = target==='result'? t('required_tag') : '';
+  if(target==='number') pctNumber.value=''; if(target==='percent') pctPercent.value=''; if(target==='result') pctResult.value='';
+  pctReceipt.style.display='none'; pctError.style.display='none'; pctSave.style.display='none';
+  computePct();
+}
+modeBtns.forEach(b=>b.addEventListener('click', ()=>setPctMode(b.dataset.target)));
+let pctLastText='';
+function computePct(){
+  const num=toNum(pctNumber.value), per=toNum(pctPercent.value), res=toNum(pctResult.value);
+  let outVal=null, outLabel='';
+  if(pctTarget==='result'){ if(num!==null&&per!==null){ outVal=num*per/100; outLabel=t('pct_lbl_result'); } }
+  else if(pctTarget==='percent'){ if(num!==null&&res!==null){ if(num===0){showPctError();return;} outVal=res/num*100; outLabel=t('pct_lbl_percent'); } }
+  else if(pctTarget==='number'){ if(res!==null&&per!==null){ if(per===0){showPctError();return;} outVal=res*100/per; outLabel=t('pct_lbl_number'); } }
+  if(outVal!==null){
+    pctError.style.display='none'; pctReceipt.style.display='block'; pctSave.style.display='block';
+    pctOutLabel.textContent=outLabel; pctOutValue.textContent=fmt(outVal);
+    if(pctTarget==='result') pctResult.value=round2(outVal);
+    if(pctTarget==='percent') pctPercent.value=round2(outVal);
+    if(pctTarget==='number') pctNumber.value=round2(outVal);
+    pctLastText=`${t('pct_lbl_number')}: ${fmt(toNum(pctNumber.value))} | ${t('pct_lbl_percent')}: ${fmt(toNum(pctPercent.value))}% | ${t('pct_lbl_result')}: ${fmt(toNum(pctResult.value))}`;
+  } else { pctReceipt.style.display='none'; pctSave.style.display='none'; }
+}
+function showPctError(){ pctError.style.display='block'; pctReceipt.style.display='none'; pctSave.style.display='none'; }
+[pctNumber,pctPercent,pctResult].forEach(inp=>inp.addEventListener('input', computePct));
+pctSave.addEventListener('click', ()=>addHistory(t('tab_pct'), pctLastText));
+setPctMode('result');
+
+// ================= COMPOUND =================
+let compIsCompound=true;
+const compModeCompound=document.getElementById('comp-mode-compound'), compModeSimple=document.getElementById('comp-mode-simple');
+compModeCompound.addEventListener('click', ()=>{ compIsCompound=true; compModeCompound.classList.add('active'); compModeSimple.classList.remove('active'); });
+compModeSimple.addEventListener('click', ()=>{ compIsCompound=false; compModeSimple.classList.add('active'); compModeCompound.classList.remove('active'); });
+let compRows=[];
+document.getElementById('comp-calc').addEventListener('click', ()=>{
+  const base=toNum(document.getElementById('comp-base').value), percent=toNum(document.getElementById('comp-percent').value), days=toNum(document.getElementById('comp-days').value);
+  const errorEl=document.getElementById('comp-error'), summaryEl=document.getElementById('comp-summary'), tableWrap=document.getElementById('comp-table-wrap');
+  const exportBtn=document.getElementById('comp-export'), saveBtn=document.getElementById('comp-save');
+  if(base===null||percent===null||days===null||days<1||days>500){ errorEl.style.display='block'; summaryEl.style.display='none'; tableWrap.style.display='none'; exportBtn.style.display='none'; saveBtn.style.display='none'; return; }
+  errorEl.style.display='none';
+  const tbody=document.getElementById('comp-tbody'); tbody.innerHTML='';
+  let value=base, totalIncrease=0; compRows=[[t('th_day'),t('th_value'),t('th_increase')]];
+  for(let d=1; d<=days; d++){
+    let increase;
+    if(compIsCompound){ increase=value*percent/100; value=value+increase; } else { increase=base*percent/100; value=value+increase; }
+    totalIncrease+=increase;
+    const tr=document.createElement('tr'); tr.innerHTML=`<td>${d}</td><td>${fmt(value)}</td><td>${fmt(increase)}</td>`; tbody.appendChild(tr);
+    compRows.push([d, round2(value), round2(increase)]);
+  }
+  document.getElementById('comp-final').textContent=fmt(value);
+  document.getElementById('comp-total-increase').textContent=fmt(totalIncrease);
+  summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
+  saveBtn.onclick=()=>addHistory(t('tab_comp'), `${t('comp_lbl_base')}: ${fmt(base)} | ${t('pct_lbl_percent')}: ${fmt(percent)}% | ${t('th_day')}: ${days} | ${t('comp_sum_final')}: ${fmt(value)}`);
+});
+document.getElementById('comp-export').addEventListener('click', ()=>{ if(compRows.length) downloadCSV('compound.csv', compRows); });
+
+// ================= GROW =================
+const growModeBtns = document.querySelectorAll('#grow .mode-btn');
+const growPanels = { lumpsum: document.getElementById('grow-lumpsum'), recurring: document.getElementById('grow-recurring'), roi: document.getElementById('grow-roi'), combo: document.getElementById('grow-combo') };
+let growTarget = 'lumpsum';
+growModeBtns.forEach(b=>{
+  b.addEventListener('click', ()=>{
+    growTarget = b.dataset.gm;
+    growModeBtns.forEach(x=>x.classList.toggle('active', x===b));
+    Object.keys(growPanels).forEach(k=> growPanels[k].style.display = (k===growTarget?'block':'none'));
+    document.getElementById('grow-summary').style.display='none';
+    document.getElementById('grow-table-wrap').style.display='none';
+    document.getElementById('grow-export').style.display='none';
+    document.getElementById('grow-save').style.display='none';
+    document.getElementById('grow-error').style.display='none';
+    document.getElementById('gc-view-toggle').style.display='none';
+  });
+});
+let glCompound = true;
+document.getElementById('gl-mode-compound').addEventListener('click', function(){ glCompound=true; this.classList.add('active'); document.getElementById('gl-mode-simple').classList.remove('active'); });
+document.getElementById('gl-mode-simple').addEventListener('click', function(){ glCompound=false; this.classList.add('active'); document.getElementById('gl-mode-compound').classList.remove('active'); });
+
+// -- combined plan (lumpsum + recurring monthly + selectable compounding frequency) --
+let gcData = null;
+function renderGcTable(view){
+  const thead = document.getElementById('grow-thead');
+  const tbody = document.getElementById('grow-tbody');
+  tbody.innerHTML=''; growRows=[];
+  if(!gcData) return;
+  if(view==='daily'){
+    thead.innerHTML = `<tr><th>${t('th_day')}</th><th>${t('th_value')}</th><th>${t('th_increase')}</th></tr>`;
+    growRows = [[t('th_day'),t('th_value'),t('th_increase')]];
+    gcData.daily.forEach(r=>{
+      const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.day}</td><td>${fmt(r.balance)}</td><td>${fmt(r.gain)}</td>`; tbody.appendChild(tr);
+      growRows.push([r.day, round2(r.balance), round2(r.gain)]);
+    });
+  } else if(view==='monthly'){
+    thead.innerHTML = `<tr><th>${t('th_period')}</th><th>${t('th_deposited')}</th><th>${t('th_value')}</th><th>${t('th_profit')}</th></tr>`;
+    growRows = [[t('th_period'),t('th_deposited'),t('th_value'),t('th_profit')]];
+    gcData.monthly.forEach(r=>{
+      const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.month}</td><td>${fmt(r.deposited)}</td><td>${fmt(r.balance)}</td><td>${fmt(r.gain)}</td>`; tbody.appendChild(tr);
+      growRows.push([r.month, round2(r.deposited), round2(r.balance), round2(r.gain)]);
+    });
+  } else if(view==='yearly'){
+    thead.innerHTML = `<tr><th>${t('th_year')}</th><th>${t('th_deposited')}</th><th>${t('th_value')}</th><th>${t('th_profit')}</th></tr>`;
+    growRows = [[t('th_year'),t('th_deposited'),t('th_value'),t('th_profit')]];
+    gcData.yearly.forEach(r=>{
+      const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.year}</td><td>${fmt(r.deposited)}</td><td>${fmt(r.balance)}</td><td>${fmt(r.gain)}</td>`; tbody.appendChild(tr);
+      growRows.push([r.year, round2(r.deposited), round2(r.balance), round2(r.gain)]);
+    });
+  }
+}
+['daily','monthly','yearly'].forEach(v=>{
+  document.getElementById('gc-view-'+v).addEventListener('click', function(){
+    document.querySelectorAll('#gc-view-toggle button').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    renderGcTable(v);
+  });
+});
+
+let growRows = [];
+document.getElementById('grow-calc').addEventListener('click', ()=>{
+  const errorEl = document.getElementById('grow-error');
+  const summaryEl = document.getElementById('grow-summary');
+  const tableWrap = document.getElementById('grow-table-wrap');
+  const exportBtn = document.getElementById('grow-export');
+  const saveBtn = document.getElementById('grow-save');
+  const thead = document.getElementById('grow-thead');
+  errorEl.style.display='none'; summaryEl.style.display='none'; tableWrap.style.display='none'; exportBtn.style.display='none'; saveBtn.style.display='none';
+  document.getElementById('gc-view-toggle').style.display='none';
+
+  if(growTarget==='lumpsum'){
+    const amount = toNum(document.getElementById('gl-amount').value);
+    const rate = toNum(document.getElementById('gl-rate').value);
+    const freq = toNum(document.getElementById('gl-rate-freq').value);
+    const durationVal = toNum(document.getElementById('gl-duration').value);
+    const durationUnitDays = toNum(document.getElementById('gl-duration-unit').value);
+    if(amount===null||amount<=0||rate===null||durationVal===null||durationVal<=0){ errorEl.style.display='block'; return; }
+    const durationDays = durationVal*durationUnitDays;
+    const durationYears = durationDays/365;
+    let totalPeriods = Math.round(durationYears*freq);
+    if(totalPeriods<1) totalPeriods=1;
+
+    let value = amount;
+    growRows = [[t('th_period'),t('th_value'),t('th_profit_cum')]];
+    thead.innerHTML = `<tr><th>${t('th_period')}</th><th>${t('th_value')}</th><th>${t('th_profit_cum')}</th></tr>`;
+    const tbody = document.getElementById('grow-tbody'); tbody.innerHTML='';
+    const chunk = totalPeriods>60 ? Math.ceil(totalPeriods/60) : 1;
+    for(let p=1; p<=totalPeriods; p++){
+      if(glCompound){ value = value*(1+rate/100); } else { value = amount + amount*(rate/100)*p; }
+      if(p%chunk===0 || p===totalPeriods){
+        const profit = value-amount;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${p}</td><td>${fmt(value)}</td><td>${fmt(profit)}</td>`;
+        tbody.appendChild(tr);
+        growRows.push([p, round2(value), round2(profit)]);
+      }
+    }
+    const finalProfit = value-amount, totalPct=(finalProfit/amount)*100;
+    summaryEl.innerHTML = `
+      <div class="summary-card"><div class="s-label">${t('gl_sum_final')}</div><div class="s-value">${fmt(value)}</div></div>
+      <div class="summary-card"><div class="s-label">${t('gl_sum_profit')}</div><div class="s-value">${fmt(finalProfit)}</div></div>
+      <div class="summary-card"><div class="s-label">${t('gl_sum_totalpct')}</div><div class="s-value">${fmt(totalPct)}%</div></div>
+      <div class="summary-card"><div class="s-label">${t('gl_sum_periods')}</div><div class="s-value">${totalPeriods}</div></div>
+    `;
+    summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
+    saveBtn.onclick = ()=> addHistory(t('grow_mode_lumpsum'), `${t('gl_lbl_amount')}: ${fmt(amount)} | ${t('gl_lbl_rate')}: ${fmt(rate)}% | ${t('gl_sum_periods')}: ${totalPeriods} | ${t('gl_sum_final')}: ${fmt(value)} | ${t('gl_sum_profit')}: ${fmt(finalProfit)}`);
+
+  } else if(growTarget==='recurring'){
+    const deposit = toNum(document.getElementById('gr-deposit').value);
+    const depositFreq = toNum(document.getElementById('gr-deposit-freq').value);
+    const annualRate = toNum(document.getElementById('gr-annual-rate').value);
+    const durationVal = toNum(document.getElementById('gr-duration').value);
+    const durationUnitDays = toNum(document.getElementById('gr-duration-unit').value);
+    if(deposit===null||deposit<=0||annualRate===null||annualRate<0||durationVal===null||durationVal<=0){ errorEl.style.display='block'; return; }
+    const durationDays = durationVal*durationUnitDays;
+    const durationYears = durationDays/365;
+    let n = Math.round(durationYears*depositFreq);
+    if(n<1) n=1;
+    const r = annualRate/100/depositFreq;
+
+    growRows = [[t('th_period'),t('th_deposited'),t('th_value'),t('th_profit')]];
+    thead.innerHTML = `<tr><th>${t('th_period')}</th><th>${t('th_deposited')}</th><th>${t('th_value')}</th><th>${t('th_profit')}</th></tr>`;
+    const tbody = document.getElementById('grow-tbody'); tbody.innerHTML='';
+    let balance=0, deposited=0;
+    const chunk = n>60 ? Math.ceil(n/60) : 1;
+    for(let p=1; p<=n; p++){
+      balance = balance*(1+r) + deposit;
+      deposited += deposit;
+      if(p%chunk===0 || p===n){
+        const profit = balance-deposited;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${p}</td><td>${fmt(deposited)}</td><td>${fmt(balance)}</td><td>${fmt(profit)}</td>`;
+        tbody.appendChild(tr);
+        growRows.push([p, round2(deposited), round2(balance), round2(profit)]);
+      }
+    }
+    const finalProfit = balance-deposited;
+    summaryEl.innerHTML = `
+      <div class="summary-card"><div class="s-label">${t('gr_sum_final')}</div><div class="s-value">${fmt(balance)}</div></div>
+      <div class="summary-card"><div class="s-label">${t('gr_sum_deposited')}</div><div class="s-value">${fmt(deposited)}</div></div>
+      <div class="summary-card" style="grid-column:1/-1;"><div class="s-label">${t('gr_sum_profit')}</div><div class="s-value">${fmt(finalProfit)}</div></div>
+    `;
+    summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
+    saveBtn.onclick = ()=> addHistory(t('grow_mode_recurring'), `${t('gr_lbl_deposit')}: ${fmt(deposit)} | ${t('gr_lbl_annual_rate')}: ${fmt(annualRate)}% | ${t('gl_sum_periods')}: ${n} | ${t('gr_sum_final')}: ${fmt(balance)} | ${t('gr_sum_profit')}: ${fmt(finalProfit)}`);
+
+  } else if(growTarget==='roi'){
+    const initial = toNum(document.getElementById('groi-initial').value);
+    const final = toNum(document.getElementById('groi-final').value);
+    const durationVal = toNum(document.getElementById('groi-duration').value);
+    const durationUnitDays = toNum(document.getElementById('groi-duration-unit').value);
+    if(initial===null||initial<=0||final===null){ errorEl.style.display='block'; return; }
+    const profit = final-initial;
+    const totalROI = (profit/initial)*100;
+    let cagrHtml = ''; let cagrText = '';
+    if(durationVal!==null && durationVal>0 && final>0){
+      const years = (durationVal*durationUnitDays)/365;
+      const cagr = (Math.pow(final/initial, 1/years)-1)*100;
+      cagrHtml = `<div class="summary-card" style="grid-column:1/-1;"><div class="s-label">${t('groi_sum_cagr')}</div><div class="s-value">${fmt(cagr)}%</div></div>`;
+      cagrText = ` | CAGR: ${fmt(cagr)}%`;
+    }
+    summaryEl.innerHTML = `
+      <div class="summary-card"><div class="s-label">${t('groi_sum_profit')}</div><div class="s-value">${fmt(profit)}</div></div>
+      <div class="summary-card"><div class="s-label">${t('groi_sum_roi')}</div><div class="s-value">${fmt(totalROI)}%</div></div>
+      ${cagrHtml}
+    `;
+    summaryEl.style.display='grid'; saveBtn.style.display='block';
+    saveBtn.onclick = ()=> addHistory(t('grow_mode_roi'), `${t('groi_lbl_initial')}: ${fmt(initial)} | ${t('groi_lbl_final')}: ${fmt(final)} | ${t('groi_sum_profit')}: ${fmt(profit)} | ROI: ${fmt(totalROI)}%${cagrText}`);
+
+  } else if(growTarget==='combo'){
+    const lumpsum = toNum(document.getElementById('gc-lumpsum').value) || 0;
+    const monthly = toNum(document.getElementById('gc-monthly').value) || 0;
+    const annualRate = toNum(document.getElementById('gc-annual-rate').value);
+    const freq = document.getElementById('gc-freq').value;
+    const durationVal = toNum(document.getElementById('gc-duration').value);
+    const durationUnitDays = toNum(document.getElementById('gc-duration-unit').value);
+    if((lumpsum<=0 && monthly<=0) || annualRate===null || annualRate<0 || durationVal===null || durationVal<=0){
+      errorEl.style.display='block'; return;
+    }
+    const durationDays = durationVal*durationUnitDays;
+    const totalMonths = Math.max(1, Math.round(durationDays/30));
+    const periodsPerYear = freq==='daily' ? 365 : (freq==='weekly' ? 52 : 12);
+    const periodicRate = Math.pow(1+annualRate/100, 1/periodsPerYear)-1;
+
+    let balance = lumpsum, deposited = lumpsum;
+    const dailyMonth1 = [], monthlyRows = [], yearlyRows = [];
+    let globalDay = 0;
+    for(let month=1; month<=totalMonths; month++){
+      if(monthly>0){ balance += monthly; deposited += monthly; }
+      const monthStartBalance = balance;
+      for(let day=1; day<=30; day++){
+        globalDay++;
+        let dayGain = 0;
+        if(freq==='daily'){ const before=balance; balance=balance*(1+periodicRate); dayGain=balance-before; }
+        else if(freq==='weekly'){ if(globalDay%7===0){ const before=balance; balance=balance*(1+periodicRate); dayGain=balance-before; } }
+        else if(freq==='monthly'){ if(day===30){ const before=balance; balance=balance*(1+periodicRate); dayGain=balance-before; } }
+        if(month===1){ dailyMonth1.push({day, balance, gain:dayGain}); }
+      }
+      monthlyRows.push({month, balance, gain: balance-monthStartBalance, deposited});
+    }
+    for(let y=0; y*12<totalMonths; y++){
+      const idx = Math.min((y+1)*12, totalMonths)-1;
+      const yearEntry = monthlyRows[idx];
+      const yearStartBalance = y===0 ? lumpsum : monthlyRows[y*12-1].balance;
+      yearlyRows.push({year:y+1, balance: yearEntry.balance, gain: yearEntry.balance-yearStartBalance, deposited: yearEntry.deposited});
+    }
+    const finalBalance = balance;
+    const finalProfit = finalBalance-deposited;
+    const totalPct = deposited>0 ? (finalProfit/deposited)*100 : 0;
+
+    gcData = { daily: dailyMonth1, monthly: monthlyRows, yearly: yearlyRows };
+    const rateDisplay = (periodicRate*100).toLocaleString('en-US',{maximumFractionDigits:4});
+
+    summaryEl.innerHTML = `
+      <div class="summary-card"><div class="s-label">${t('gl_sum_final')}</div><div class="s-value">${fmt(finalBalance)}</div></div>
+      <div class="summary-card"><div class="s-label">${t('gl_sum_profit')}</div><div class="s-value">${fmt(finalProfit)}</div></div>
+      <div class="summary-card"><div class="s-label">${t('gc_sum_deposited')}</div><div class="s-value">${fmt(deposited)}</div></div>
+      <div class="summary-card"><div class="s-label">${t('gl_sum_totalpct')}</div><div class="s-value">${fmt(totalPct)}%</div></div>
+      <div class="summary-card" style="grid-column:1/-1;"><div class="s-label">${t('gc_sum_periodicrate')}</div><div class="s-value">${rateDisplay}%</div></div>
+    `;
+    summaryEl.style.display='grid';
+    document.getElementById('gc-view-toggle').style.display='flex';
+    document.querySelectorAll('#gc-view-toggle button').forEach(b=>b.classList.toggle('active', b.dataset.view==='daily'));
+    renderGcTable('daily');
+    tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
+    saveBtn.onclick = ()=> addHistory(t('grow_mode_combo'), `${t('gc_lbl_lumpsum')}: ${fmt(lumpsum)} | ${t('gc_lbl_monthly')}: ${fmt(monthly)} | ${t('gc_lbl_annual_rate')}: ${fmt(annualRate)}% | ${t('gl_sum_final')}: ${fmt(finalBalance)} | ${t('gl_sum_profit')}: ${fmt(finalProfit)}`);
+  }
+});
+document.getElementById('grow-export').addEventListener('click', ()=>{ if(growRows.length) downloadCSV('invest_save.csv', growRows); });
+
+// ================= PRICING =================
+const pricingModeBtns = document.querySelectorAll('#pricing .mode-btn[data-prm]');
+const pricingPanels = { discount: document.getElementById('pricing-discount'), tax: document.getElementById('pricing-tax'), margin: document.getElementById('pricing-margin') };
+pricingModeBtns.forEach(b=>{
+  b.addEventListener('click', ()=>{
+    pricingModeBtns.forEach(x=>x.classList.toggle('active', x===b));
+    Object.keys(pricingPanels).forEach(k=> pricingPanels[k].style.display = (k===b.dataset.prm?'block':'none'));
+  });
+});
+
+let discIsDown=true;
+const discModeDown=document.getElementById('disc-mode-down'), discModeUp=document.getElementById('disc-mode-up');
+discModeDown.addEventListener('click', ()=>{ discIsDown=true; discModeDown.classList.add('active'); discModeUp.classList.remove('active'); computeDisc(); });
+discModeUp.addEventListener('click', ()=>{ discIsDown=false; discModeUp.classList.add('active'); discModeDown.classList.remove('active'); computeDisc(); });
+const discModeBtns = document.querySelectorAll('#pricing-discount .mode-btn[data-dtarget]');
+let discTarget='final';
+const discOriginal=document.getElementById('disc-original'), discPercent=document.getElementById('disc-percent'), discFinalPrice=document.getElementById('disc-finalprice');
+const discOrigTag=document.getElementById('disc-orig-tag'), discPerTag=document.getElementById('disc-per-tag'), discFinalTag=document.getElementById('disc-final-tag');
+const discReceipt=document.getElementById('disc-receipt'), discOutLabel=document.getElementById('disc-out-label'), discOutValue=document.getElementById('disc-out-value');
+const discError=document.getElementById('disc-error'), discSave=document.getElementById('disc-save');
+let discLastText='';
+function setDiscMode(target){
+  discTarget=target;
+  discModeBtns.forEach(b=>b.classList.toggle('active', b.dataset.dtarget===target));
+  discOriginal.disabled=target==='original'; discPercent.disabled=target==='percent'; discFinalPrice.disabled=target==='final';
+  setRequiredTag(target==='original'?discOrigTag:(target==='percent'?discPerTag:(target==='final'?discFinalTag:null)));
+  discOrigTag.textContent=target==='original'?t('required_tag'):''; discPerTag.textContent=target==='percent'?t('required_tag'):''; discFinalTag.textContent=target==='final'?t('required_tag'):'';
+  if(target==='original') discOriginal.value=''; if(target==='percent') discPercent.value=''; if(target==='final') discFinalPrice.value='';
+  discReceipt.style.display='none'; discError.style.display='none'; discSave.style.display='none';
+  computeDisc();
+}
+discModeBtns.forEach(b=>b.addEventListener('click', ()=>setDiscMode(b.dataset.dtarget)));
+function computeDisc(){
+  const orig=toNum(discOriginal.value), per=toNum(discPercent.value), fin=toNum(discFinalPrice.value);
+  const sign = discIsDown?-1:1;
+  let outVal=null, outLabel='';
+  if(discTarget==='final'){ if(orig!==null&&per!==null){ outVal=orig+sign*(orig*per/100); outLabel=discIsDown?t('disc_out_final_down'):t('disc_out_final_up'); } }
+  else if(discTarget==='percent'){ if(orig!==null&&fin!==null&&orig!==0){ outVal=Math.abs((fin-orig)/orig*100); outLabel=discIsDown?t('disc_out_percent_down'):t('disc_out_percent_up'); } }
+  else if(discTarget==='original'){ if(fin!==null&&per!==null){ const denom=1+sign*(per/100); if(denom!==0){ outVal=fin/denom; outLabel=t('disc_out_original'); } } }
+  if(outVal!==null && !isNaN(outVal)){
+    discError.style.display='none'; discReceipt.style.display='block'; discSave.style.display='block';
+    discOutLabel.textContent=outLabel; discOutValue.textContent=fmt(outVal);
+    if(discTarget==='final') discFinalPrice.value=round2(outVal);
+    if(discTarget==='percent') discPercent.value=round2(outVal);
+    if(discTarget==='original') discOriginal.value=round2(outVal);
+    discLastText=`${discIsDown?t('disc_mode_down'):t('disc_mode_up')} | ${t('disc_lbl_original')}: ${fmt(toNum(discOriginal.value))} | ${t('pct_lbl_percent')}: ${fmt(toNum(discPercent.value))}% | ${t('disc_lbl_final')}: ${fmt(toNum(discFinalPrice.value))}`;
+  } else { discReceipt.style.display='none'; discSave.style.display='none'; }
+}
+[discOriginal,discPercent,discFinalPrice].forEach(inp=>inp.addEventListener('input', computeDisc));
+discSave.addEventListener('click', ()=>addHistory(t('pricing_mode_discount'), discLastText));
+setDiscMode('final');
+
+let taxIsAdd=true;
+document.getElementById('tax-mode-add').addEventListener('click', function(){ taxIsAdd=true; this.classList.add('active'); document.getElementById('tax-mode-remove').classList.remove('active'); });
+document.getElementById('tax-mode-remove').addEventListener('click', function(){ taxIsAdd=false; this.classList.add('active'); document.getElementById('tax-mode-add').classList.remove('active'); });
+document.querySelectorAll('#pricing-tax .chip').forEach(chip=>{ chip.addEventListener('click', ()=>{ document.getElementById('tax-rate').value=chip.dataset.rate; }); });
+let taxLastText='';
+document.getElementById('tax-calc').addEventListener('click', ()=>{
+  const price=toNum(document.getElementById('tax-price').value), rate=toNum(document.getElementById('tax-rate').value);
+  const errorEl=document.getElementById('tax-error'), summaryEl=document.getElementById('tax-summary'), saveBtn=document.getElementById('tax-save');
+  if(price===null||price<0||rate===null||rate<0){ errorEl.style.display='block'; summaryEl.style.display='none'; saveBtn.style.display='none'; return; }
+  errorEl.style.display='none';
+  let before, taxAmount, after;
+  if(taxIsAdd){ before=price; taxAmount=price*rate/100; after=price+taxAmount; } else { after=price; before=price/(1+rate/100); taxAmount=after-before; }
+  document.getElementById('tax-before').textContent=fmt(before);
+  document.getElementById('tax-amount').textContent=fmt(taxAmount);
+  document.getElementById('tax-after').textContent=fmt(after);
+  summaryEl.style.display='grid'; saveBtn.style.display='block';
+  taxLastText=`${taxIsAdd?t('tax_mode_add'):t('tax_mode_remove')} ${fmt(rate)}% | ${t('tax_sum_before')}: ${fmt(before)} | ${t('tax_sum_amount')}: ${fmt(taxAmount)} | ${t('tax_sum_after')}: ${fmt(after)}`;
+});
+document.getElementById('tax-save').addEventListener('click', ()=>addHistory(t('pricing_mode_tax'), taxLastText));
+
+let pmLastText='';
+document.getElementById('pm-calc').addEventListener('click', ()=>{
+  const cost=toNum(document.getElementById('pm-cost').value), price=toNum(document.getElementById('pm-price').value);
+  const errorEl=document.getElementById('pm-error'), summaryEl=document.getElementById('pm-summary'), saveBtn=document.getElementById('pm-save');
+  if(cost===null||cost<0||price===null||price<=0){ errorEl.style.display='block'; summaryEl.style.display='none'; saveBtn.style.display='none'; return; }
+  errorEl.style.display='none';
+  const profit=price-cost, margin=(profit/price)*100, markup=cost!==0?(profit/cost)*100:NaN;
+  document.getElementById('pm-profit').textContent=fmt(profit);
+  document.getElementById('pm-margin').textContent=fmt(margin)+'%';
+  document.getElementById('pm-markup').textContent=fmt(markup)+'%';
+  summaryEl.style.display='grid'; saveBtn.style.display='block';
+  pmLastText=`${t('pm_lbl_cost')}: ${fmt(cost)} | ${t('pm_lbl_price')}: ${fmt(price)} | ${t('pm_sum_profit')}: ${fmt(profit)} | ${t('pm_sum_margin')}: ${fmt(margin)}% | ${t('pm_sum_markup')}: ${fmt(markup)}%`;
+});
+document.getElementById('pm-save').addEventListener('click', ()=>addHistory(t('pricing_mode_margin'), pmLastText));
+
+// ================= ZAKAT =================
+const NISAB_GOLD_G=85, NISAB_SILVER_G=595;
+const zModeBtns=document.querySelectorAll('#zakat .mode-btn');
+const zakatPanels={ gold:document.getElementById('zakat-gold'), silver:document.getElementById('zakat-silver'), money:document.getElementById('zakat-money') };
+let zTarget='gold';
+zModeBtns.forEach(b=>{
+  b.addEventListener('click', ()=>{
+    zTarget=b.dataset.ztarget;
+    zModeBtns.forEach(x=>x.classList.toggle('active', x===b));
+    Object.keys(zakatPanels).forEach(k=> zakatPanels[k].style.display=(k===zTarget?'block':'none'));
+    document.getElementById('zakat-receipt').style.display='none';
+    document.getElementById('zakat-below-nisab').style.display='none';
+    document.getElementById('zakat-save').style.display='none';
+  });
+});
+let zakatLastText='';
+document.getElementById('zakat-calc').addEventListener('click', ()=>{
+  const errorEl=document.getElementById('zakat-error'), receiptEl=document.getElementById('zakat-receipt');
+  const belowEl=document.getElementById('zakat-below-nisab'), saveBtn=document.getElementById('zakat-save');
+  errorEl.style.display='none'; receiptEl.style.display='none'; belowEl.style.display='none'; saveBtn.style.display='none';
+  document.getElementById('zakat-out-label').textContent = t('zakat_out_label');
+  if(zTarget==='gold'){
+    const weight=toNum(document.getElementById('zg-weight').value), price=toNum(document.getElementById('zg-price').value);
+    if(weight===null||weight<0||price===null||price<=0){ errorEl.style.display='block'; return; }
+    if(weight<NISAB_GOLD_G){ belowEl.textContent=t('zakat_below'); belowEl.style.display='block'; return; }
+    const totalValue=weight*price, zakatDue=totalValue*0.025;
+    receiptEl.style.display='block'; document.getElementById('zakat-out-value').textContent=fmt(zakatDue);
+    zakatLastText=`${t('zakat_mode_gold')} | ${t('zg_lbl_weight')}: ${fmt(weight)} | ${fmt(totalValue)} | ${t('zakat_out_label')}: ${fmt(zakatDue)}`;
+  } else if(zTarget==='silver'){
+    const weight=toNum(document.getElementById('zs-weight').value), price=toNum(document.getElementById('zs-price').value);
+    if(weight===null||weight<0||price===null||price<=0){ errorEl.style.display='block'; return; }
+    if(weight<NISAB_SILVER_G){ belowEl.textContent=t('zakat_below'); belowEl.style.display='block'; return; }
+    const totalValue=weight*price, zakatDue=totalValue*0.025;
+    receiptEl.style.display='block'; document.getElementById('zakat-out-value').textContent=fmt(zakatDue);
+    zakatLastText=`${t('zakat_mode_silver')} | ${t('zs_lbl_weight')}: ${fmt(weight)} | ${fmt(totalValue)} | ${t('zakat_out_label')}: ${fmt(zakatDue)}`;
+  } else if(zTarget==='money'){
+    const amount=toNum(document.getElementById('zm-amount').value), silverPrice=toNum(document.getElementById('zm-silverprice').value);
+    if(amount===null||amount<0||silverPrice===null||silverPrice<=0){ errorEl.style.display='block'; return; }
+    const nisabValue=NISAB_SILVER_G*silverPrice;
+    if(amount<nisabValue){ belowEl.textContent=`${t('zakat_below')} (${fmt(nisabValue)})`; belowEl.style.display='block'; return; }
+    const zakatDue=amount*0.025;
+    receiptEl.style.display='block'; document.getElementById('zakat-out-value').textContent=fmt(zakatDue);
+    zakatLastText=`${t('zakat_mode_money')} | ${t('zm_lbl_amount')}: ${fmt(amount)} | ${fmt(nisabValue)} | ${t('zakat_out_label')}: ${fmt(zakatDue)}`;
+  }
+  saveBtn.style.display='block';
+});
+document.getElementById('zakat-save').addEventListener('click', ()=>addHistory(t('tab_zakat'), zakatLastText));
+
+// ================= LOAN =================
+function computeLoan(amount, annualRate, years){
+  const n=Math.round(years*12), monthlyRate=annualRate/100/12;
+  let monthlyPayment;
+  if(monthlyRate===0){ monthlyPayment=amount/n; } else { monthlyPayment=amount*monthlyRate/(1-Math.pow(1+monthlyRate,-n)); }
+  let remaining=amount, totalInterest=0; const rows=[];
+  for(let i=1;i<=n;i++){
+    const interestPart=remaining*monthlyRate;
+    let principalPart=monthlyPayment-interestPart;
+    remaining-=principalPart;
+    if(i===n){ principalPart+=remaining; remaining=0; }
+    totalInterest+=interestPart;
+    rows.push({i,monthlyPayment,interestPart,principalPart,remaining:Math.max(remaining,0)});
+  }
+  return {n,monthlyPayment,totalInterest,rows};
+}
+let loanRows=[];
+document.getElementById('loan-calc').addEventListener('click', ()=>{
+  const amount=toNum(document.getElementById('loan-amount').value), annualRate=toNum(document.getElementById('loan-rate').value), years=toNum(document.getElementById('loan-years').value);
+  const errorEl=document.getElementById('loan-error'), summaryEl=document.getElementById('loan-summary');
+  const tableWrap=document.getElementById('loan-table-wrap'), exportBtn=document.getElementById('loan-export'), saveBtn=document.getElementById('loan-save');
+  if(amount===null||amount<=0||annualRate===null||annualRate<0||years===null||years<=0){ errorEl.style.display='block'; summaryEl.style.display='none'; tableWrap.style.display='none'; exportBtn.style.display='none'; saveBtn.style.display='none'; return; }
+  errorEl.style.display='none';
+  const result=computeLoan(amount,annualRate,years);
+  const tbody=document.getElementById('loan-tbody'); tbody.innerHTML='';
+  loanRows=[[t('th_installment'),t('th_amount'),t('th_interest'),t('th_principal'),t('th_remaining')]];
+  result.rows.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${r.i}</td><td>${fmt(r.monthlyPayment)}</td><td>${fmt(r.interestPart)}</td><td>${fmt(r.principalPart)}</td><td>${fmt(r.remaining)}</td>`;
+    tbody.appendChild(tr);
+    loanRows.push([r.i, round2(r.monthlyPayment), round2(r.interestPart), round2(r.principalPart), round2(r.remaining)]);
+  });
+  document.getElementById('loan-monthly').textContent=fmt(result.monthlyPayment);
+  document.getElementById('loan-count').textContent=result.n;
+  document.getElementById('loan-interest').textContent=fmt(result.totalInterest);
+  document.getElementById('loan-total').textContent=fmt(amount+result.totalInterest);
+  summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
+  saveBtn.onclick=()=>addHistory(t('tab_loan'), `${t('loan_lbl_amount')}: ${fmt(amount)} | ${t('loan_lbl_rate')}: ${fmt(annualRate)}% | ${t('loan_lbl_years')}: ${years} | ${t('loan_sum_monthly')}: ${fmt(result.monthlyPayment)} | ${t('loan_sum_count')}: ${result.n}`);
+});
+document.getElementById('loan-export').addEventListener('click', ()=>{ if(loanRows.length) downloadCSV('loan_schedule.csv', loanRows); });
+const compareToggle=document.getElementById('loan-compare-toggle'), compareFields=document.getElementById('loan-compare-fields');
+let compareOpen=false;
+compareToggle.addEventListener('click', ()=>{
+  compareOpen=!compareOpen;
+  compareFields.style.display=compareOpen?'block':'none';
+  compareToggle.textContent=compareOpen?t('loan_compare_on'):t('loan_compare_off');
+  compareToggle.classList.toggle('active', compareOpen);
+});
+document.getElementById('loan2-calc').addEventListener('click', ()=>{
+  const amount1=toNum(document.getElementById('loan-amount').value), rate1=toNum(document.getElementById('loan-rate').value), years1=toNum(document.getElementById('loan-years').value);
+  const amount2=toNum(document.getElementById('loan2-amount').value), rate2=toNum(document.getElementById('loan2-rate').value), years2=toNum(document.getElementById('loan2-years').value);
+  if([amount1,rate1,years1,amount2,rate2,years2].some(v=>v===null)||amount1<=0||amount2<=0||years1<=0||years2<=0) return;
+  const r1=computeLoan(amount1,rate1,years1), r2=computeLoan(amount2,rate2,years2);
+  document.getElementById('loanc-monthly1').textContent=fmt(r1.monthlyPayment);
+  document.getElementById('loanc-monthly2').textContent=fmt(r2.monthlyPayment);
+  document.getElementById('loanc-interest1').textContent=fmt(r1.totalInterest);
+  document.getElementById('loanc-interest2').textContent=fmt(r2.totalInterest);
+  document.getElementById('loan-compare-summary').style.display='grid';
+  addHistory(t('loan_compare_title'), `${t('tab_loan')} 1: ${fmt(amount1)} (${fmt(r1.monthlyPayment)}) — ${t('tab_loan')} 2: ${fmt(amount2)} (${fmt(r2.monthlyPayment)})`);
+});
+
+// ================= CURRENCY =================
+const CURRENCIES=['USD','EUR','GBP','SAR','AED','EGP','KWD','QAR','JOD','MAD','BHD','OMR','TRY'];
+const curFrom=document.getElementById('cur-from'), curTo=document.getElementById('cur-to');
+CURRENCIES.forEach(c=>{ curFrom.appendChild(new Option(c,c)); curTo.appendChild(new Option(c,c)); });
+curFrom.value='USD'; curTo.value='EGP';
+let ratesCache={}; let curLastText='';
+document.getElementById('cur-calc').addEventListener('click', async ()=>{
+  const amount=toNum(document.getElementById('cur-amount').value), from=curFrom.value, to=curTo.value;
+  const errorEl=document.getElementById('cur-error'), receiptEl=document.getElementById('cur-receipt'), saveBtn=document.getElementById('cur-save');
+  const btn=document.getElementById('cur-calc');
+  errorEl.style.display='none'; receiptEl.style.display='none'; saveBtn.style.display='none';
+  if(amount===null||amount<0){ errorEl.textContent=t('cur_error_amount'); errorEl.style.display='block'; return; }
+  const originalLabel=btn.textContent; btn.disabled=true; btn.innerHTML=`<span class="spinner"></span>${t('cur_loading')}`;
+  try{
+    let rates; const cacheKey=from; const now=Date.now();
+    if(ratesCache[cacheKey] && (now-ratesCache[cacheKey].ts)<10*60*1000){ rates=ratesCache[cacheKey].rates; }
+    else{
+      const res=await fetch(`https://open.er-api.com/v6/latest/${from}`);
+      const data=await res.json();
+      if(data.result!=='success') throw new Error('bad response');
+      rates=data.rates; ratesCache[cacheKey]={rates, ts:now};
+    }
+    const rate=rates[to]; if(rate===undefined) throw new Error('no rate');
+    const converted=amount*rate;
+    receiptEl.style.display='block'; saveBtn.style.display='block';
+    document.getElementById('cur-out-label').textContent=`${amount} ${from} =`;
+    document.getElementById('cur-out-value').textContent=fmt(converted)+' '+to;
+    curLastText=`${fmt(amount)} ${from} = ${fmt(converted)} ${to} (${round2(rate)})`;
+  } catch(err){
+    errorEl.textContent=t('cur_error'); errorEl.style.display='block';
+  } finally { btn.disabled=false; btn.textContent=originalLabel; }
+});
+document.getElementById('cur-save').addEventListener('click', ()=>addHistory(t('tab_currency'), curLastText));
+
+// ================= DATES =================
+const dateModeBtns=document.querySelectorAll('#dates .mode-btn');
+const datePanels={ diff:document.getElementById('date-diff'), age:document.getElementById('date-age'), add:document.getElementById('date-add'), workdays:document.getElementById('date-workdays') };
+let dateTarget='diff';
+dateModeBtns.forEach(b=>{
+  b.addEventListener('click', ()=>{
+    dateTarget=b.dataset.dm;
+    dateModeBtns.forEach(x=>x.classList.toggle('active', x===b));
+    Object.keys(datePanels).forEach(k=> datePanels[k].style.display=(k===dateTarget?'block':'none'));
+    document.getElementById('date-receipt').style.display='none';
+    document.getElementById('date-error').style.display='none';
+    document.getElementById('date-save').style.display='none';
+  });
+});
+let dateLastText='';
+function msToDays(ms){ return Math.floor(ms/(1000*60*60*24)); }
+document.getElementById('date-calc').addEventListener('click', ()=>{
+  const errorEl=document.getElementById('date-error'), receiptEl=document.getElementById('date-receipt'), saveBtn=document.getElementById('date-save');
+  errorEl.style.display='none'; receiptEl.style.display='none'; saveBtn.style.display='none';
+  let outLabel='', outValue='';
+  if(dateTarget==='diff'){
+    const d1=document.getElementById('dd-first').value, d2=document.getElementById('dd-second').value;
+    if(!d1||!d2){ errorEl.style.display='block'; return; }
+    const date1=new Date(d1), date2=new Date(d2);
+    const days=Math.abs(msToDays(date2-date1)), weeks=Math.floor(days/7), years=Math.floor(days/365.25);
+    outLabel=t('date_out_diff'); outValue=`${days} — ≈ ${weeks} / ≈ ${years}`;
+    dateLastText=`${d1} → ${d2} = ${days}`;
+  } else if(dateTarget==='age'){
+    const birth=document.getElementById('da-birth').value;
+    if(!birth){ errorEl.style.display='block'; return; }
+    const b=new Date(birth), today=new Date();
+    let years=today.getFullYear()-b.getFullYear(), months=today.getMonth()-b.getMonth(), days=today.getDate()-b.getDate();
+    if(days<0){ months--; const lastMonth=new Date(today.getFullYear(), today.getMonth(), 0); days+=lastMonth.getDate(); }
+    if(months<0){ years--; months+=12; }
+    const totalDays=msToDays(today-b);
+    outLabel=t('date_out_age'); outValue=`${years}y ${months}m ${days}d (${totalDays})`;
+    dateLastText=`${birth}: ${years}y ${months}m ${days}d`;
+  } else if(dateTarget==='add'){
+    const base=document.getElementById('dadd-base').value, days=toNum(document.getElementById('dadd-days').value), op=document.getElementById('dadd-op').value;
+    if(!base||days===null){ errorEl.style.display='block'; return; }
+    const b=new Date(base); b.setDate(b.getDate()+(op==='add'?days:-days));
+    const resultDate=b.toISOString().split('T')[0];
+    outLabel=op==='add'?t('date_out_add'):t('date_out_sub'); outValue=resultDate;
+    dateLastText=`${base} ${op==='add'?'+':'-'} ${days} = ${resultDate}`;
+  } else if(dateTarget==='workdays'){
+    const d1=document.getElementById('dw-first').value, d2=document.getElementById('dw-second').value;
+    if(!d1||!d2){ errorEl.style.display='block'; return; }
+    let start=new Date(d1), end=new Date(d2);
+    if(start>end){ [start,end]=[end,start]; }
+    let count=0, cur=new Date(start);
+    while(cur<=end){ const day=cur.getDay(); if(day!==5&&day!==6) count++; cur.setDate(cur.getDate()+1); }
+    outLabel=t('date_out_workdays'); outValue=`${count}`;
+    dateLastText=`${d1} → ${d2}: ${count}`;
+  }
+  document.getElementById('date-out-label').textContent=outLabel;
+  document.getElementById('date-out-value').textContent=outValue;
+  receiptEl.style.display='block'; saveBtn.style.display='block';
+});
+document.getElementById('date-save').addEventListener('click', ()=>addHistory(t('tab_dates'), dateLastText));
+
+// ---------- init ----------
+applyLanguage('ar');
+applyTheme('dark');
+renderHistory();
+
+// ---------- access gate ----------
+// عدّل هذا المسار لو اسم ملف قايمة الصلاحيات مختلف. لازم يكون مرفوع بجانب هذا الملف على نفس الاستضافة.
+const ACCESS_LIST_URL = './access.json';
+const SESSION_KEY = 'smartcalc_session';
+const INACTIVITY_LIMIT_MS = 30 * 24 * 60 * 60 * 1000; // 30 يوم بدون استخدام = خروج تلقائي
+
+async function getTrustedNow(){
+  try{
+    const res = await fetch('https://timeapi.io/api/time/current/zone?timeZone=UTC', {cache:'no-store'});
+    const data = await res.json();
+    if(data && data.dateTime) return new Date(data.dateTime + 'Z');
+  } catch(e){ /* fallback below */ }
+  return new Date(); // احتياطي: ساعة جهاز المستخدم (أضعف حماية لو النت مش متاح)
+}
+
+function saveSession(match){
+  try{ localStorage.setItem(SESSION_KEY, JSON.stringify({ name: match.name, code: match.code, expires: match.expires, lastActive: Date.now() })); }
+  catch(e){ /* localStorage غير متاح (وضع تصفح خاص مثلاً) */ }
+}
+function touchSession(){
+  try{
+    const raw = localStorage.getItem(SESSION_KEY);
+    if(!raw) return;
+    const s = JSON.parse(raw);
+    s.lastActive = Date.now();
+    localStorage.setItem(SESSION_KEY, JSON.stringify(s));
+  } catch(e){}
+}
+function clearSession(){ try{ localStorage.removeItem(SESSION_KEY); } catch(e){} }
+
+function enterApp(match){
+  document.getElementById('gate-screen').style.display = 'none';
+  document.getElementById('app-content').style.display = 'block';
+  const badge = document.getElementById('sub-expiry-badge');
+  badge.textContent = `${t('sub_expiry_prefix')} ${match.expires}`;
+  badge.style.display = 'block';
+  saveSession(match);
+}
+
+async function attemptLogin(){
+  const nameInput = document.getElementById('gate-name');
+  const codeInput = document.getElementById('gate-code');
+  const errorEl = document.getElementById('gate-error');
+  const btn = document.getElementById('gate-submit');
+  const name = nameInput.value.trim();
+  const code = codeInput.value.trim();
+  errorEl.style.display = 'none';
+
+  if(!name || !code){
+    errorEl.textContent = t('gate_err_required');
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spinner"></span>${t('gate_checking')}`;
+
+  try{
+    const listRes = await fetch(ACCESS_LIST_URL, {cache:'no-store'});
+    if(!listRes.ok) throw new Error('access list not found');
+    const list = await listRes.json();
+
+    const match = list.find(u =>
+      u.name && u.code &&
+      u.name.trim().toLowerCase() === name.toLowerCase() &&
+      u.code.trim() === code
+    );
+
+    if(!match){
+      errorEl.textContent = t('gate_err_invalid');
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    const now = await getTrustedNow();
+    const expiry = new Date(match.expires + 'T23:59:59Z');
+
+    if(now > expiry){
+      errorEl.textContent = `${t('gate_err_expired')} ${match.expires}`;
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    enterApp(match);
+
+  } catch(err){
+    errorEl.textContent = t('gate_err_network');
+    errorEl.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+}
+
+document.getElementById('gate-submit').addEventListener('click', attemptLogin);
+document.getElementById('gate-code').addEventListener('keydown', (e)=>{ if(e.key==='Enter') attemptLogin(); });
+document.getElementById('gate-name').addEventListener('keydown', (e)=>{ if(e.key==='Enter') document.getElementById('gate-code').focus(); });
+
+// تحديث "آخر نشاط" أثناء الاستخدام الفعلي، عشان مهلة عدم الاستخدام متتحسبش أثناء ما الشخص شغال فعليًا
+document.addEventListener('click', ()=>{ touchSession(); });
+
+// محاولة الدخول التلقائي لو فيه جلسة محفوظة وسارية ومفيش انقطاع استخدام طويل
+async function tryAutoLogin(){
+  const loadingEl = document.getElementById('gate-loading');
+  const formEl = document.getElementById('gate-form');
+  let raw;
+  try{ raw = localStorage.getItem(SESSION_KEY); } catch(e){ raw = null; }
+
+  if(!raw){ loadingEl.style.display = 'none'; formEl.style.display = 'block'; return; }
+
+  let session;
+  try{ session = JSON.parse(raw); } catch(e){ clearSession(); loadingEl.style.display='none'; formEl.style.display='block'; return; }
+
+  if(Date.now() - (session.lastActive || 0) > INACTIVITY_LIMIT_MS){
+    clearSession(); loadingEl.style.display='none'; formEl.style.display='block'; return;
+  }
+
+  try{
+    const listRes = await fetch(ACCESS_LIST_URL, {cache:'no-store'});
+    if(listRes.ok){
+      const list = await listRes.json();
+      const match = list.find(u => u.name && u.code &&
+        u.name.trim().toLowerCase() === session.name.toLowerCase() && u.code.trim() === session.code);
+      if(!match){ clearSession(); loadingEl.style.display='none'; formEl.style.display='block'; return; }
+      const now = await getTrustedNow();
+      const expiry = new Date(match.expires + 'T23:59:59Z');
+      if(now > expiry){ clearSession(); loadingEl.style.display='none'; formEl.style.display='block'; return; }
+      enterApp(match);
+      return;
+    }
+  } catch(e){ /* لا يوجد إنترنت — نكمل على الفحص الاحتياطي تحت */ }
+
+  // احتياطي بدون إنترنت: تحقق من الصلاحية بساعة الجهاز على الأقل
+  const localExpiry = new Date(session.expires + 'T23:59:59Z');
+  if(new Date() > localExpiry){ clearSession(); loadingEl.style.display='none'; formEl.style.display='block'; return; }
+  enterApp(session);
+}
+tryAutoLogin();
+</script>
+</body>
+</html>
