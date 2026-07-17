@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Smart Calc</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#0A0F1C">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Smart Calc">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="icon" href="./icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -48,6 +56,7 @@
     --cal-filter: invert(0);
   }
   *{ box-sizing:border-box; }
+  input, select, textarea, button{ max-width:100%; }
   html, body{ overflow-x:hidden; width:100%; max-width:100%; }
   html{ scroll-behavior:smooth; }
   body{
@@ -91,11 +100,11 @@
     font-weight:600; font-size:11.5px; color:var(--text-dim); cursor:pointer; transition:all .15s ease;
   }
   .lang-toggle button.active{ background:linear-gradient(135deg, var(--accent), #1AA684); color:#052018; }
-  .theme-toggle{
+  .theme-toggle, .icon-btn{
     width:34px; height:34px; border-radius:50%; border:1px solid var(--border); background:var(--surface);
     color:var(--text); font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center;
   }
-  .theme-toggle:hover{ border-color:var(--border-strong); }
+  .theme-toggle:hover, .icon-btn:hover{ border-color:var(--border-strong); }
 
   /* ---------- search ---------- */
   .search-wrap{ position:relative; margin-bottom:16px; }
@@ -332,9 +341,19 @@
         <button data-lang="en">EN</button>
       </div>
       <button class="theme-toggle">🌙</button>
+      <button class="icon-btn" id="options-open">⋮</button>
     </div>
   </div>
 
+  <div class="modal-overlay" id="options-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="options-close">✕</button>
+      <h2 data-i18n="options_title">خيارات</h2>
+      <button class="btn-primary" id="install-app-btn" style="display:none;" data-i18n="install_btn">📲 ثبّت التطبيق على الشاشة الرئيسية</button>
+      <p class="disclaimer" id="ios-install-note" style="display:none;" data-i18n="ios_install_note">على آيفون: دوس على زرار المشاركة ⬆️ في المتصفح، واختار "إضافة إلى الشاشة الرئيسية".</p>
+      <button class="btn-secondary" id="logout-btn" style="border-color:var(--danger); color:var(--danger); margin-top:16px;" data-i18n="logout_btn">🚪 تسجيل الخروج</button>
+    </div>
+  </div>
   <div class="search-wrap">
     <input type="text" id="tool-search" placeholder="دور على أداة... مثلاً: قروض، عملات، زكاة" data-i18n-placeholder="search_ph">
   </div>
@@ -859,6 +878,9 @@ const translations = {
     gate_err_expired:'اشتراكك انتهى بتاريخ', gate_err_network:'تعذر التحقق من بيانات الدخول. تأكد من الاتصال بالإنترنت وحاول تاني.',
     sub_expiry_prefix:'اشتراكك ساري لغاية',
     copyright_line:'جميع الحقوق محفوظة © Ahmed Abd-Elrahman - مصر - 2026',
+    options_title:'خيارات', install_btn:'📲 ثبّت التطبيق على الشاشة الرئيسية',
+    ios_install_note:'على آيفون: دوس على زرار المشاركة ⬆️ في المتصفح، واختار "إضافة إلى الشاشة الرئيسية".',
+    logout_btn:'🚪 تسجيل الخروج',
   },
   en: {
     h_tagline:'All your financial tools in one place', search_ph:'Search a tool... e.g. loans, currency, zakat',
@@ -965,6 +987,9 @@ const translations = {
     gate_err_expired:'Your subscription expired on', gate_err_network:'Could not verify your login. Check your internet connection and try again.',
     sub_expiry_prefix:'Your subscription is valid until',
     copyright_line:'All rights reserved © Ahmed Abd-Elrahman - Egypt - 2026',
+    options_title:'Options', install_btn:'📲 Install app to home screen',
+    ios_install_note:'On iPhone: tap the Share button ⬆️ in your browser, then choose "Add to Home Screen".',
+    logout_btn:'🚪 Log out',
   }
 };
 let currentLang = 'ar';
@@ -1027,6 +1052,49 @@ function renderHistory(){
 document.getElementById('history-open').addEventListener('click', ()=>document.getElementById('history-modal').classList.add('open'));
 document.getElementById('history-close').addEventListener('click', ()=>document.getElementById('history-modal').classList.remove('open'));
 document.getElementById('history-modal').addEventListener('click', (e)=>{ if(e.target.id==='history-modal') e.currentTarget.classList.remove('open'); });
+
+// ---------- options modal: install + logout ----------
+document.getElementById('options-open').addEventListener('click', ()=>document.getElementById('options-modal').classList.add('open'));
+document.getElementById('options-close').addEventListener('click', ()=>document.getElementById('options-modal').classList.remove('open'));
+document.getElementById('options-modal').addEventListener('click', (e)=>{ if(e.target.id==='options-modal') e.currentTarget.classList.remove('open'); });
+
+let deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  document.getElementById('install-app-btn').style.display = 'block';
+});
+document.getElementById('install-app-btn').addEventListener('click', async ()=>{
+  if(!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  document.getElementById('install-app-btn').style.display = 'none';
+});
+// آيفون/سفاري مبيدعمش beforeinstallprompt، فبنوري تعليمات يدوية بدل الزرار
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+if(isIOS && !isStandalone){
+  document.getElementById('ios-install-note').style.display = 'block';
+}
+
+document.getElementById('logout-btn').addEventListener('click', ()=>{
+  clearSession();
+  document.getElementById('options-modal').classList.remove('open');
+  document.getElementById('app-content').style.display = 'none';
+  document.getElementById('gate-name').value = '';
+  document.getElementById('gate-code').value = '';
+  document.getElementById('gate-loading').style.display = 'none';
+  document.getElementById('gate-form').style.display = 'block';
+  document.getElementById('gate-screen').style.display = 'block';
+  document.getElementById('sub-expiry-badge').style.display = 'none';
+});
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('./sw.js').catch(()=>{ /* التثبيت هيشتغل لحد ما بدون service worker */ });
+  });
+}
 document.getElementById('history-clear').addEventListener('click', ()=>{ history=[]; renderHistory(); });
 
 // ---------- tabs ----------
