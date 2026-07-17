@@ -75,7 +75,7 @@
     transition:background-color .2s ease, color .2s ease;
   }
   .app{ width:100%; max-width:560px; min-width:0; }
-  .app-footer{ text-align:center; color:var(--text-faint); font-size:10.5px; font-weight:400; line-height:1.7; margin-top:18px; }
+  .app-footer{ text-align:center; color:var(--text); font-size:10.5px; font-weight:600; line-height:1.7; margin-top:18px; }
   .app-footer p{ margin:2px 0; }
   .app-footer .phone-number{ direction:ltr; unicode-bidi:embed; display:inline-block; }
 
@@ -996,9 +996,18 @@ const translations = {
 };
 let currentLang = 'ar';
 let currentTheme = 'dark';
+let currentExpiryDate = null;
 function t(key){ return (translations[currentLang] && translations[currentLang][key]!==undefined) ? translations[currentLang][key] : key; }
 
-function applyLanguage(lang){
+function updateExpiryBadge(){
+  const badge = document.getElementById('sub-expiry-badge');
+  if(currentExpiryDate){
+    badge.textContent = `${t('sub_expiry_prefix')} ${currentExpiryDate}`;
+    badge.style.display = 'block';
+  }
+}
+
+function applyLanguage(lang, skipSave){
   currentLang = lang;
   document.documentElement.lang = lang;
   document.documentElement.dir = lang==='ar' ? 'rtl' : 'ltr';
@@ -1015,15 +1024,19 @@ function applyLanguage(lang){
   });
   // refresh required-tags currently shown
   refreshRequiredTags();
+  // شارة تاريخ انتهاء الاشتراك بتتغير لغتها هي كمان
+  updateExpiryBadge();
+  if(!skipSave){ try{ localStorage.setItem('smartcalc_lang', lang); } catch(e){} }
 }
 document.querySelectorAll('.lang-toggle button[data-lang]').forEach(b=>{
   b.addEventListener('click', ()=>applyLanguage(b.dataset.lang));
 });
 
-function applyTheme(theme){
+function applyTheme(theme, skipSave){
   currentTheme = theme;
   document.body.classList.toggle('light', theme==='light');
   document.querySelectorAll('.theme-toggle').forEach(b=>{ b.textContent = theme==='light' ? '☀️' : '🌙'; });
+  if(!skipSave){ try{ localStorage.setItem('smartcalc_theme', theme); } catch(e){} }
 }
 document.querySelectorAll('.theme-toggle').forEach(b=>{
   b.addEventListener('click', ()=>{ applyTheme(currentTheme==='dark' ? 'light' : 'dark'); });
@@ -1082,6 +1095,7 @@ if(isIOS && !isStandalone){
 
 document.getElementById('logout-btn').addEventListener('click', ()=>{
   clearSession();
+  currentExpiryDate = null;
   document.getElementById('options-modal').classList.remove('open');
   document.getElementById('app-content').style.display = 'none';
   document.getElementById('gate-name').value = '';
@@ -1716,8 +1730,11 @@ document.getElementById('date-calc').addEventListener('click', ()=>{
 document.getElementById('date-save').addEventListener('click', ()=>addHistory(t('tab_dates'), dateLastText));
 
 // ---------- init ----------
-applyLanguage('ar');
-applyTheme('dark');
+let savedLang = 'ar', savedTheme = 'dark';
+try{ savedLang = localStorage.getItem('smartcalc_lang') || 'ar'; } catch(e){}
+try{ savedTheme = localStorage.getItem('smartcalc_theme') || 'dark'; } catch(e){}
+applyLanguage(savedLang, true);
+applyTheme(savedTheme, true);
 renderHistory();
 
 // ---------- access gate ----------
@@ -1753,9 +1770,8 @@ function clearSession(){ try{ localStorage.removeItem(SESSION_KEY); } catch(e){}
 function enterApp(match){
   document.getElementById('gate-screen').style.display = 'none';
   document.getElementById('app-content').style.display = 'block';
-  const badge = document.getElementById('sub-expiry-badge');
-  badge.textContent = `${t('sub_expiry_prefix')} ${match.expires}`;
-  badge.style.display = 'block';
+  currentExpiryDate = match.expires;
+  updateExpiryBadge();
   saveSession(match);
 }
 
