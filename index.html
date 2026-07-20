@@ -81,13 +81,7 @@
 
   /* ---------- header ---------- */
   .topbar{ display:flex; align-items:center; gap:12px; padding:4px 4px 20px; }
-  .logo-mark{
-    width:44px; height:44px; border-radius:13px; flex:0 0 auto;
-    background:linear-gradient(135deg, var(--accent), #1AA684 60%, var(--accent-2));
-    display:flex; align-items:center; justify-content:center;
-    font-family:'IBM Plex Mono', monospace; font-weight:700; font-size:16px; color:#06251D;
-    box-shadow:0 6px 20px rgba(34,211,170,.35);
-  }
+  .logo-mark{ height:38px; width:auto; flex:0 0 auto; display:block; }
   .topbar .title-block{ flex:1; min-width:0; }
   .topbar h1{ font-size:21px; font-weight:700; margin:0; color:var(--text); letter-spacing:-.2px; }
   .topbar p{ font-size:12px; margin:2px 0 0; color:var(--text-dim); font-weight:500; }
@@ -267,7 +261,9 @@
   .modal-box{ background:var(--surface-solid); border:1px solid var(--border); width:100%; max-width:560px; max-height:75vh; border-radius:20px 20px 0 0; padding:22px; overflow-y:auto; }
   .modal-box h2{ font-size:17px; margin:0 0 4px; color:var(--text); font-weight:700; }
   .modal-close{ float:left; background:var(--surface); border:1px solid var(--border); border-radius:50%; width:30px; height:30px; font-size:15px; cursor:pointer; color:var(--text); }
-  .hist-item{ background:var(--surface); border:1px solid var(--border); border-right:3px solid var(--accent-2); border-radius:12px; padding:11px 13px; margin-top:10px; }
+  .hist-item{ background:var(--surface); border:1px solid var(--border); border-right:3px solid var(--accent-2); border-radius:12px; padding:11px 13px; margin-top:10px; cursor:pointer; transition:background .15s ease, border-color .15s ease; }
+  .hist-item:hover{ background:var(--accent-soft); border-color:var(--accent); }
+  .hist-item:active{ filter:brightness(0.95); }
   html[dir="ltr"] .hist-item{ border-right:1px solid var(--border); border-left:3px solid var(--accent-2); }
   .hist-item .h-type{ font-size:10.5px; color:var(--accent-2); font-family:'IBM Plex Mono',monospace; font-weight:600; }
   .hist-item .h-text{ font-size:12.5px; margin-top:4px; color:var(--text); }
@@ -298,8 +294,7 @@
       </div>
       <button class="theme-toggle">🌙</button>
     </div>
-    <div class="logo-mark" style="margin:0 auto 14px;">SC</div>
-    <h2 style="text-align:center; font-size:19px; margin:0 0 4px;">Smart Calc</h2>
+    <img class="logo-mark" src="./logo-mark.png" alt="Smart Calc" style="height:56px; margin:0 auto 16px; display:block;">
     <p class="section-sub" style="text-align:center;" data-i18n="gate_sub">دخول مخصص للمشتركين — اكتب اسمك والكود اللي معاك</p>
     <p class="info-msg" id="gate-loading" style="display:block; text-align:center;" data-i18n="gate_checking_session">جاري التحقق من جلستك...</p>
     <div id="gate-form" style="display:none;">
@@ -324,6 +319,7 @@
   <div class="modal-box">
     <button class="modal-close" id="history-close">✕</button>
     <h2 data-i18n="history_title">سجل العمليات</h2>
+    <p class="section-sub" data-i18n="history_hint">دوس على أي عملية عشان ترجعلها على الآلة تاني</p>
     <div id="history-list"></div>
     <button class="clear-hist" id="history-clear" data-i18n="history_clear">امسح السجل</button>
   </div>
@@ -331,11 +327,11 @@
 
 <div class="app">
   <div class="topbar">
-    <div class="logo-mark">SC</div>
+    <img class="logo-mark" src="./logo-mark.png" alt="Smart Calc">
     <div class="title-block">
-      <h1>Smart Calc</h1>
       <p data-i18n="h_tagline">كل أدواتك المالية في مكان واحد</p>
-      <p id="sub-expiry-badge" style="display:none; font-size:10px; color:var(--accent); margin-top:3px; font-weight:600;"></p>
+      <p id="user-name-badge" style="display:none; font-size:11.5px; color:var(--text); margin-top:4px; font-weight:700;"></p>
+      <p id="sub-expiry-badge" style="display:none; font-size:10px; color:var(--accent); margin-top:3px; font-weight:600; line-height:1.6;"></p>
     </div>
     <div class="top-controls">
       <div class="lang-toggle">
@@ -872,13 +868,15 @@ const translations = {
     date_out_diff:'الفرق بين التاريخين', date_out_age:'العمر', date_out_add:'التاريخ بعد الإضافة', date_out_sub:'التاريخ بعد الطرح', date_out_workdays:'عدد أيام العمل',
     footer_note:'الأرقام بتتقرب لأقرب رقمين عشريين',
     history_title:'سجل العمليات', history_clear:'امسح السجل', history_empty:'لسه مفيش عمليات محفوظة في السجل.',
+    history_hint:'دوس على أي عملية عشان ترجعلها على الآلة تاني',
     gate_sub:'دخول مخصص للمشتركين — اكتب اسمك والكود اللي معاك', gate_checking_session:'جاري التحقق من جلستك...',
     gate_lbl_name:'الاسم', gate_lbl_code:'كود الدخول', gate_ph_name:'اسمك زي ما اتبعتلك', gate_ph_code:'الكود الخاص بيك',
     gate_btn_submit:'دخول', gate_checking:'جاري التحقق...',
     gate_note:'محتاج اتصال بالإنترنت وقت الدخول للتحقق من صلاحية اشتراكك.',
     gate_err_required:'من فضلك اكتب الاسم والكود.', gate_err_invalid:'الاسم أو الكود مش صحيح.',
     gate_err_expired:'اشتراكك انتهى بتاريخ', gate_err_network:'تعذر التحقق من بيانات الدخول. تأكد من الاتصال بالإنترنت وحاول تاني.',
-    sub_expiry_prefix:'اشتراكك ساري لغاية',
+    sub_expiry_prefix:'تاريخ انتهاء الاشتراك',
+    user_name_prefix:'👤',
     copyright_line:'جميع الحقوق محفوظة © Ahmed Abd-Elrahman - مصر - 2026',
     options_title:'خيارات', install_btn:'📲 ثبّت التطبيق على الشاشة الرئيسية',
     ios_install_note:'على آيفون: دوس على زرار المشاركة ⬆️ في المتصفح، واختار "إضافة إلى الشاشة الرئيسية".',
@@ -981,13 +979,15 @@ const translations = {
     date_out_diff:'Difference between dates', date_out_age:'Age', date_out_add:'Date after adding', date_out_sub:'Date after subtracting', date_out_workdays:'Number of working days',
     footer_note:'Numbers are rounded to the nearest two decimal places',
     history_title:'History', history_clear:'Clear history', history_empty:'No saved calculations yet.',
+    history_hint:'Tap any entry to load it back into the calculator',
     gate_sub:'Subscriber login — enter your name and access code', gate_checking_session:'Checking your session...',
     gate_lbl_name:'Name', gate_lbl_code:'Access code', gate_ph_name:'Your name as given to you', gate_ph_code:'Your access code',
     gate_btn_submit:'Log in', gate_checking:'Checking...',
     gate_note:'An internet connection is needed at login to verify your subscription.',
     gate_err_required:'Please enter your name and code.', gate_err_invalid:'Name or code is incorrect.',
     gate_err_expired:'Your subscription expired on', gate_err_network:'Could not verify your login. Check your internet connection and try again.',
-    sub_expiry_prefix:'Your subscription is valid until',
+    sub_expiry_prefix:'Subscription expiry date',
+    user_name_prefix:'👤',
     copyright_line:'All rights reserved © Ahmed Abd-Elrahman - Egypt - 2026',
     options_title:'Options', install_btn:'📲 Install app to home screen',
     ios_install_note:'On iPhone: tap the Share button ⬆️ in your browser, then choose "Add to Home Screen".',
@@ -997,13 +997,19 @@ const translations = {
 let currentLang = 'ar';
 let currentTheme = 'dark';
 let currentExpiryDate = null;
+let currentUserName = null;
 function t(key){ return (translations[currentLang] && translations[currentLang][key]!==undefined) ? translations[currentLang][key] : key; }
 
 function updateExpiryBadge(){
   const badge = document.getElementById('sub-expiry-badge');
   if(currentExpiryDate){
-    badge.textContent = `${t('sub_expiry_prefix')} ${currentExpiryDate}`;
+    badge.innerHTML = `${t('sub_expiry_prefix')}<br>${currentExpiryDate}`;
     badge.style.display = 'block';
+  }
+  const nameBadge = document.getElementById('user-name-badge');
+  if(currentUserName){
+    nameBadge.textContent = `${t('user_name_prefix')} ${currentUserName}`;
+    nameBadge.style.display = 'block';
   }
 }
 
@@ -1055,15 +1061,137 @@ function downloadCSV(filename, rows){
   document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 
-// ---------- history ----------
+// ---------- history (persistent + clickable to restore) ----------
+const HISTORY_KEY = 'smartcalc_history';
 let history = [];
-function addHistory(type, text){ history.unshift({type,text,time:nowStr()}); renderHistory(); }
+function saveHistoryToStorage(){ try{ localStorage.setItem(HISTORY_KEY, JSON.stringify(history)); } catch(e){} }
+function loadHistoryFromStorage(){
+  try{
+    const raw = localStorage.getItem(HISTORY_KEY);
+    if(raw) history = JSON.parse(raw);
+  } catch(e){ history = []; }
+}
+function addHistory(type, text, restoreData){
+  history.unshift({ type, text, time: nowStr(), restore: restoreData || null });
+  if(history.length > 200) history = history.slice(0, 200);
+  saveHistoryToStorage();
+  renderHistory();
+}
 function renderHistory(){
   const badge=document.getElementById('history-badge'), list=document.getElementById('history-list');
   badge.textContent = history.length; badge.style.display = history.length>0?'flex':'none';
   if(history.length===0){ list.innerHTML = `<p class="empty-hist">${t('history_empty')}</p>`; return; }
-  list.innerHTML = history.map(h=>`<div class="hist-item"><div class="h-type">${h.type}</div><div class="h-text">${h.text}</div><div class="h-time">${h.time}</div></div>`).join('');
+  list.innerHTML = history.map((h,i)=>`<div class="hist-item" data-idx="${i}"><div class="h-type">${h.type}</div><div class="h-text">${h.text}</div><div class="h-time">${h.time}</div></div>`).join('');
+  list.querySelectorAll('.hist-item').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const idx = parseInt(el.getAttribute('data-idx'), 10);
+      restoreHistoryItem(history[idx]);
+    });
+  });
 }
+function switchToTab(tabId){
+  document.querySelectorAll('.tab').forEach(tb=>tb.classList.toggle('active', tb.dataset.tab===tabId));
+  document.querySelectorAll('.panel').forEach(p=>p.style.display = (p.id===tabId ? 'block':'none'));
+}
+function setVal(id, val){ if(val!==undefined && val!==null){ const el=document.getElementById(id); if(el) el.value = val; } }
+
+function restoreHistoryItem(entry){
+  const r = entry && entry.restore;
+  if(!r) return;
+  document.getElementById('history-modal').classList.remove('open');
+  switchToTab(r.tab);
+
+  if(r.tab==='pct'){
+    setPctMode(r.mode);
+    setVal('pct-number', r.number); setVal('pct-percent', r.percent); setVal('pct-result', r.result);
+    computePct();
+
+  } else if(r.tab==='comp'){
+    compIsCompound = !!r.compound;
+    compModeCompound.classList.toggle('active', compIsCompound);
+    compModeSimple.classList.toggle('active', !compIsCompound);
+    setVal('comp-base', r.base); setVal('comp-percent', r.percent); setVal('comp-days', r.days);
+    document.getElementById('comp-calc').click();
+
+  } else if(r.tab==='grow'){
+    growTarget = r.gm;
+    growModeBtns.forEach(x=>x.classList.toggle('active', x.dataset.gm===r.gm));
+    Object.keys(growPanels).forEach(k=> growPanels[k].style.display = (k===r.gm ? 'block':'none'));
+    if(r.gm==='lumpsum'){
+      setVal('gl-amount', r.amount); setVal('gl-rate', r.rate); setVal('gl-rate-freq', r.rateFreq);
+      setVal('gl-duration', r.duration); setVal('gl-duration-unit', r.durationUnit);
+      glCompound = r.compound!==false;
+      document.getElementById('gl-mode-compound').classList.toggle('active', glCompound);
+      document.getElementById('gl-mode-simple').classList.toggle('active', !glCompound);
+    } else if(r.gm==='recurring'){
+      setVal('gr-deposit', r.deposit); setVal('gr-deposit-freq', r.depositFreq);
+      setVal('gr-annual-rate', r.annualRate); setVal('gr-duration', r.duration); setVal('gr-duration-unit', r.durationUnit);
+    } else if(r.gm==='roi'){
+      setVal('groi-initial', r.initial); setVal('groi-final', r.final);
+      setVal('groi-duration', r.duration); setVal('groi-duration-unit', r.durationUnit);
+    } else if(r.gm==='combo'){
+      setVal('gc-lumpsum', r.lumpsum); setVal('gc-monthly', r.monthly); setVal('gc-annual-rate', r.annualRate);
+      setVal('gc-freq', r.freq); setVal('gc-duration', r.duration); setVal('gc-duration-unit', r.durationUnit);
+    }
+    document.getElementById('grow-calc').click();
+
+  } else if(r.tab==='pricing'){
+    pricingModeBtns.forEach(x=>x.classList.toggle('active', x.dataset.prm===r.prm));
+    Object.keys(pricingPanels).forEach(k=> pricingPanels[k].style.display = (k===r.prm ? 'block':'none'));
+    if(r.prm==='discount'){
+      discIsDown = !!r.isDown;
+      discModeDown.classList.toggle('active', discIsDown);
+      discModeUp.classList.toggle('active', !discIsDown);
+      setDiscMode(r.target);
+      setVal('disc-original', r.original); setVal('disc-percent', r.percent); setVal('disc-finalprice', r.finalprice);
+      computeDisc();
+    } else if(r.prm==='tax'){
+      taxIsAdd = !!r.isAdd;
+      document.getElementById('tax-mode-add').classList.toggle('active', taxIsAdd);
+      document.getElementById('tax-mode-remove').classList.toggle('active', !taxIsAdd);
+      setVal('tax-price', r.price); setVal('tax-rate', r.rate);
+      document.getElementById('tax-calc').click();
+    } else if(r.prm==='margin'){
+      setVal('pm-cost', r.cost); setVal('pm-price', r.price);
+      document.getElementById('pm-calc').click();
+    }
+
+  } else if(r.tab==='zakat'){
+    zTarget = r.ztarget;
+    zModeBtns.forEach(x=>x.classList.toggle('active', x.dataset.ztarget===r.ztarget));
+    Object.keys(zakatPanels).forEach(k=> zakatPanels[k].style.display = (k===r.ztarget ? 'block':'none'));
+    setVal('zg-weight', r.gweight); setVal('zg-price', r.gprice);
+    setVal('zs-weight', r.sweight); setVal('zs-price', r.sprice);
+    setVal('zm-amount', r.mamount); setVal('zm-silverprice', r.msilverprice);
+    document.getElementById('zakat-calc').click();
+
+  } else if(r.tab==='loan'){
+    setVal('loan-amount', r.amount); setVal('loan-rate', r.rate); setVal('loan-years', r.years);
+    document.getElementById('loan-calc').click();
+    if(r.compare){
+      if(!compareOpen){ compareToggle.click(); }
+      setVal('loan2-amount', r.amount2); setVal('loan2-rate', r.rate2); setVal('loan2-years', r.years2);
+      document.getElementById('loan2-calc').click();
+    }
+
+  } else if(r.tab==='currency'){
+    setVal('cur-amount', r.amount);
+    if(r.from) curFrom.value = r.from;
+    if(r.to) curTo.value = r.to;
+    document.getElementById('cur-calc').click();
+
+  } else if(r.tab==='dates'){
+    dateTarget = r.dm;
+    dateModeBtns.forEach(x=>x.classList.toggle('active', x.dataset.dm===r.dm));
+    Object.keys(datePanels).forEach(k=> datePanels[k].style.display = (k===r.dm ? 'block':'none'));
+    setVal('dd-first', r.first); setVal('dd-second', r.second);
+    setVal('da-birth', r.birth);
+    setVal('dadd-base', r.base); setVal('dadd-days', r.days); setVal('dadd-op', r.op);
+    setVal('dw-first', r.wfirst); setVal('dw-second', r.wsecond);
+    document.getElementById('date-calc').click();
+  }
+}
+
 document.getElementById('history-open').addEventListener('click', ()=>document.getElementById('history-modal').classList.add('open'));
 document.getElementById('history-close').addEventListener('click', ()=>document.getElementById('history-modal').classList.remove('open'));
 document.getElementById('history-modal').addEventListener('click', (e)=>{ if(e.target.id==='history-modal') e.currentTarget.classList.remove('open'); });
@@ -1096,6 +1224,7 @@ if(isIOS && !isStandalone){
 document.getElementById('logout-btn').addEventListener('click', ()=>{
   clearSession();
   currentExpiryDate = null;
+  currentUserName = null;
   document.getElementById('options-modal').classList.remove('open');
   document.getElementById('app-content').style.display = 'none';
   document.getElementById('gate-name').value = '';
@@ -1104,6 +1233,7 @@ document.getElementById('logout-btn').addEventListener('click', ()=>{
   document.getElementById('gate-form').style.display = 'block';
   document.getElementById('gate-screen').style.display = 'block';
   document.getElementById('sub-expiry-badge').style.display = 'none';
+  document.getElementById('user-name-badge').style.display = 'none';
 });
 
 if('serviceWorker' in navigator){
@@ -1111,7 +1241,7 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.register('./sw.js').catch(()=>{ /* التثبيت هيشتغل لحد ما بدون service worker */ });
   });
 }
-document.getElementById('history-clear').addEventListener('click', ()=>{ history=[]; renderHistory(); });
+document.getElementById('history-clear').addEventListener('click', ()=>{ history=[]; saveHistoryToStorage(); renderHistory(); });
 
 // ---------- tabs ----------
 const tabs = document.querySelectorAll('.tab');
@@ -1179,7 +1309,9 @@ function computePct(){
 }
 function showPctError(){ pctError.style.display='block'; pctReceipt.style.display='none'; pctSave.style.display='none'; }
 [pctNumber,pctPercent,pctResult].forEach(inp=>inp.addEventListener('input', computePct));
-pctSave.addEventListener('click', ()=>addHistory(t('tab_pct'), pctLastText));
+pctSave.addEventListener('click', ()=>addHistory(t('tab_pct'), pctLastText, {
+  tab:'pct', mode:pctTarget, number:pctNumber.value, percent:pctPercent.value, result:pctResult.value
+}));
 setPctMode('result');
 
 // ================= COMPOUND =================
@@ -1206,7 +1338,9 @@ document.getElementById('comp-calc').addEventListener('click', ()=>{
   document.getElementById('comp-final').textContent=fmt(value);
   document.getElementById('comp-total-increase').textContent=fmt(totalIncrease);
   summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
-  saveBtn.onclick=()=>addHistory(t('tab_comp'), `${t('comp_lbl_base')}: ${fmt(base)} | ${t('pct_lbl_percent')}: ${fmt(percent)}% | ${t('th_day')}: ${days} | ${t('comp_sum_final')}: ${fmt(value)}`);
+  saveBtn.onclick=()=>addHistory(t('tab_comp'), `${t('comp_lbl_base')}: ${fmt(base)} | ${t('pct_lbl_percent')}: ${fmt(percent)}% | ${t('th_day')}: ${days} | ${t('comp_sum_final')}: ${fmt(value)}`, {
+    tab:'comp', compound:compIsCompound, base:document.getElementById('comp-base').value, percent:document.getElementById('comp-percent').value, days:document.getElementById('comp-days').value
+  });
 });
 document.getElementById('comp-export').addEventListener('click', ()=>{ if(compRows.length) downloadCSV('compound.csv', compRows); });
 
@@ -1315,7 +1449,10 @@ document.getElementById('grow-calc').addEventListener('click', ()=>{
       <div class="summary-card"><div class="s-label">${t('gl_sum_periods')}</div><div class="s-value">${totalPeriods}</div></div>
     `;
     summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
-    saveBtn.onclick = ()=> addHistory(t('grow_mode_lumpsum'), `${t('gl_lbl_amount')}: ${fmt(amount)} | ${t('gl_lbl_rate')}: ${fmt(rate)}% | ${t('gl_sum_periods')}: ${totalPeriods} | ${t('gl_sum_final')}: ${fmt(value)} | ${t('gl_sum_profit')}: ${fmt(finalProfit)}`);
+    saveBtn.onclick = ()=> addHistory(t('grow_mode_lumpsum'), `${t('gl_lbl_amount')}: ${fmt(amount)} | ${t('gl_lbl_rate')}: ${fmt(rate)}% | ${t('gl_sum_periods')}: ${totalPeriods} | ${t('gl_sum_final')}: ${fmt(value)} | ${t('gl_sum_profit')}: ${fmt(finalProfit)}`, {
+      tab:'grow', gm:'lumpsum', amount, rate, rateFreq:document.getElementById('gl-rate-freq').value,
+      duration:durationVal, durationUnit:durationUnitDays, compound:glCompound
+    });
 
   } else if(growTarget==='recurring'){
     const deposit = toNum(document.getElementById('gr-deposit').value);
@@ -1353,7 +1490,10 @@ document.getElementById('grow-calc').addEventListener('click', ()=>{
       <div class="summary-card" style="grid-column:1/-1;"><div class="s-label">${t('gr_sum_profit')}</div><div class="s-value">${fmt(finalProfit)}</div></div>
     `;
     summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
-    saveBtn.onclick = ()=> addHistory(t('grow_mode_recurring'), `${t('gr_lbl_deposit')}: ${fmt(deposit)} | ${t('gr_lbl_annual_rate')}: ${fmt(annualRate)}% | ${t('gl_sum_periods')}: ${n} | ${t('gr_sum_final')}: ${fmt(balance)} | ${t('gr_sum_profit')}: ${fmt(finalProfit)}`);
+    saveBtn.onclick = ()=> addHistory(t('grow_mode_recurring'), `${t('gr_lbl_deposit')}: ${fmt(deposit)} | ${t('gr_lbl_annual_rate')}: ${fmt(annualRate)}% | ${t('gl_sum_periods')}: ${n} | ${t('gr_sum_final')}: ${fmt(balance)} | ${t('gr_sum_profit')}: ${fmt(finalProfit)}`, {
+      tab:'grow', gm:'recurring', deposit, depositFreq:document.getElementById('gr-deposit-freq').value,
+      annualRate, duration:durationVal, durationUnit:durationUnitDays
+    });
 
   } else if(growTarget==='roi'){
     const initial = toNum(document.getElementById('groi-initial').value);
@@ -1376,7 +1516,9 @@ document.getElementById('grow-calc').addEventListener('click', ()=>{
       ${cagrHtml}
     `;
     summaryEl.style.display='grid'; saveBtn.style.display='block';
-    saveBtn.onclick = ()=> addHistory(t('grow_mode_roi'), `${t('groi_lbl_initial')}: ${fmt(initial)} | ${t('groi_lbl_final')}: ${fmt(final)} | ${t('groi_sum_profit')}: ${fmt(profit)} | ROI: ${fmt(totalROI)}%${cagrText}`);
+    saveBtn.onclick = ()=> addHistory(t('grow_mode_roi'), `${t('groi_lbl_initial')}: ${fmt(initial)} | ${t('groi_lbl_final')}: ${fmt(final)} | ${t('groi_sum_profit')}: ${fmt(profit)} | ROI: ${fmt(totalROI)}%${cagrText}`, {
+      tab:'grow', gm:'roi', initial, final, duration:durationVal, durationUnit:durationUnitDays
+    });
 
   } else if(growTarget==='combo'){
     const lumpsum = toNum(document.getElementById('gc-lumpsum').value) || 0;
@@ -1434,7 +1576,9 @@ document.getElementById('grow-calc').addEventListener('click', ()=>{
     document.querySelectorAll('#gc-view-toggle button').forEach(b=>b.classList.toggle('active', b.dataset.view==='daily'));
     renderGcTable('daily');
     tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
-    saveBtn.onclick = ()=> addHistory(t('grow_mode_combo'), `${t('gc_lbl_lumpsum')}: ${fmt(lumpsum)} | ${t('gc_lbl_monthly')}: ${fmt(monthly)} | ${t('gc_lbl_annual_rate')}: ${fmt(annualRate)}% | ${t('gl_sum_final')}: ${fmt(finalBalance)} | ${t('gl_sum_profit')}: ${fmt(finalProfit)}`);
+    saveBtn.onclick = ()=> addHistory(t('grow_mode_combo'), `${t('gc_lbl_lumpsum')}: ${fmt(lumpsum)} | ${t('gc_lbl_monthly')}: ${fmt(monthly)} | ${t('gc_lbl_annual_rate')}: ${fmt(annualRate)}% | ${t('gl_sum_final')}: ${fmt(finalBalance)} | ${t('gl_sum_profit')}: ${fmt(finalProfit)}`, {
+      tab:'grow', gm:'combo', lumpsum, monthly, annualRate, freq, duration:durationVal, durationUnit:durationUnitDays
+    });
   }
 });
 document.getElementById('grow-export').addEventListener('click', ()=>{ if(growRows.length) downloadCSV('invest_save.csv', growRows); });
@@ -1488,7 +1632,10 @@ function computeDisc(){
   } else { discReceipt.style.display='none'; discSave.style.display='none'; }
 }
 [discOriginal,discPercent,discFinalPrice].forEach(inp=>inp.addEventListener('input', computeDisc));
-discSave.addEventListener('click', ()=>addHistory(t('pricing_mode_discount'), discLastText));
+discSave.addEventListener('click', ()=>addHistory(t('pricing_mode_discount'), discLastText, {
+  tab:'pricing', prm:'discount', isDown:discIsDown, target:discTarget,
+  original:discOriginal.value, percent:discPercent.value, finalprice:discFinalPrice.value
+}));
 setDiscMode('final');
 
 let taxIsAdd=true;
@@ -1509,7 +1656,9 @@ document.getElementById('tax-calc').addEventListener('click', ()=>{
   summaryEl.style.display='grid'; saveBtn.style.display='block';
   taxLastText=`${taxIsAdd?t('tax_mode_add'):t('tax_mode_remove')} ${fmt(rate)}% | ${t('tax_sum_before')}: ${fmt(before)} | ${t('tax_sum_amount')}: ${fmt(taxAmount)} | ${t('tax_sum_after')}: ${fmt(after)}`;
 });
-document.getElementById('tax-save').addEventListener('click', ()=>addHistory(t('pricing_mode_tax'), taxLastText));
+document.getElementById('tax-save').addEventListener('click', ()=>addHistory(t('pricing_mode_tax'), taxLastText, {
+  tab:'pricing', prm:'tax', isAdd:taxIsAdd, price:document.getElementById('tax-price').value, rate:document.getElementById('tax-rate').value
+}));
 
 let pmLastText='';
 document.getElementById('pm-calc').addEventListener('click', ()=>{
@@ -1524,7 +1673,9 @@ document.getElementById('pm-calc').addEventListener('click', ()=>{
   summaryEl.style.display='grid'; saveBtn.style.display='block';
   pmLastText=`${t('pm_lbl_cost')}: ${fmt(cost)} | ${t('pm_lbl_price')}: ${fmt(price)} | ${t('pm_sum_profit')}: ${fmt(profit)} | ${t('pm_sum_margin')}: ${fmt(margin)}% | ${t('pm_sum_markup')}: ${fmt(markup)}%`;
 });
-document.getElementById('pm-save').addEventListener('click', ()=>addHistory(t('pricing_mode_margin'), pmLastText));
+document.getElementById('pm-save').addEventListener('click', ()=>addHistory(t('pricing_mode_margin'), pmLastText, {
+  tab:'pricing', prm:'margin', cost:document.getElementById('pm-cost').value, price:document.getElementById('pm-price').value
+}));
 
 // ================= ZAKAT =================
 const NISAB_GOLD_G=85, NISAB_SILVER_G=595;
@@ -1572,7 +1723,12 @@ document.getElementById('zakat-calc').addEventListener('click', ()=>{
   }
   saveBtn.style.display='block';
 });
-document.getElementById('zakat-save').addEventListener('click', ()=>addHistory(t('tab_zakat'), zakatLastText));
+document.getElementById('zakat-save').addEventListener('click', ()=>addHistory(t('tab_zakat'), zakatLastText, {
+  tab:'zakat', ztarget:zTarget,
+  gweight:document.getElementById('zg-weight').value, gprice:document.getElementById('zg-price').value,
+  sweight:document.getElementById('zs-weight').value, sprice:document.getElementById('zs-price').value,
+  mamount:document.getElementById('zm-amount').value, msilverprice:document.getElementById('zm-silverprice').value
+}));
 
 // ================= LOAN =================
 function computeLoan(amount, annualRate, years){
@@ -1611,7 +1767,9 @@ document.getElementById('loan-calc').addEventListener('click', ()=>{
   document.getElementById('loan-interest').textContent=fmt(result.totalInterest);
   document.getElementById('loan-total').textContent=fmt(amount+result.totalInterest);
   summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
-  saveBtn.onclick=()=>addHistory(t('tab_loan'), `${t('loan_lbl_amount')}: ${fmt(amount)} | ${t('loan_lbl_rate')}: ${fmt(annualRate)}% | ${t('loan_lbl_years')}: ${years} | ${t('loan_sum_monthly')}: ${fmt(result.monthlyPayment)} | ${t('loan_sum_count')}: ${result.n}`);
+  saveBtn.onclick=()=>addHistory(t('tab_loan'), `${t('loan_lbl_amount')}: ${fmt(amount)} | ${t('loan_lbl_rate')}: ${fmt(annualRate)}% | ${t('loan_lbl_years')}: ${years} | ${t('loan_sum_monthly')}: ${fmt(result.monthlyPayment)} | ${t('loan_sum_count')}: ${result.n}`, {
+    tab:'loan', amount, rate:annualRate, years
+  });
 });
 document.getElementById('loan-export').addEventListener('click', ()=>{ if(loanRows.length) downloadCSV('loan_schedule.csv', loanRows); });
 const compareToggle=document.getElementById('loan-compare-toggle'), compareFields=document.getElementById('loan-compare-fields');
@@ -1632,7 +1790,10 @@ document.getElementById('loan2-calc').addEventListener('click', ()=>{
   document.getElementById('loanc-interest1').textContent=fmt(r1.totalInterest);
   document.getElementById('loanc-interest2').textContent=fmt(r2.totalInterest);
   document.getElementById('loan-compare-summary').style.display='grid';
-  addHistory(t('loan_compare_title'), `${t('tab_loan')} 1: ${fmt(amount1)} (${fmt(r1.monthlyPayment)}) — ${t('tab_loan')} 2: ${fmt(amount2)} (${fmt(r2.monthlyPayment)})`);
+  addHistory(t('loan_compare_title'), `${t('tab_loan')} 1: ${fmt(amount1)} (${fmt(r1.monthlyPayment)}) — ${t('tab_loan')} 2: ${fmt(amount2)} (${fmt(r2.monthlyPayment)})`, {
+    tab:'loan', amount:amount1, rate:rate1, years:years1,
+    compare:true, amount2, rate2, years2
+  });
 });
 
 // ================= CURRENCY =================
@@ -1667,7 +1828,9 @@ document.getElementById('cur-calc').addEventListener('click', async ()=>{
     errorEl.textContent=t('cur_error'); errorEl.style.display='block';
   } finally { btn.disabled=false; btn.textContent=originalLabel; }
 });
-document.getElementById('cur-save').addEventListener('click', ()=>addHistory(t('tab_currency'), curLastText));
+document.getElementById('cur-save').addEventListener('click', ()=>addHistory(t('tab_currency'), curLastText, {
+  tab:'currency', amount:document.getElementById('cur-amount').value, from:curFrom.value, to:curTo.value
+}));
 
 // ================= DATES =================
 const dateModeBtns=document.querySelectorAll('#dates .mode-btn');
@@ -1727,7 +1890,13 @@ document.getElementById('date-calc').addEventListener('click', ()=>{
   document.getElementById('date-out-value').textContent=outValue;
   receiptEl.style.display='block'; saveBtn.style.display='block';
 });
-document.getElementById('date-save').addEventListener('click', ()=>addHistory(t('tab_dates'), dateLastText));
+document.getElementById('date-save').addEventListener('click', ()=>addHistory(t('tab_dates'), dateLastText, {
+  tab:'dates', dm:dateTarget,
+  first:document.getElementById('dd-first').value, second:document.getElementById('dd-second').value,
+  birth:document.getElementById('da-birth').value,
+  base:document.getElementById('dadd-base').value, days:document.getElementById('dadd-days').value, op:document.getElementById('dadd-op').value,
+  wfirst:document.getElementById('dw-first').value, wsecond:document.getElementById('dw-second').value
+}));
 
 // ---------- init ----------
 let savedLang = 'ar', savedTheme = 'dark';
@@ -1735,6 +1904,7 @@ try{ savedLang = localStorage.getItem('smartcalc_lang') || 'ar'; } catch(e){}
 try{ savedTheme = localStorage.getItem('smartcalc_theme') || 'dark'; } catch(e){}
 applyLanguage(savedLang, true);
 applyTheme(savedTheme, true);
+loadHistoryFromStorage();
 renderHistory();
 
 // ---------- access gate ----------
@@ -1742,6 +1912,58 @@ renderHistory();
 const ACCESS_LIST_URL = './access.json';
 const SESSION_KEY = 'smartcalc_session';
 const INACTIVITY_LIMIT_MS = 30 * 24 * 60 * 60 * 1000; // 30 يوم بدون استخدام = خروج تلقائي
+
+// عدّل الرابط ده بعد ما تعمل Google Apps Script Web App (شرح الخطوات في الرسالة).
+// سيبه فاضي '' لو مش عايز تسجيل الدخول يتبعت لحد الآن — الابلكيشن هيشتغل عادي من غيره.
+const LOG_ENDPOINT_URL = '';
+// نفس القيمة لازم تتحط في متغير SECRET_KEY جوه كود Apps Script. أي طلب من غير المفتاح ده، السكريبت هيرفضه.
+const LOG_SECRET_KEY = 'GHAYYAR_EL_KOD_DA';
+
+// ---------- device identity (تمييز نفس الجهاز عن جهاز مختلف) ----------
+function getDeviceId(){
+  const KEY = 'smartcalc_device_id';
+  try{
+    let id = localStorage.getItem(KEY);
+    if(!id){
+      id = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('dev-' + Date.now() + '-' + Math.random().toString(36).slice(2,10));
+      localStorage.setItem(KEY, id);
+    }
+    return id;
+  } catch(e){
+    return 'unknown-device'; // مفيش تخزين متاح (تصفح خاص مثلاً)
+  }
+}
+function getDeviceInfo(){
+  const ua = navigator.userAgent || '';
+  let os = 'غير معروف';
+  if(/android/i.test(ua)) os = 'Android';
+  else if(/iphone|ipad|ipod/i.test(ua)) os = 'iOS';
+  else if(/windows/i.test(ua)) os = 'Windows';
+  else if(/mac os/i.test(ua)) os = 'Mac';
+  else if(/linux/i.test(ua)) os = 'Linux';
+  let browser = 'غير معروف';
+  if(/edg\//i.test(ua)) browser = 'Edge';
+  else if(/chrome\//i.test(ua)) browser = 'Chrome';
+  else if(/safari\//i.test(ua) && !/chrome/i.test(ua)) browser = 'Safari';
+  else if(/firefox\//i.test(ua)) browser = 'Firefox';
+  return { os, browser };
+}
+function logLoginEvent(match, entryType){
+  if(!LOG_ENDPOINT_URL) return; // التسجيل متوقف لحد ما يتحط رابط
+  try{
+    const info = getDeviceInfo();
+    const payload = {
+      secret: LOG_SECRET_KEY,
+      name: match.name,
+      entryType: entryType, // 'login' = دخول بالاسم والكود، 'auto' = دخول تلقائي (جلسة محفوظة)
+      deviceId: getDeviceId(),
+      os: info.os,
+      browser: info.browser,
+      time: new Date().toISOString()
+    };
+    fetch(LOG_ENDPOINT_URL, { method:'POST', mode:'no-cors', body: JSON.stringify(payload) });
+  } catch(e){ /* التسجيل مش أولوية، ما نوقفش الابلكيشن بسببه */ }
+}
 
 async function getTrustedNow(){
   try{
@@ -1767,12 +1989,14 @@ function touchSession(){
 }
 function clearSession(){ try{ localStorage.removeItem(SESSION_KEY); } catch(e){} }
 
-function enterApp(match){
+function enterApp(match, entryType){
   document.getElementById('gate-screen').style.display = 'none';
   document.getElementById('app-content').style.display = 'block';
   currentExpiryDate = match.expires;
+  currentUserName = match.name;
   updateExpiryBadge();
   saveSession(match);
+  logLoginEvent(match, entryType || 'login');
 }
 
 async function attemptLogin(){
@@ -1864,7 +2088,7 @@ async function tryAutoLogin(){
       const now = await getTrustedNow();
       const expiry = new Date(match.expires + 'T23:59:59Z');
       if(now > expiry){ clearSession(); loadingEl.style.display='none'; formEl.style.display='block'; return; }
-      enterApp(match);
+      enterApp(match, 'auto');
       return;
     }
   } catch(e){ /* لا يوجد إنترنت — نكمل على الفحص الاحتياطي تحت */ }
@@ -1872,7 +2096,7 @@ async function tryAutoLogin(){
   // احتياطي بدون إنترنت: تحقق من الصلاحية بساعة الجهاز على الأقل
   const localExpiry = new Date(session.expires + 'T23:59:59Z');
   if(new Date() > localExpiry){ clearSession(); loadingEl.style.display='none'; formEl.style.display='block'; return; }
-  enterApp(session);
+  enterApp(session, 'auto-offline');
 }
 tryAutoLogin();
 </script>
