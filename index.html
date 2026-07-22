@@ -797,8 +797,8 @@
       <p class="section-sub" data-i18n="paper_sub">احسب سعر الفرخ الواحد من الطول والعرض والجرامية وسعر الطن.</p>
 
       <div class="row2">
-        <div class="field"><label data-i18n="paper_lbl_length">الطول (مم)</label><input type="number" id="paper-length" placeholder="700" inputmode="decimal"></div>
-        <div class="field"><label data-i18n="paper_lbl_width">العرض (مم)</label><input type="number" id="paper-width" placeholder="1000" inputmode="decimal"></div>
+        <div class="field"><label data-i18n="paper_lbl_length">الطول (سم)</label><input type="number" id="paper-length" placeholder="70" inputmode="decimal"></div>
+        <div class="field"><label data-i18n="paper_lbl_width">العرض (سم)</label><input type="number" id="paper-width" placeholder="100" inputmode="decimal"></div>
       </div>
       <div class="row2">
         <div class="field"><label data-i18n="paper_lbl_gsm">الجرامية (GSM)</label><input type="number" id="paper-gsm" placeholder="250" inputmode="decimal"></div>
@@ -816,7 +816,7 @@
       </div>
       <button class="btn-secondary" id="paper-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
       <button class="btn-secondary" id="paper-wallet" style="display:none;" data-i18n="btn_add_wallet">👛 ضيف للمحفظة</button>
-      <p class="disclaimer" data-i18n="paper_disclaimer">وزن الفرخ (جرام) = الطول × العرض × الجرامية ÷ 1,000,000 — وسعر الفرخ = وزن الفرخ × سعر الطن ÷ 1,000,000. كل المقاسات بالمليمتر.</p>
+      <p class="disclaimer" data-i18n="paper_disclaimer">أدخل الطول والعرض بالسنتيمتر وهيتحولوا تلقائيًا للمليمتر. وزن الفرخ (جرام) = الطول × العرض (بالمم) × الجرامية ÷ 1,000,000 — وسعر الفرخ = وزن الفرخ × سعر الطن ÷ 1,000,000.</p>
     </div>
 
     <div id="wallet" class="panel" data-keywords="محفظة مصاريف مرتب دخل ادخار استثمار wallet budget expenses" style="display:none;">
@@ -851,6 +851,7 @@
         <table><thead><tr><th data-i18n="wallet_th_date">التاريخ</th><th data-i18n="wallet_th_type">النوع</th><th data-i18n="wallet_th_category">الفئة</th><th data-i18n="wallet_th_amount">المبلغ</th><th data-i18n="wallet_th_note">ملاحظة</th><th></th></tr></thead><tbody id="wallet-tbody"></tbody></table>
       </div>
       <button class="btn-secondary" id="wallet-export" data-i18n="btn_export">⬇️ تصدير CSV</button>
+      <button class="btn-secondary" id="wallet-reset-btn" style="border-color:var(--danger); color:var(--danger);" data-i18n="wallet_reset_btn">🗑️ تصفير المحفظة</button>
       <p class="disclaimer" data-i18n="wallet_disclaimer">كل بيانات المحفظة بتتخزن على جهازك بس، ومحدش تاني بيشوفها.</p>
     </div>
 
@@ -985,6 +986,8 @@ const translations = {
     wallet_transactions_title:'كل العمليات',
     wallet_th_date:'التاريخ', wallet_th_type:'النوع', wallet_th_category:'الفئة', wallet_th_amount:'المبلغ', wallet_th_note:'ملاحظة',
     wallet_disclaimer:'كل بيانات المحفظة بتتخزن على جهازك بس، ومحدش تاني بيشوفها.',
+    wallet_reset_btn:'🗑️ تصفير المحفظة',
+    wallet_reset_confirm:'هل انت متأكد؟ هيتم مسح كل عمليات المحفظة نهائيًا ومفيش رجوع في الموضوع.',
     wallet_quick_title:'إضافة للمحفظة', wallet_quick_confirm:'تأكيد الإضافة',
     wallet_cat_salary:'المرتب', wallet_cat_extra_income:'دخل إضافي', wallet_cat_other_income:'دخل آخر',
     wallet_cat_food:'أكل ومشروبات', wallet_cat_transport:'مواصلات', wallet_cat_bills:'فواتير (كهرباء/مياه/غاز/إنترنت)',
@@ -993,10 +996,10 @@ const translations = {
     wallet_cat_zakat_donations:'زكاة وتبرعات', wallet_cat_installments:'أقساط والتزامات', wallet_cat_other_expense:'مصاريف أخرى',
     wallet_cat_saving:'ادخار', wallet_cat_investment:'استثمار',
     tab_paper:'سعر الورق', paper_title:'حاسبة سعر الورق', paper_sub:'احسب سعر الفرخ الواحد من الطول والعرض والجرامية وسعر الطن.',
-    paper_lbl_length:'الطول (مم)', paper_lbl_width:'العرض (مم)', paper_lbl_gsm:'الجرامية (GSM)',
+    paper_lbl_length:'الطول (سم)', paper_lbl_width:'العرض (سم)', paper_lbl_gsm:'الجرامية (GSM)',
     paper_lbl_ton_price:'سعر الطن (جنيه)', paper_lbl_qty:'عدد الأفرخ (اختياري)',
     paper_sum_sheet:'سعر الفرخ الواحد', paper_sum_weight:'وزن الفرخ (جرام)', paper_sum_total:'إجمالي السعر للكمية',
-    paper_disclaimer:'وزن الفرخ (جرام) = الطول × العرض × الجرامية ÷ 1,000,000 — وسعر الفرخ = وزن الفرخ × سعر الطن ÷ 1,000,000. كل المقاسات بالمليمتر.',
+    paper_disclaimer:'أدخل الطول والعرض بالسنتيمتر وهيتحولوا تلقائيًا للمليمتر. وزن الفرخ (جرام) = الطول × العرض (بالمم) × الجرامية ÷ 1,000,000 — وسعر الفرخ = وزن الفرخ × سعر الطن ÷ 1,000,000.',
     gate_sub:'دخول مخصص للمشتركين — اكتب اسمك والكود اللي معاك', gate_checking_session:'جاري التحقق من جلستك...',
     gate_lbl_name:'الاسم', gate_lbl_code:'كود الدخول', gate_ph_name:'اسمك زي ما اتبعتلك', gate_ph_code:'الكود الخاص بيك',
     gate_btn_submit:'دخول', gate_checking:'جاري التحقق...',
@@ -1128,6 +1131,8 @@ const translations = {
     wallet_transactions_title:'All transactions',
     wallet_th_date:'Date', wallet_th_type:'Type', wallet_th_category:'Category', wallet_th_amount:'Amount', wallet_th_note:'Note',
     wallet_disclaimer:'All wallet data is stored only on your device — no one else can see it.',
+    wallet_reset_btn:'🗑️ Reset wallet',
+    wallet_reset_confirm:'Are you sure? This will permanently delete all wallet transactions and cannot be undone.',
     wallet_quick_title:'Add to Wallet', wallet_quick_confirm:'Confirm add',
     wallet_cat_salary:'Salary', wallet_cat_extra_income:'Extra income', wallet_cat_other_income:'Other income',
     wallet_cat_food:'Food & drinks', wallet_cat_transport:'Transportation', wallet_cat_bills:'Bills (electricity/water/gas/internet)',
@@ -1136,10 +1141,10 @@ const translations = {
     wallet_cat_zakat_donations:'Zakat & donations', wallet_cat_installments:'Installments & obligations', wallet_cat_other_expense:'Other expenses',
     wallet_cat_saving:'Saving', wallet_cat_investment:'Investment',
     tab_paper:'Paper Price', paper_title:'Paper Price Calculator', paper_sub:'Calculate the price of a single sheet from length, width, GSM, and price per ton.',
-    paper_lbl_length:'Length (mm)', paper_lbl_width:'Width (mm)', paper_lbl_gsm:'Grammage (GSM)',
+    paper_lbl_length:'Length (cm)', paper_lbl_width:'Width (cm)', paper_lbl_gsm:'Grammage (GSM)',
     paper_lbl_ton_price:'Price per ton', paper_lbl_qty:'Number of sheets (optional)',
     paper_sum_sheet:'Price per sheet', paper_sum_weight:'Sheet weight (grams)', paper_sum_total:'Total price for quantity',
-    paper_disclaimer:'Sheet weight (g) = length × width × GSM ÷ 1,000,000 — sheet price = sheet weight × price per ton ÷ 1,000,000. All dimensions in millimeters.',
+    paper_disclaimer:'Enter length and width in centimeters — they are auto-converted to millimeters. Sheet weight (g) = length × width (mm) × GSM ÷ 1,000,000 — sheet price = sheet weight × price per ton ÷ 1,000,000.',
     gate_sub:'Subscriber login — enter your name and access code', gate_checking_session:'Checking your session...',
     gate_lbl_name:'Name', gate_lbl_code:'Access code', gate_ph_name:'Your name as given to you', gate_ph_code:'Your access code',
     gate_btn_submit:'Log in', gate_checking:'Checking...',
@@ -2152,18 +2157,19 @@ document.getElementById('date-save').addEventListener('click', ()=>addHistory(t(
 
 // ================= PAPER PRICE =================
 document.getElementById('paper-calc').addEventListener('click', ()=>{
-  const length = toNum(document.getElementById('paper-length').value);
-  const width = toNum(document.getElementById('paper-width').value);
+  const lengthCm = toNum(document.getElementById('paper-length').value);
+  const widthCm = toNum(document.getElementById('paper-width').value);
   const gsm = toNum(document.getElementById('paper-gsm').value);
   const tonPrice = toNum(document.getElementById('paper-ton-price').value);
   const qty = toNum(document.getElementById('paper-qty').value);
   const errorEl = document.getElementById('paper-error'), summaryEl = document.getElementById('paper-summary');
   const saveBtn = document.getElementById('paper-save'), walletBtn = document.getElementById('paper-wallet');
   const totalCard = document.getElementById('paper-total-card');
-  if(length===null||length<=0||width===null||width<=0||gsm===null||gsm<=0||tonPrice===null||tonPrice<=0){
+  if(lengthCm===null||lengthCm<=0||widthCm===null||widthCm<=0||gsm===null||gsm<=0||tonPrice===null||tonPrice<=0){
     errorEl.style.display='block'; summaryEl.style.display='none'; saveBtn.style.display='none'; walletBtn.style.display='none'; return;
   }
   errorEl.style.display='none';
+  const length = lengthCm*10, width = widthCm*10; // تحويل من سم لمم
   const sheetWeight = (length*width*gsm)/1000000;
   const sheetPrice = sheetWeight * tonPrice / 1000000;
   document.getElementById('paper-sheet-price').textContent = fmt(sheetPrice);
@@ -2177,9 +2183,9 @@ document.getElementById('paper-calc').addEventListener('click', ()=>{
     totalCard.style.display='none';
   }
   summaryEl.style.display='grid'; saveBtn.style.display='block'; walletBtn.style.display='block';
-  const logText = `${t('paper_lbl_length')}: ${fmt(length)} | ${t('paper_lbl_width')}: ${fmt(width)} | GSM: ${fmt(gsm)} | ${t('paper_sum_sheet')}: ${fmt(sheetPrice)}` + (totalPrice!==null ? ` | ${t('paper_sum_total')}: ${fmt(totalPrice)}` : '');
+  const logText = `${t('paper_lbl_length')}: ${fmt(lengthCm)} | ${t('paper_lbl_width')}: ${fmt(widthCm)} | GSM: ${fmt(gsm)} | ${t('paper_sum_sheet')}: ${fmt(sheetPrice)}` + (totalPrice!==null ? ` | ${t('paper_sum_total')}: ${fmt(totalPrice)}` : '');
   saveBtn.onclick = ()=> addHistory(t('tab_paper'), logText, {
-    tab:'paper', length, width, gsm, tonPrice, qty
+    tab:'paper', length:lengthCm, width:widthCm, gsm, tonPrice, qty
   });
   walletBtn.onclick = ()=> openWalletQuickAdd({ type:'expense', category:'other_expense', amount: totalPrice!==null?totalPrice:sheetPrice, note: logText });
 });
@@ -2287,6 +2293,14 @@ function renderWalletTable(){
 }
 function renderWallet(){ renderWalletSummary(); renderWalletBreakdown(); renderWalletTable(); }
 document.getElementById('wallet-export').addEventListener('click', ()=>{ if(walletRows.length) downloadCSV('wallet.csv', walletRows); });
+document.getElementById('wallet-reset-btn').addEventListener('click', ()=>{
+  if(walletTransactions.length===0) return;
+  if(confirm(t('wallet_reset_confirm'))){
+    walletTransactions = [];
+    saveWalletToStorage();
+    renderWallet();
+  }
+});
 
 // -- quick "add to wallet" modal used from every other tab --
 let walletQuickType = 'expense';
@@ -2317,6 +2331,19 @@ document.getElementById('wallet-quick-confirm').addEventListener('click', ()=>{
   if(amount===null || amount<=0 || !category) return;
   addWalletTransaction({ type: walletQuickType, category, amount, note, date: new Date().toISOString().split('T')[0] });
   document.getElementById('wallet-quick-modal').classList.remove('open');
+});
+
+// ---------- fix cursor jumping to start on number inputs in RTL ----------
+// متصفحات كتير بترجع المؤشر لأول الرقم بدل آخره في حقول type=number جوه صفحة RTL.
+// الحل: نحول النوع مؤقتًا لـ text وقت التركيز عشان نقدر نتحكم في مكان المؤشر، ونرجعه number تاني وقت الخروج من الخانة.
+document.querySelectorAll('input[type=number]').forEach(input=>{
+  input.addEventListener('focus', function(){
+    const self = this;
+    const len = self.value.length;
+    self.type = 'text';
+    requestAnimationFrame(()=>{ try{ self.setSelectionRange(len, len); } catch(e){} });
+  });
+  input.addEventListener('blur', function(){ this.type = 'number'; });
 });
 
 // ---------- init ----------
