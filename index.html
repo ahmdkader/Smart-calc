@@ -352,6 +352,23 @@
       <button class="btn-secondary" id="logout-btn" style="border-color:var(--danger); color:var(--danger); margin-top:16px;" data-i18n="logout_btn">🚪 تسجيل الخروج</button>
     </div>
   </div>
+
+  <div class="modal-overlay" id="wallet-quick-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="wallet-quick-close">✕</button>
+      <h2 data-i18n="wallet_quick_title">إضافة للمحفظة</h2>
+      <div class="mode-row">
+        <button class="mode-btn" data-qwtype="expense" data-i18n="wallet_type_expense">مصروف</button>
+        <button class="mode-btn" data-qwtype="income" data-i18n="wallet_type_income">دخل</button>
+        <button class="mode-btn" data-qwtype="saving" data-i18n="wallet_type_saving">ادخار</button>
+        <button class="mode-btn" data-qwtype="investment" data-i18n="wallet_type_investment">استثمار</button>
+      </div>
+      <div class="field"><label data-i18n="wallet_lbl_category">الفئة</label><select id="wallet-quick-category"></select></div>
+      <div class="field"><label data-i18n="wallet_lbl_amount">المبلغ</label><input type="number" id="wallet-quick-amount" inputmode="decimal"></div>
+      <div class="field"><label data-i18n="wallet_lbl_note">ملاحظة (اختياري)</label><input type="text" id="wallet-quick-note" data-i18n-placeholder="wallet_ph_note" placeholder="مثلاً: عشاء برة، فاتورة الكهرباء..."></div>
+      <button class="btn-primary" id="wallet-quick-confirm" data-i18n="wallet_quick_confirm">تأكيد الإضافة</button>
+    </div>
+  </div>
   <div class="search-wrap">
     <input type="text" id="tool-search" placeholder="دور على أداة... مثلاً: قروض، عملات، زكاة" data-i18n-placeholder="search_ph">
   </div>
@@ -365,6 +382,8 @@
     <button class="tab" data-tab="loan"><span class="ic">🏦</span><span data-i18n="tab_loan">القروض والأقساط</span></button>
     <button class="tab" data-tab="currency"><span class="ic">💱</span><span data-i18n="tab_currency">تحويل العملات</span></button>
     <button class="tab" data-tab="dates"><span class="ic">📅</span><span data-i18n="tab_dates">حاسبة التواريخ</span></button>
+    <button class="tab" data-tab="paper"><span class="ic">🧾</span><span data-i18n="tab_paper">سعر الورق</span></button>
+    <button class="tab" data-tab="wallet"><span class="ic">👛</span><span data-i18n="tab_wallet">المحفظة</span></button>
   </div>
 
   <div class="card">
@@ -390,6 +409,7 @@
         <div class="r-value" id="pct-out-value">—</div>
       </div>
       <button class="btn-secondary" id="pct-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <button class="btn-secondary" id="pct-wallet" style="display:none;" data-i18n="btn_add_wallet">👛 ضيف للمحفظة</button>
     </div>
 
     <!-- ============ TAB: COMPOUND ============ -->
@@ -420,6 +440,7 @@
       </div>
       <button class="btn-secondary" id="comp-export" style="display:none;" data-i18n="btn_export">⬇️ تصدير CSV</button>
       <button class="btn-secondary" id="comp-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <button class="btn-secondary" id="comp-wallet" style="display:none;" data-i18n="btn_add_wallet">👛 ضيف للمحفظة</button>
     </div>
 
     <!-- ============ TAB: GROW ============ -->
@@ -525,6 +546,7 @@
       </div>
       <button class="btn-secondary" id="grow-export" style="display:none;" data-i18n="btn_export">⬇️ تصدير CSV</button>
       <button class="btn-secondary" id="grow-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <button class="btn-secondary" id="grow-wallet" style="display:none;" data-i18n="btn_add_wallet">👛 ضيف للمحفظة</button>
       <p class="disclaimer" data-i18n="grow_disclaimer">الحسابات افتراضية بتفترض إن معدل العائد ثابت طول المدة، والعائد الفعلي للاستثمارات بيتغير حسب أداء السوق.</p>
     </div>
 
@@ -558,6 +580,7 @@
           <div class="r-value" id="disc-out-value">—</div>
         </div>
         <button class="btn-secondary" id="disc-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <button class="btn-secondary" id="disc-wallet" style="display:none;" data-i18n="btn_add_wallet">👛 ضيف للمحفظة</button>
       </div>
 
       <div id="pricing-tax" class="pricing-panel" style="display:none;">
@@ -580,6 +603,7 @@
           <div class="summary-card" style="grid-column:1/-1;"><div class="s-label" data-i18n="tax_sum_after">السعر شامل الضريبة</div><div class="s-value" id="tax-after">—</div></div>
         </div>
         <button class="btn-secondary" id="tax-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <button class="btn-secondary" id="tax-wallet" style="display:none;" data-i18n="btn_add_wallet">👛 ضيف للمحفظة</button>
       </div>
 
       <div id="pricing-margin" class="pricing-panel" style="display:none;">
@@ -595,6 +619,7 @@
           <div class="summary-card" style="grid-column:1/-1;"><div class="s-label" data-i18n="pm_sum_markup">نسبة الماركاپ Markup</div><div class="s-value" id="pm-markup">—</div></div>
         </div>
         <button class="btn-secondary" id="pm-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <button class="btn-secondary" id="pm-wallet" style="display:none;" data-i18n="btn_add_wallet">👛 ضيف للمحفظة</button>
       </div>
     </div>
 
@@ -641,6 +666,7 @@
       <div class="info-msg" id="zakat-below-nisab" style="display:none;" data-i18n="zakat_below">المبلغ/الوزن أقل من النصاب، فمفيش زكاة واجبة عليه.</div>
 
       <button class="btn-secondary" id="zakat-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <button class="btn-secondary" id="zakat-wallet" style="display:none;" data-i18n="btn_add_wallet">👛 ضيف للمحفظة</button>
       <p class="disclaimer" data-i18n="zakat_disclaimer">الحسبة دي تقريبية بنسبة ٢.٥٪ (ربع العشر) وحسب أسعار بتدخلها انت. لحساب دقيق يُفضّل مراجعة دار الإفتاء أو جهة شرعية موثوقة.</p>
     </div>
 
@@ -654,16 +680,20 @@
         <div class="field"><label data-i18n="loan_lbl_rate">نسبة الفايدة السنوية %</label><input type="number" id="loan-rate" placeholder="8" data-i18n-placeholder="loan_ph_rate" inputmode="decimal"></div>
         <div class="field"><label data-i18n="loan_lbl_years">عدد السنين</label><input type="number" id="loan-years" placeholder="5" data-i18n-placeholder="loan_ph_years" inputmode="decimal"></div>
       </div>
+      <div class="field">
+        <label data-i18n="loan_lbl_type">نوع الفائدة</label>
+        <select id="loan-type">
+          <option value="annuity" selected data-i18n="loan_type_annuity">قسط ثابت (فائدة متناقصة) — الأكثر شيوعًا في البنوك</option>
+          <option value="declining" data-i18n="loan_type_declining">قسط متناقص (أصل ثابت + فائدة متناقصة)</option>
+          <option value="flat" data-i18n="loan_type_flat">فائدة ثابتة (على كامل المبلغ)</option>
+        </select>
+      </div>
+      <p class="section-sub" id="loan-type-note" data-i18n="loan_type_note_annuity">القسط ثابت طول مدة القرض، لكن جزء الفائدة جواه بيقل مع الوقت وجزء الأصل بيزيد.</p>
 
       <button class="btn-primary" id="loan-calc" data-i18n="loan_btn_calc">احسب القرض</button>
       <div class="error-msg" id="loan-error" data-i18n="zakat_error">من فضلك أدخل قيم صحيحة وأكبر من صفر</div>
 
-      <div class="summary-grid" id="loan-summary" style="display:none;">
-        <div class="summary-card"><div class="s-label" data-i18n="loan_sum_monthly">القسط الشهري</div><div class="s-value" id="loan-monthly">—</div></div>
-        <div class="summary-card"><div class="s-label" data-i18n="loan_sum_count">عدد الأقساط</div><div class="s-value" id="loan-count">—</div></div>
-        <div class="summary-card"><div class="s-label" data-i18n="loan_sum_interest">إجمالي الفوائد</div><div class="s-value" id="loan-interest">—</div></div>
-        <div class="summary-card"><div class="s-label" data-i18n="loan_sum_total">إجمالي المسدد</div><div class="s-value" id="loan-total">—</div></div>
-      </div>
+      <div class="summary-grid" id="loan-summary" style="display:none;"></div>
 
       <div class="table-wrap" id="loan-table-wrap" style="display:none;">
         <table><thead><tr><th data-i18n="th_installment">القسط</th><th data-i18n="th_amount">المبلغ</th><th data-i18n="th_interest">فايدة</th><th data-i18n="th_principal">أصل</th><th data-i18n="th_remaining">المتبقي</th></tr></thead><tbody id="loan-tbody"></tbody></table>
@@ -688,6 +718,7 @@
       </div>
 
       <button class="btn-secondary" id="loan-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <button class="btn-secondary" id="loan-wallet" style="display:none;" data-i18n="btn_add_wallet">👛 ضيف للمحفظة</button>
     </div>
 
     <!-- ============ TAB: CURRENCY ============ -->
@@ -709,6 +740,7 @@
         <div class="r-value" id="cur-out-value">—</div>
       </div>
       <button class="btn-secondary" id="cur-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <button class="btn-secondary" id="cur-wallet" style="display:none;" data-i18n="btn_add_wallet">👛 ضيف للمحفظة</button>
       <p class="disclaimer" data-i18n="cur_disclaimer">الأسعار مبنية على متوسط سوق الصرف وممكن تختلف شوية عن سعر البنك أو الصراف.</p>
     </div>
 
@@ -756,6 +788,70 @@
         <div class="r-value" id="date-out-value" style="font-size:20px;">—</div>
       </div>
       <button class="btn-secondary" id="date-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+    </div>
+
+    <!-- ============ TAB: WALLET ============ -->
+    <!-- ============ TAB: PAPER PRICE ============ -->
+    <div id="paper" class="panel" data-keywords="ورق طباعة فرخ جرامية طن paper print sheet gsm" style="display:none;">
+      <div class="section-title"><span class="ic">🧾</span><span data-i18n="paper_title">حاسبة سعر الورق</span></div>
+      <p class="section-sub" data-i18n="paper_sub">احسب سعر الفرخ الواحد من الطول والعرض والجرامية وسعر الطن.</p>
+
+      <div class="row2">
+        <div class="field"><label data-i18n="paper_lbl_length">الطول (مم)</label><input type="number" id="paper-length" placeholder="700" inputmode="decimal"></div>
+        <div class="field"><label data-i18n="paper_lbl_width">العرض (مم)</label><input type="number" id="paper-width" placeholder="1000" inputmode="decimal"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label data-i18n="paper_lbl_gsm">الجرامية (GSM)</label><input type="number" id="paper-gsm" placeholder="250" inputmode="decimal"></div>
+        <div class="field"><label data-i18n="paper_lbl_ton_price">سعر الطن (جنيه)</label><input type="number" id="paper-ton-price" placeholder="60000" inputmode="decimal"></div>
+      </div>
+      <div class="field"><label data-i18n="paper_lbl_qty">عدد الأفرخ (اختياري)</label><input type="number" id="paper-qty" placeholder="1000" inputmode="decimal"></div>
+
+      <button class="btn-primary" id="paper-calc" data-i18n="btn_calc">احسب</button>
+      <div class="error-msg" id="paper-error" data-i18n="tax_error">من فضلك أدخل قيم صحيحة</div>
+
+      <div class="summary-grid" id="paper-summary" style="display:none;">
+        <div class="summary-card"><div class="s-label" data-i18n="paper_sum_sheet">سعر الفرخ الواحد</div><div class="s-value" id="paper-sheet-price">—</div></div>
+        <div class="summary-card"><div class="s-label" data-i18n="paper_sum_weight">وزن الفرخ (جرام)</div><div class="s-value" id="paper-sheet-weight">—</div></div>
+        <div class="summary-card" style="grid-column:1/-1; display:none;" id="paper-total-card"><div class="s-label" data-i18n="paper_sum_total">إجمالي السعر للكمية</div><div class="s-value" id="paper-total-price">—</div></div>
+      </div>
+      <button class="btn-secondary" id="paper-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <button class="btn-secondary" id="paper-wallet" style="display:none;" data-i18n="btn_add_wallet">👛 ضيف للمحفظة</button>
+      <p class="disclaimer" data-i18n="paper_disclaimer">وزن الفرخ (جرام) = الطول × العرض × الجرامية ÷ 1,000,000 — وسعر الفرخ = وزن الفرخ × سعر الطن ÷ 1,000,000. كل المقاسات بالمليمتر.</p>
+    </div>
+
+    <div id="wallet" class="panel" data-keywords="محفظة مصاريف مرتب دخل ادخار استثمار wallet budget expenses" style="display:none;">
+      <div class="section-title"><span class="ic">👛</span><span data-i18n="wallet_title">المحفظة</span></div>
+      <p class="section-sub" data-i18n="wallet_sub">سجّل مرتبك ومصاريفك وادخارك واستثمارك في مكان واحد.</p>
+
+      <div class="mode-row">
+        <button class="mode-btn active" data-wtype="expense" data-i18n="wallet_type_expense">مصروف</button>
+        <button class="mode-btn" data-wtype="income" data-i18n="wallet_type_income">دخل</button>
+        <button class="mode-btn" data-wtype="saving" data-i18n="wallet_type_saving">ادخار</button>
+        <button class="mode-btn" data-wtype="investment" data-i18n="wallet_type_investment">استثمار</button>
+      </div>
+
+      <div class="field"><label data-i18n="wallet_lbl_category">الفئة</label><select id="wallet-category"></select></div>
+      <div class="row2">
+        <div class="field"><label data-i18n="wallet_lbl_amount">المبلغ</label><input type="number" id="wallet-amount" placeholder="500" inputmode="decimal"></div>
+        <div class="field"><label data-i18n="wallet_lbl_date">التاريخ</label><input type="date" id="wallet-date"></div>
+      </div>
+      <div class="field"><label data-i18n="wallet_lbl_note">ملاحظة (اختياري)</label><input type="text" id="wallet-note" placeholder="مثلاً: عشاء برة، فاتورة الكهرباء..." data-i18n-placeholder="wallet_ph_note"></div>
+
+      <button class="btn-primary" id="wallet-add-btn" data-i18n="wallet_btn_add">➕ أضف للمحفظة</button>
+      <div class="error-msg" id="wallet-error" data-i18n="tax_error">من فضلك أدخل قيم صحيحة</div>
+
+      <div class="divider-label" data-i18n="wallet_month_summary">ملخص الشهر الحالي</div>
+      <div class="summary-grid" id="wallet-summary"></div>
+
+      <div class="divider-label" data-i18n="wallet_breakdown_title">توزيع مصاريف الشهر حسب الفئة</div>
+      <div id="wallet-breakdown"></div>
+
+      <div class="divider-label" data-i18n="wallet_transactions_title">كل العمليات</div>
+      <div class="table-wrap" id="wallet-table-wrap">
+        <table><thead><tr><th data-i18n="wallet_th_date">التاريخ</th><th data-i18n="wallet_th_type">النوع</th><th data-i18n="wallet_th_category">الفئة</th><th data-i18n="wallet_th_amount">المبلغ</th><th data-i18n="wallet_th_note">ملاحظة</th><th></th></tr></thead><tbody id="wallet-tbody"></tbody></table>
+      </div>
+      <button class="btn-secondary" id="wallet-export" data-i18n="btn_export">⬇️ تصدير CSV</button>
+      <p class="disclaimer" data-i18n="wallet_disclaimer">كل بيانات المحفظة بتتخزن على جهازك بس، ومحدش تاني بيشوفها.</p>
     </div>
 
     <div class="footer-note" data-i18n="footer_note">الأرقام بتتقرب لأقرب رقمين عشريين</div>
@@ -846,6 +942,14 @@ const translations = {
     loan_lbl_amount:'مبلغ القرض', loan_lbl_rate:'نسبة الفايدة السنوية %', loan_lbl_years:'عدد السنين',
     loan_ph_amount:'100000', loan_ph_rate:'8', loan_ph_years:'5',
     loan_btn_calc:'احسب القرض',
+    loan_lbl_type:'نوع الفائدة',
+    loan_type_annuity:'قسط ثابت (فائدة متناقصة) — الأكثر شيوعًا في البنوك',
+    loan_type_declining:'قسط متناقص (أصل ثابت + فائدة متناقصة)',
+    loan_type_flat:'فائدة ثابتة (على كامل المبلغ)',
+    loan_type_note_annuity:'القسط ثابت طول مدة القرض، لكن جزء الفائدة جواه بيقل مع الوقت وجزء الأصل بيزيد.',
+    loan_type_note_declining:'جزء الأصل ثابت كل شهر، والفايدة بتتحسب على المتبقي فبتقل تلقائيًا — يعني إجمالي القسط بيقل مع الوقت.',
+    loan_type_note_flat:'الفايدة بتتحسب مرة واحدة على كامل المبلغ الأصلي طول المدة، فالقسط والفايدة بيفضلوا ثابتين تمامًا كل شهر.',
+    loan_sum_first_installment:'أول قسط', loan_sum_last_installment:'آخر قسط',
     loan_sum_monthly:'القسط الشهري', loan_sum_count:'عدد الأقساط', loan_sum_interest:'إجمالي الفوائد', loan_sum_total:'إجمالي المسدد',
     th_installment:'القسط', th_amount:'المبلغ', th_interest:'فايدة', th_principal:'أصل', th_remaining:'المتبقي',
     loan_compare_title:'مقارنة بقرض تاني (اختياري)', loan_compare_off:'فعّل المقارنة', loan_compare_on:'إخفاء المقارنة',
@@ -869,6 +973,30 @@ const translations = {
     footer_note:'الأرقام بتتقرب لأقرب رقمين عشريين',
     history_title:'سجل العمليات', history_clear:'امسح السجل', history_empty:'لسه مفيش عمليات محفوظة في السجل.',
     history_hint:'دوس على أي عملية عشان ترجعلها على الآلة تاني',
+    tab_wallet:'المحفظة', wallet_title:'المحفظة', wallet_sub:'سجّل مرتبك ومصاريفك وادخارك واستثمارك في مكان واحد.',
+    wallet_type_expense:'مصروف', wallet_type_income:'دخل', wallet_type_saving:'ادخار', wallet_type_investment:'استثمار',
+    wallet_lbl_category:'الفئة', wallet_lbl_amount:'المبلغ', wallet_lbl_date:'التاريخ', wallet_lbl_note:'ملاحظة (اختياري)',
+    wallet_ph_note:'مثلاً: عشاء برة، فاتورة الكهرباء...',
+    wallet_btn_add:'➕ أضف للمحفظة', btn_add_wallet:'👛 ضيف للمحفظة',
+    wallet_month_summary:'ملخص الشهر الحالي',
+    wallet_sum_income:'إجمالي الدخل', wallet_sum_expense:'إجمالي المصاريف', wallet_sum_net:'الصافي (الباقي/العجز)',
+    wallet_sum_saving_total:'إجمالي الادخار (كل الوقت)', wallet_sum_investment_total:'إجمالي الاستثمار (كل الوقت)',
+    wallet_breakdown_title:'توزيع مصاريف الشهر حسب الفئة', wallet_no_expenses:'لسه مفيش مصاريف مسجلة الشهر ده.',
+    wallet_transactions_title:'كل العمليات',
+    wallet_th_date:'التاريخ', wallet_th_type:'النوع', wallet_th_category:'الفئة', wallet_th_amount:'المبلغ', wallet_th_note:'ملاحظة',
+    wallet_disclaimer:'كل بيانات المحفظة بتتخزن على جهازك بس، ومحدش تاني بيشوفها.',
+    wallet_quick_title:'إضافة للمحفظة', wallet_quick_confirm:'تأكيد الإضافة',
+    wallet_cat_salary:'المرتب', wallet_cat_extra_income:'دخل إضافي', wallet_cat_other_income:'دخل آخر',
+    wallet_cat_food:'أكل ومشروبات', wallet_cat_transport:'مواصلات', wallet_cat_bills:'فواتير (كهرباء/مياه/غاز/إنترنت)',
+    wallet_cat_rent:'إيجار/سكن', wallet_cat_health:'صحة وعلاج', wallet_cat_education:'تعليم',
+    wallet_cat_entertainment:'ترفيه وخروجات', wallet_cat_shopping:'تسوق وملابس', wallet_cat_subscriptions:'اشتراكات',
+    wallet_cat_zakat_donations:'زكاة وتبرعات', wallet_cat_installments:'أقساط والتزامات', wallet_cat_other_expense:'مصاريف أخرى',
+    wallet_cat_saving:'ادخار', wallet_cat_investment:'استثمار',
+    tab_paper:'سعر الورق', paper_title:'حاسبة سعر الورق', paper_sub:'احسب سعر الفرخ الواحد من الطول والعرض والجرامية وسعر الطن.',
+    paper_lbl_length:'الطول (مم)', paper_lbl_width:'العرض (مم)', paper_lbl_gsm:'الجرامية (GSM)',
+    paper_lbl_ton_price:'سعر الطن (جنيه)', paper_lbl_qty:'عدد الأفرخ (اختياري)',
+    paper_sum_sheet:'سعر الفرخ الواحد', paper_sum_weight:'وزن الفرخ (جرام)', paper_sum_total:'إجمالي السعر للكمية',
+    paper_disclaimer:'وزن الفرخ (جرام) = الطول × العرض × الجرامية ÷ 1,000,000 — وسعر الفرخ = وزن الفرخ × سعر الطن ÷ 1,000,000. كل المقاسات بالمليمتر.',
     gate_sub:'دخول مخصص للمشتركين — اكتب اسمك والكود اللي معاك', gate_checking_session:'جاري التحقق من جلستك...',
     gate_lbl_name:'الاسم', gate_lbl_code:'كود الدخول', gate_ph_name:'اسمك زي ما اتبعتلك', gate_ph_code:'الكود الخاص بيك',
     gate_btn_submit:'دخول', gate_checking:'جاري التحقق...',
@@ -957,6 +1085,14 @@ const translations = {
     loan_lbl_amount:'Loan amount', loan_lbl_rate:'Annual interest rate %', loan_lbl_years:'Number of years',
     loan_ph_amount:'100000', loan_ph_rate:'8', loan_ph_years:'5',
     loan_btn_calc:'Calculate Loan',
+    loan_lbl_type:'Interest type',
+    loan_type_annuity:'Fixed installment (declining interest) — most common in banks',
+    loan_type_declining:'Declining installment (fixed principal + declining interest)',
+    loan_type_flat:'Flat interest (on full amount)',
+    loan_type_note_annuity:'The installment stays fixed for the whole term, but the interest portion inside it shrinks over time while the principal portion grows.',
+    loan_type_note_declining:'The principal portion is fixed each month, and interest is calculated on the remaining balance so it shrinks automatically — meaning the total installment decreases over time.',
+    loan_type_note_flat:'Interest is calculated once on the full original amount for the whole term, so the installment and interest stay exactly fixed every month.',
+    loan_sum_first_installment:'First installment', loan_sum_last_installment:'Last installment',
     loan_sum_monthly:'Monthly payment', loan_sum_count:'Number of installments', loan_sum_interest:'Total interest', loan_sum_total:'Total paid',
     th_installment:'#', th_amount:'Payment', th_interest:'Interest', th_principal:'Principal', th_remaining:'Remaining',
     loan_compare_title:'Compare with another loan (optional)', loan_compare_off:'Enable comparison', loan_compare_on:'Hide comparison',
@@ -980,6 +1116,30 @@ const translations = {
     footer_note:'Numbers are rounded to the nearest two decimal places',
     history_title:'History', history_clear:'Clear history', history_empty:'No saved calculations yet.',
     history_hint:'Tap any entry to load it back into the calculator',
+    tab_wallet:'Wallet', wallet_title:'Wallet', wallet_sub:'Track your salary, expenses, savings and investments in one place.',
+    wallet_type_expense:'Expense', wallet_type_income:'Income', wallet_type_saving:'Saving', wallet_type_investment:'Investment',
+    wallet_lbl_category:'Category', wallet_lbl_amount:'Amount', wallet_lbl_date:'Date', wallet_lbl_note:'Note (optional)',
+    wallet_ph_note:'e.g. Dinner out, electricity bill...',
+    wallet_btn_add:'➕ Add to wallet', btn_add_wallet:'👛 Add to wallet',
+    wallet_month_summary:'Current month summary',
+    wallet_sum_income:'Total income', wallet_sum_expense:'Total expenses', wallet_sum_net:'Net (surplus/deficit)',
+    wallet_sum_saving_total:'Total savings (all-time)', wallet_sum_investment_total:'Total investments (all-time)',
+    wallet_breakdown_title:'Expense breakdown by category this month', wallet_no_expenses:'No expenses logged this month yet.',
+    wallet_transactions_title:'All transactions',
+    wallet_th_date:'Date', wallet_th_type:'Type', wallet_th_category:'Category', wallet_th_amount:'Amount', wallet_th_note:'Note',
+    wallet_disclaimer:'All wallet data is stored only on your device — no one else can see it.',
+    wallet_quick_title:'Add to Wallet', wallet_quick_confirm:'Confirm add',
+    wallet_cat_salary:'Salary', wallet_cat_extra_income:'Extra income', wallet_cat_other_income:'Other income',
+    wallet_cat_food:'Food & drinks', wallet_cat_transport:'Transportation', wallet_cat_bills:'Bills (electricity/water/gas/internet)',
+    wallet_cat_rent:'Rent/Housing', wallet_cat_health:'Health', wallet_cat_education:'Education',
+    wallet_cat_entertainment:'Entertainment', wallet_cat_shopping:'Shopping & clothes', wallet_cat_subscriptions:'Subscriptions',
+    wallet_cat_zakat_donations:'Zakat & donations', wallet_cat_installments:'Installments & obligations', wallet_cat_other_expense:'Other expenses',
+    wallet_cat_saving:'Saving', wallet_cat_investment:'Investment',
+    tab_paper:'Paper Price', paper_title:'Paper Price Calculator', paper_sub:'Calculate the price of a single sheet from length, width, GSM, and price per ton.',
+    paper_lbl_length:'Length (mm)', paper_lbl_width:'Width (mm)', paper_lbl_gsm:'Grammage (GSM)',
+    paper_lbl_ton_price:'Price per ton', paper_lbl_qty:'Number of sheets (optional)',
+    paper_sum_sheet:'Price per sheet', paper_sum_weight:'Sheet weight (grams)', paper_sum_total:'Total price for quantity',
+    paper_disclaimer:'Sheet weight (g) = length × width × GSM ÷ 1,000,000 — sheet price = sheet weight × price per ton ÷ 1,000,000. All dimensions in millimeters.',
     gate_sub:'Subscriber login — enter your name and access code', gate_checking_session:'Checking your session...',
     gate_lbl_name:'Name', gate_lbl_code:'Access code', gate_ph_name:'Your name as given to you', gate_ph_code:'Your access code',
     gate_btn_submit:'Log in', gate_checking:'Checking...',
@@ -1167,12 +1327,18 @@ function restoreHistoryItem(entry){
 
   } else if(r.tab==='loan'){
     setVal('loan-amount', r.amount); setVal('loan-rate', r.rate); setVal('loan-years', r.years);
+    if(r.loanType){ setVal('loan-type', r.loanType); updateLoanTypeNote(); }
     document.getElementById('loan-calc').click();
     if(r.compare){
       if(!compareOpen){ compareToggle.click(); }
       setVal('loan2-amount', r.amount2); setVal('loan2-rate', r.rate2); setVal('loan2-years', r.years2);
       document.getElementById('loan2-calc').click();
     }
+
+  } else if(r.tab==='paper'){
+    setVal('paper-length', r.length); setVal('paper-width', r.width); setVal('paper-gsm', r.gsm);
+    setVal('paper-ton-price', r.tonPrice); setVal('paper-qty', r.qty);
+    document.getElementById('paper-calc').click();
 
   } else if(r.tab==='currency'){
     setVal('cur-amount', r.amount);
@@ -1279,6 +1445,7 @@ const pctError=document.getElementById('pct-error'), pctReceipt=document.getElem
 const pctOutLabel=document.getElementById('pct-out-label'), pctOutValue=document.getElementById('pct-out-value');
 const tagNum=document.getElementById('pct-num-tag'), tagPer=document.getElementById('pct-per-tag'), tagRes=document.getElementById('pct-res-tag');
 const pctSave=document.getElementById('pct-save');
+const pctWallet=document.getElementById('pct-wallet');
 let pctTarget='result';
 function setPctMode(target){
   pctTarget=target;
@@ -1287,7 +1454,7 @@ function setPctMode(target){
   setRequiredTag(target==='number'?tagNum:(target==='percent'?tagPer:(target==='result'?tagRes:null)));
   tagNum.textContent = target==='number'? t('required_tag') : ''; tagPer.textContent = target==='percent'? t('required_tag') : ''; tagRes.textContent = target==='result'? t('required_tag') : '';
   if(target==='number') pctNumber.value=''; if(target==='percent') pctPercent.value=''; if(target==='result') pctResult.value='';
-  pctReceipt.style.display='none'; pctError.style.display='none'; pctSave.style.display='none';
+  pctReceipt.style.display='none'; pctError.style.display='none'; pctSave.style.display='none'; pctWallet.style.display='none';
   computePct();
 }
 modeBtns.forEach(b=>b.addEventListener('click', ()=>setPctMode(b.dataset.target)));
@@ -1299,19 +1466,20 @@ function computePct(){
   else if(pctTarget==='percent'){ if(num!==null&&res!==null){ if(num===0){showPctError();return;} outVal=res/num*100; outLabel=t('pct_lbl_percent'); } }
   else if(pctTarget==='number'){ if(res!==null&&per!==null){ if(per===0){showPctError();return;} outVal=res*100/per; outLabel=t('pct_lbl_number'); } }
   if(outVal!==null){
-    pctError.style.display='none'; pctReceipt.style.display='block'; pctSave.style.display='block';
+    pctError.style.display='none'; pctReceipt.style.display='block'; pctSave.style.display='block'; pctWallet.style.display='block';
     pctOutLabel.textContent=outLabel; pctOutValue.textContent=fmt(outVal);
     if(pctTarget==='result') pctResult.value=round2(outVal);
     if(pctTarget==='percent') pctPercent.value=round2(outVal);
     if(pctTarget==='number') pctNumber.value=round2(outVal);
     pctLastText=`${t('pct_lbl_number')}: ${fmt(toNum(pctNumber.value))} | ${t('pct_lbl_percent')}: ${fmt(toNum(pctPercent.value))}% | ${t('pct_lbl_result')}: ${fmt(toNum(pctResult.value))}`;
-  } else { pctReceipt.style.display='none'; pctSave.style.display='none'; }
+  } else { pctReceipt.style.display='none'; pctSave.style.display='none'; pctWallet.style.display='none'; }
 }
-function showPctError(){ pctError.style.display='block'; pctReceipt.style.display='none'; pctSave.style.display='none'; }
+function showPctError(){ pctError.style.display='block'; pctReceipt.style.display='none'; pctSave.style.display='none'; pctWallet.style.display='none'; }
 [pctNumber,pctPercent,pctResult].forEach(inp=>inp.addEventListener('input', computePct));
 pctSave.addEventListener('click', ()=>addHistory(t('tab_pct'), pctLastText, {
   tab:'pct', mode:pctTarget, number:pctNumber.value, percent:pctPercent.value, result:pctResult.value
 }));
+pctWallet.addEventListener('click', ()=> openWalletQuickAdd({ type:'expense', category:'other_expense', amount: toNum(pctResult.value), note: pctLastText }));
 setPctMode('result');
 
 // ================= COMPOUND =================
@@ -1323,8 +1491,8 @@ let compRows=[];
 document.getElementById('comp-calc').addEventListener('click', ()=>{
   const base=toNum(document.getElementById('comp-base').value), percent=toNum(document.getElementById('comp-percent').value), days=toNum(document.getElementById('comp-days').value);
   const errorEl=document.getElementById('comp-error'), summaryEl=document.getElementById('comp-summary'), tableWrap=document.getElementById('comp-table-wrap');
-  const exportBtn=document.getElementById('comp-export'), saveBtn=document.getElementById('comp-save');
-  if(base===null||percent===null||days===null||days<1||days>500){ errorEl.style.display='block'; summaryEl.style.display='none'; tableWrap.style.display='none'; exportBtn.style.display='none'; saveBtn.style.display='none'; return; }
+  const exportBtn=document.getElementById('comp-export'), saveBtn=document.getElementById('comp-save'), walletBtn=document.getElementById('comp-wallet');
+  if(base===null||percent===null||days===null||days<1||days>500){ errorEl.style.display='block'; summaryEl.style.display='none'; tableWrap.style.display='none'; exportBtn.style.display='none'; saveBtn.style.display='none'; walletBtn.style.display='none'; return; }
   errorEl.style.display='none';
   const tbody=document.getElementById('comp-tbody'); tbody.innerHTML='';
   let value=base, totalIncrease=0; compRows=[[t('th_day'),t('th_value'),t('th_increase')]];
@@ -1337,10 +1505,11 @@ document.getElementById('comp-calc').addEventListener('click', ()=>{
   }
   document.getElementById('comp-final').textContent=fmt(value);
   document.getElementById('comp-total-increase').textContent=fmt(totalIncrease);
-  summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
+  summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block'; walletBtn.style.display='block';
   saveBtn.onclick=()=>addHistory(t('tab_comp'), `${t('comp_lbl_base')}: ${fmt(base)} | ${t('pct_lbl_percent')}: ${fmt(percent)}% | ${t('th_day')}: ${days} | ${t('comp_sum_final')}: ${fmt(value)}`, {
     tab:'comp', compound:compIsCompound, base:document.getElementById('comp-base').value, percent:document.getElementById('comp-percent').value, days:document.getElementById('comp-days').value
   });
+  walletBtn.onclick = ()=> openWalletQuickAdd({ type:'investment', category:'investment', amount: base, note: `${t('tab_comp')}: ${fmt(base)} → ${fmt(value)}` });
 });
 document.getElementById('comp-export').addEventListener('click', ()=>{ if(compRows.length) downloadCSV('compound.csv', compRows); });
 
@@ -1410,8 +1579,9 @@ document.getElementById('grow-calc').addEventListener('click', ()=>{
   const tableWrap = document.getElementById('grow-table-wrap');
   const exportBtn = document.getElementById('grow-export');
   const saveBtn = document.getElementById('grow-save');
+  const walletBtn = document.getElementById('grow-wallet');
   const thead = document.getElementById('grow-thead');
-  errorEl.style.display='none'; summaryEl.style.display='none'; tableWrap.style.display='none'; exportBtn.style.display='none'; saveBtn.style.display='none';
+  errorEl.style.display='none'; summaryEl.style.display='none'; tableWrap.style.display='none'; exportBtn.style.display='none'; saveBtn.style.display='none'; walletBtn.style.display='none';
   document.getElementById('gc-view-toggle').style.display='none';
 
   if(growTarget==='lumpsum'){
@@ -1448,11 +1618,12 @@ document.getElementById('grow-calc').addEventListener('click', ()=>{
       <div class="summary-card"><div class="s-label">${t('gl_sum_totalpct')}</div><div class="s-value">${fmt(totalPct)}%</div></div>
       <div class="summary-card"><div class="s-label">${t('gl_sum_periods')}</div><div class="s-value">${totalPeriods}</div></div>
     `;
-    summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
+    summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block'; walletBtn.style.display='block';
     saveBtn.onclick = ()=> addHistory(t('grow_mode_lumpsum'), `${t('gl_lbl_amount')}: ${fmt(amount)} | ${t('gl_lbl_rate')}: ${fmt(rate)}% | ${t('gl_sum_periods')}: ${totalPeriods} | ${t('gl_sum_final')}: ${fmt(value)} | ${t('gl_sum_profit')}: ${fmt(finalProfit)}`, {
       tab:'grow', gm:'lumpsum', amount, rate, rateFreq:document.getElementById('gl-rate-freq').value,
       duration:durationVal, durationUnit:durationUnitDays, compound:glCompound
     });
+    walletBtn.onclick = ()=> openWalletQuickAdd({ type:'investment', category:'investment', amount, note: `${t('grow_mode_lumpsum')}: ${fmt(amount)} → ${fmt(value)}` });
 
   } else if(growTarget==='recurring'){
     const deposit = toNum(document.getElementById('gr-deposit').value);
@@ -1489,11 +1660,12 @@ document.getElementById('grow-calc').addEventListener('click', ()=>{
       <div class="summary-card"><div class="s-label">${t('gr_sum_deposited')}</div><div class="s-value">${fmt(deposited)}</div></div>
       <div class="summary-card" style="grid-column:1/-1;"><div class="s-label">${t('gr_sum_profit')}</div><div class="s-value">${fmt(finalProfit)}</div></div>
     `;
-    summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
+    summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block'; walletBtn.style.display='block';
     saveBtn.onclick = ()=> addHistory(t('grow_mode_recurring'), `${t('gr_lbl_deposit')}: ${fmt(deposit)} | ${t('gr_lbl_annual_rate')}: ${fmt(annualRate)}% | ${t('gl_sum_periods')}: ${n} | ${t('gr_sum_final')}: ${fmt(balance)} | ${t('gr_sum_profit')}: ${fmt(finalProfit)}`, {
       tab:'grow', gm:'recurring', deposit, depositFreq:document.getElementById('gr-deposit-freq').value,
       annualRate, duration:durationVal, durationUnit:durationUnitDays
     });
+    walletBtn.onclick = ()=> openWalletQuickAdd({ type:'saving', category:'saving', amount: deposit, note: `${t('grow_mode_recurring')}: ${fmt(deposit)}` });
 
   } else if(growTarget==='roi'){
     const initial = toNum(document.getElementById('groi-initial').value);
@@ -1515,10 +1687,11 @@ document.getElementById('grow-calc').addEventListener('click', ()=>{
       <div class="summary-card"><div class="s-label">${t('groi_sum_roi')}</div><div class="s-value">${fmt(totalROI)}%</div></div>
       ${cagrHtml}
     `;
-    summaryEl.style.display='grid'; saveBtn.style.display='block';
+    summaryEl.style.display='grid'; saveBtn.style.display='block'; walletBtn.style.display='block';
     saveBtn.onclick = ()=> addHistory(t('grow_mode_roi'), `${t('groi_lbl_initial')}: ${fmt(initial)} | ${t('groi_lbl_final')}: ${fmt(final)} | ${t('groi_sum_profit')}: ${fmt(profit)} | ROI: ${fmt(totalROI)}%${cagrText}`, {
       tab:'grow', gm:'roi', initial, final, duration:durationVal, durationUnit:durationUnitDays
     });
+    walletBtn.onclick = ()=> openWalletQuickAdd({ type:'investment', category:'investment', amount: profit, note: `${t('grow_mode_roi')}: ${fmt(initial)} → ${fmt(final)}` });
 
   } else if(growTarget==='combo'){
     const lumpsum = toNum(document.getElementById('gc-lumpsum').value) || 0;
@@ -1575,10 +1748,11 @@ document.getElementById('grow-calc').addEventListener('click', ()=>{
     document.getElementById('gc-view-toggle').style.display='flex';
     document.querySelectorAll('#gc-view-toggle button').forEach(b=>b.classList.toggle('active', b.dataset.view==='daily'));
     renderGcTable('daily');
-    tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
+    tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block'; walletBtn.style.display='block';
     saveBtn.onclick = ()=> addHistory(t('grow_mode_combo'), `${t('gc_lbl_lumpsum')}: ${fmt(lumpsum)} | ${t('gc_lbl_monthly')}: ${fmt(monthly)} | ${t('gc_lbl_annual_rate')}: ${fmt(annualRate)}% | ${t('gl_sum_final')}: ${fmt(finalBalance)} | ${t('gl_sum_profit')}: ${fmt(finalProfit)}`, {
       tab:'grow', gm:'combo', lumpsum, monthly, annualRate, freq, duration:durationVal, durationUnit:durationUnitDays
     });
+    walletBtn.onclick = ()=> openWalletQuickAdd({ type:'investment', category:'investment', amount: lumpsum>0?lumpsum:monthly, note: `${t('grow_mode_combo')}: ${fmt(finalBalance)}` });
   }
 });
 document.getElementById('grow-export').addEventListener('click', ()=>{ if(growRows.length) downloadCSV('invest_save.csv', growRows); });
@@ -1602,7 +1776,7 @@ let discTarget='final';
 const discOriginal=document.getElementById('disc-original'), discPercent=document.getElementById('disc-percent'), discFinalPrice=document.getElementById('disc-finalprice');
 const discOrigTag=document.getElementById('disc-orig-tag'), discPerTag=document.getElementById('disc-per-tag'), discFinalTag=document.getElementById('disc-final-tag');
 const discReceipt=document.getElementById('disc-receipt'), discOutLabel=document.getElementById('disc-out-label'), discOutValue=document.getElementById('disc-out-value');
-const discError=document.getElementById('disc-error'), discSave=document.getElementById('disc-save');
+const discError=document.getElementById('disc-error'), discSave=document.getElementById('disc-save'), discWallet=document.getElementById('disc-wallet');
 let discLastText='';
 function setDiscMode(target){
   discTarget=target;
@@ -1611,7 +1785,7 @@ function setDiscMode(target){
   setRequiredTag(target==='original'?discOrigTag:(target==='percent'?discPerTag:(target==='final'?discFinalTag:null)));
   discOrigTag.textContent=target==='original'?t('required_tag'):''; discPerTag.textContent=target==='percent'?t('required_tag'):''; discFinalTag.textContent=target==='final'?t('required_tag'):'';
   if(target==='original') discOriginal.value=''; if(target==='percent') discPercent.value=''; if(target==='final') discFinalPrice.value='';
-  discReceipt.style.display='none'; discError.style.display='none'; discSave.style.display='none';
+  discReceipt.style.display='none'; discError.style.display='none'; discSave.style.display='none'; discWallet.style.display='none';
   computeDisc();
 }
 discModeBtns.forEach(b=>b.addEventListener('click', ()=>setDiscMode(b.dataset.dtarget)));
@@ -1622,20 +1796,21 @@ function computeDisc(){
   if(discTarget==='final'){ if(orig!==null&&per!==null){ outVal=orig+sign*(orig*per/100); outLabel=discIsDown?t('disc_out_final_down'):t('disc_out_final_up'); } }
   else if(discTarget==='percent'){ if(orig!==null&&fin!==null&&orig!==0){ outVal=Math.abs((fin-orig)/orig*100); outLabel=discIsDown?t('disc_out_percent_down'):t('disc_out_percent_up'); } }
   else if(discTarget==='original'){ if(fin!==null&&per!==null){ const denom=1+sign*(per/100); if(denom!==0){ outVal=fin/denom; outLabel=t('disc_out_original'); } } }
-  if(outVal!==null && !isNaN(outVal)){
-    discError.style.display='none'; discReceipt.style.display='block'; discSave.style.display='block';
+if(outVal!==null && !isNaN(outVal)){
+    discError.style.display='none'; discReceipt.style.display='block'; discSave.style.display='block'; discWallet.style.display='block';
     discOutLabel.textContent=outLabel; discOutValue.textContent=fmt(outVal);
     if(discTarget==='final') discFinalPrice.value=round2(outVal);
     if(discTarget==='percent') discPercent.value=round2(outVal);
     if(discTarget==='original') discOriginal.value=round2(outVal);
     discLastText=`${discIsDown?t('disc_mode_down'):t('disc_mode_up')} | ${t('disc_lbl_original')}: ${fmt(toNum(discOriginal.value))} | ${t('pct_lbl_percent')}: ${fmt(toNum(discPercent.value))}% | ${t('disc_lbl_final')}: ${fmt(toNum(discFinalPrice.value))}`;
-  } else { discReceipt.style.display='none'; discSave.style.display='none'; }
+  } else { discReceipt.style.display='none'; discSave.style.display='none'; discWallet.style.display='none'; }
 }
 [discOriginal,discPercent,discFinalPrice].forEach(inp=>inp.addEventListener('input', computeDisc));
 discSave.addEventListener('click', ()=>addHistory(t('pricing_mode_discount'), discLastText, {
   tab:'pricing', prm:'discount', isDown:discIsDown, target:discTarget,
   original:discOriginal.value, percent:discPercent.value, finalprice:discFinalPrice.value
 }));
+discWallet.addEventListener('click', ()=> openWalletQuickAdd({ type:'expense', category:'shopping', amount: toNum(discFinalPrice.value), note: discLastText }));
 setDiscMode('final');
 
 let taxIsAdd=true;
@@ -1643,35 +1818,39 @@ document.getElementById('tax-mode-add').addEventListener('click', function(){ ta
 document.getElementById('tax-mode-remove').addEventListener('click', function(){ taxIsAdd=false; this.classList.add('active'); document.getElementById('tax-mode-add').classList.remove('active'); });
 document.querySelectorAll('#pricing-tax .chip').forEach(chip=>{ chip.addEventListener('click', ()=>{ document.getElementById('tax-rate').value=chip.dataset.rate; }); });
 let taxLastText='';
+let taxLastAfter = null;
 document.getElementById('tax-calc').addEventListener('click', ()=>{
   const price=toNum(document.getElementById('tax-price').value), rate=toNum(document.getElementById('tax-rate').value);
-  const errorEl=document.getElementById('tax-error'), summaryEl=document.getElementById('tax-summary'), saveBtn=document.getElementById('tax-save');
-  if(price===null||price<0||rate===null||rate<0){ errorEl.style.display='block'; summaryEl.style.display='none'; saveBtn.style.display='none'; return; }
+  const errorEl=document.getElementById('tax-error'), summaryEl=document.getElementById('tax-summary'), saveBtn=document.getElementById('tax-save'), walletBtn=document.getElementById('tax-wallet');
+  if(price===null||price<0||rate===null||rate<0){ errorEl.style.display='block'; summaryEl.style.display='none'; saveBtn.style.display='none'; walletBtn.style.display='none'; return; }
   errorEl.style.display='none';
   let before, taxAmount, after;
   if(taxIsAdd){ before=price; taxAmount=price*rate/100; after=price+taxAmount; } else { after=price; before=price/(1+rate/100); taxAmount=after-before; }
   document.getElementById('tax-before').textContent=fmt(before);
   document.getElementById('tax-amount').textContent=fmt(taxAmount);
   document.getElementById('tax-after').textContent=fmt(after);
-  summaryEl.style.display='grid'; saveBtn.style.display='block';
+  summaryEl.style.display='grid'; saveBtn.style.display='block'; walletBtn.style.display='block';
   taxLastText=`${taxIsAdd?t('tax_mode_add'):t('tax_mode_remove')} ${fmt(rate)}% | ${t('tax_sum_before')}: ${fmt(before)} | ${t('tax_sum_amount')}: ${fmt(taxAmount)} | ${t('tax_sum_after')}: ${fmt(after)}`;
+  taxLastAfter = after;
 });
 document.getElementById('tax-save').addEventListener('click', ()=>addHistory(t('pricing_mode_tax'), taxLastText, {
   tab:'pricing', prm:'tax', isAdd:taxIsAdd, price:document.getElementById('tax-price').value, rate:document.getElementById('tax-rate').value
 }));
+document.getElementById('tax-wallet').addEventListener('click', ()=> openWalletQuickAdd({ type:'expense', category:'other_expense', amount: taxLastAfter, note: taxLastText }));
 
 let pmLastText='';
 document.getElementById('pm-calc').addEventListener('click', ()=>{
   const cost=toNum(document.getElementById('pm-cost').value), price=toNum(document.getElementById('pm-price').value);
-  const errorEl=document.getElementById('pm-error'), summaryEl=document.getElementById('pm-summary'), saveBtn=document.getElementById('pm-save');
-  if(cost===null||cost<0||price===null||price<=0){ errorEl.style.display='block'; summaryEl.style.display='none'; saveBtn.style.display='none'; return; }
+  const errorEl=document.getElementById('pm-error'), summaryEl=document.getElementById('pm-summary'), saveBtn=document.getElementById('pm-save'), walletBtn=document.getElementById('pm-wallet');
+  if(cost===null||cost<0||price===null||price<=0){ errorEl.style.display='block'; summaryEl.style.display='none'; saveBtn.style.display='none'; walletBtn.style.display='none'; return; }
   errorEl.style.display='none';
   const profit=price-cost, margin=(profit/price)*100, markup=cost!==0?(profit/cost)*100:NaN;
   document.getElementById('pm-profit').textContent=fmt(profit);
   document.getElementById('pm-margin').textContent=fmt(margin)+'%';
   document.getElementById('pm-markup').textContent=fmt(markup)+'%';
-  summaryEl.style.display='grid'; saveBtn.style.display='block';
+  summaryEl.style.display='grid'; saveBtn.style.display='block'; walletBtn.style.display='block';
   pmLastText=`${t('pm_lbl_cost')}: ${fmt(cost)} | ${t('pm_lbl_price')}: ${fmt(price)} | ${t('pm_sum_profit')}: ${fmt(profit)} | ${t('pm_sum_margin')}: ${fmt(margin)}% | ${t('pm_sum_markup')}: ${fmt(markup)}%`;
+  document.getElementById('pm-wallet').onclick = ()=> openWalletQuickAdd({ type:'income', category:'extra_income', amount: profit, note: pmLastText });
 });
 document.getElementById('pm-save').addEventListener('click', ()=>addHistory(t('pricing_mode_margin'), pmLastText, {
   tab:'pricing', prm:'margin', cost:document.getElementById('pm-cost').value, price:document.getElementById('pm-price').value
@@ -1690,14 +1869,16 @@ zModeBtns.forEach(b=>{
     document.getElementById('zakat-receipt').style.display='none';
     document.getElementById('zakat-below-nisab').style.display='none';
     document.getElementById('zakat-save').style.display='none';
+    document.getElementById('zakat-wallet').style.display='none';
   });
 });
 let zakatLastText='';
 document.getElementById('zakat-calc').addEventListener('click', ()=>{
   const errorEl=document.getElementById('zakat-error'), receiptEl=document.getElementById('zakat-receipt');
-  const belowEl=document.getElementById('zakat-below-nisab'), saveBtn=document.getElementById('zakat-save');
-  errorEl.style.display='none'; receiptEl.style.display='none'; belowEl.style.display='none'; saveBtn.style.display='none';
+  const belowEl=document.getElementById('zakat-below-nisab'), saveBtn=document.getElementById('zakat-save'), walletBtn=document.getElementById('zakat-wallet');
+  errorEl.style.display='none'; receiptEl.style.display='none'; belowEl.style.display='none'; saveBtn.style.display='none'; walletBtn.style.display='none';
   document.getElementById('zakat-out-label').textContent = t('zakat_out_label');
+  let zakatDueAmount = null;
   if(zTarget==='gold'){
     const weight=toNum(document.getElementById('zg-weight').value), price=toNum(document.getElementById('zg-price').value);
     if(weight===null||weight<0||price===null||price<=0){ errorEl.style.display='block'; return; }
@@ -1705,6 +1886,7 @@ document.getElementById('zakat-calc').addEventListener('click', ()=>{
     const totalValue=weight*price, zakatDue=totalValue*0.025;
     receiptEl.style.display='block'; document.getElementById('zakat-out-value').textContent=fmt(zakatDue);
     zakatLastText=`${t('zakat_mode_gold')} | ${t('zg_lbl_weight')}: ${fmt(weight)} | ${fmt(totalValue)} | ${t('zakat_out_label')}: ${fmt(zakatDue)}`;
+    zakatDueAmount = zakatDue;
   } else if(zTarget==='silver'){
     const weight=toNum(document.getElementById('zs-weight').value), price=toNum(document.getElementById('zs-price').value);
     if(weight===null||weight<0||price===null||price<=0){ errorEl.style.display='block'; return; }
@@ -1712,6 +1894,7 @@ document.getElementById('zakat-calc').addEventListener('click', ()=>{
     const totalValue=weight*price, zakatDue=totalValue*0.025;
     receiptEl.style.display='block'; document.getElementById('zakat-out-value').textContent=fmt(zakatDue);
     zakatLastText=`${t('zakat_mode_silver')} | ${t('zs_lbl_weight')}: ${fmt(weight)} | ${fmt(totalValue)} | ${t('zakat_out_label')}: ${fmt(zakatDue)}`;
+    zakatDueAmount = zakatDue;
   } else if(zTarget==='money'){
     const amount=toNum(document.getElementById('zm-amount').value), silverPrice=toNum(document.getElementById('zm-silverprice').value);
     if(amount===null||amount<0||silverPrice===null||silverPrice<=0){ errorEl.style.display='block'; return; }
@@ -1720,8 +1903,10 @@ document.getElementById('zakat-calc').addEventListener('click', ()=>{
     const zakatDue=amount*0.025;
     receiptEl.style.display='block'; document.getElementById('zakat-out-value').textContent=fmt(zakatDue);
     zakatLastText=`${t('zakat_mode_money')} | ${t('zm_lbl_amount')}: ${fmt(amount)} | ${fmt(nisabValue)} | ${t('zakat_out_label')}: ${fmt(zakatDue)}`;
+    zakatDueAmount = zakatDue;
   }
-  saveBtn.style.display='block';
+  saveBtn.style.display='block'; walletBtn.style.display='block';
+  walletBtn.onclick = ()=> openWalletQuickAdd({ type:'expense', category:'zakat_donations', amount: zakatDueAmount, note: zakatLastText });
 });
 document.getElementById('zakat-save').addEventListener('click', ()=>addHistory(t('tab_zakat'), zakatLastText, {
   tab:'zakat', ztarget:zTarget,
@@ -1731,29 +1916,77 @@ document.getElementById('zakat-save').addEventListener('click', ()=>addHistory(t
 }));
 
 // ================= LOAN =================
-function computeLoan(amount, annualRate, years){
-  const n=Math.round(years*12), monthlyRate=annualRate/100/12;
-  let monthlyPayment;
-  if(monthlyRate===0){ monthlyPayment=amount/n; } else { monthlyPayment=amount*monthlyRate/(1-Math.pow(1+monthlyRate,-n)); }
-  let remaining=amount, totalInterest=0; const rows=[];
-  for(let i=1;i<=n;i++){
-    const interestPart=remaining*monthlyRate;
-    let principalPart=monthlyPayment-interestPart;
-    remaining-=principalPart;
-    if(i===n){ principalPart+=remaining; remaining=0; }
-    totalInterest+=interestPart;
-    rows.push({i,monthlyPayment,interestPart,principalPart,remaining:Math.max(remaining,0)});
+function computeLoan(amount, annualRate, years, type){
+  type = type || 'annuity';
+  const n = Math.round(years*12);
+  const monthlyRate = annualRate/100/12;
+  let rows = [];
+  let totalInterest = 0;
+  let monthlyPayment = null; // يفضل null لو القسط متغير (نوع "قسط متناقص")
+
+  if(type === 'flat'){
+    // فائدة ثابتة: بتتحسب مرة واحدة على كامل المبلغ الأصلي طول مدة القرض، والقسط والفايدة والأصل كلهم ثابتين كل شهر
+    totalInterest = amount * (annualRate/100) * years;
+    const fixedPayment = (amount + totalInterest) / n;
+    const fixedPrincipal = amount / n;
+    const fixedInterest = totalInterest / n;
+    let remaining = amount;
+    for(let i=1; i<=n; i++){
+      remaining -= fixedPrincipal;
+      if(i===n) remaining = 0;
+      rows.push({ i, monthlyPayment: fixedPayment, interestPart: fixedInterest, principalPart: fixedPrincipal, remaining: Math.max(remaining,0) });
+    }
+    monthlyPayment = fixedPayment;
+
+  } else if(type === 'declining'){
+    // قسط متناقص: جزء الأصل ثابت كل شهر، والفايدة بتتحسب على المتبقي (بتقل)، فإجمالي القسط بيقل مع الوقت
+    const fixedPrincipal = amount / n;
+    let remaining = amount;
+    for(let i=1; i<=n; i++){
+      const interestPart = remaining * monthlyRate;
+      remaining -= fixedPrincipal;
+      if(i===n) remaining = 0;
+      const payment = fixedPrincipal + interestPart;
+      totalInterest += interestPart;
+      rows.push({ i, monthlyPayment: payment, interestPart, principalPart: fixedPrincipal, remaining: Math.max(remaining,0) });
+    }
+
+  } else {
+    // قسط ثابت - فائدة متناقصة (annuity / الطريقة الفرنسية - الافتراضية والأكثر شيوعًا)
+    let payment;
+    if(monthlyRate===0){ payment = amount/n; } else { payment = amount*monthlyRate/(1-Math.pow(1+monthlyRate,-n)); }
+    let remaining = amount;
+    for(let i=1; i<=n; i++){
+      const interestPart = remaining*monthlyRate;
+      let principalPart = payment-interestPart;
+      remaining -= principalPart;
+      if(i===n){ principalPart += remaining; remaining = 0; }
+      totalInterest += interestPart;
+      rows.push({ i, monthlyPayment: payment, interestPart, principalPart, remaining: Math.max(remaining,0) });
+    }
+    monthlyPayment = payment;
   }
-  return {n,monthlyPayment,totalInterest,rows};
+
+  return { n, monthlyPayment, totalInterest, rows, type };
 }
+
+const loanTypeSelect = document.getElementById('loan-type');
+const loanTypeNoteMap = { annuity:'loan_type_note_annuity', declining:'loan_type_note_declining', flat:'loan_type_note_flat' };
+function updateLoanTypeNote(){
+  document.getElementById('loan-type-note').setAttribute('data-i18n', loanTypeNoteMap[loanTypeSelect.value]);
+  document.getElementById('loan-type-note').textContent = t(loanTypeNoteMap[loanTypeSelect.value]);
+}
+loanTypeSelect.addEventListener('change', updateLoanTypeNote);
+
 let loanRows=[];
 document.getElementById('loan-calc').addEventListener('click', ()=>{
   const amount=toNum(document.getElementById('loan-amount').value), annualRate=toNum(document.getElementById('loan-rate').value), years=toNum(document.getElementById('loan-years').value);
+  const loanType = loanTypeSelect.value;
   const errorEl=document.getElementById('loan-error'), summaryEl=document.getElementById('loan-summary');
-  const tableWrap=document.getElementById('loan-table-wrap'), exportBtn=document.getElementById('loan-export'), saveBtn=document.getElementById('loan-save');
-  if(amount===null||amount<=0||annualRate===null||annualRate<0||years===null||years<=0){ errorEl.style.display='block'; summaryEl.style.display='none'; tableWrap.style.display='none'; exportBtn.style.display='none'; saveBtn.style.display='none'; return; }
+  const tableWrap=document.getElementById('loan-table-wrap'), exportBtn=document.getElementById('loan-export'), saveBtn=document.getElementById('loan-save'), walletBtn=document.getElementById('loan-wallet');
+  if(amount===null||amount<=0||annualRate===null||annualRate<0||years===null||years<=0){ errorEl.style.display='block'; summaryEl.style.display='none'; tableWrap.style.display='none'; exportBtn.style.display='none'; saveBtn.style.display='none'; walletBtn.style.display='none'; return; }
   errorEl.style.display='none';
-  const result=computeLoan(amount,annualRate,years);
+  const result=computeLoan(amount,annualRate,years,loanType);
   const tbody=document.getElementById('loan-tbody'); tbody.innerHTML='';
   loanRows=[[t('th_installment'),t('th_amount'),t('th_interest'),t('th_principal'),t('th_remaining')]];
   result.rows.forEach(r=>{
@@ -1762,14 +1995,29 @@ document.getElementById('loan-calc').addEventListener('click', ()=>{
     tbody.appendChild(tr);
     loanRows.push([r.i, round2(r.monthlyPayment), round2(r.interestPart), round2(r.principalPart), round2(r.remaining)]);
   });
-  document.getElementById('loan-monthly').textContent=fmt(result.monthlyPayment);
-  document.getElementById('loan-count').textContent=result.n;
-  document.getElementById('loan-interest').textContent=fmt(result.totalInterest);
-  document.getElementById('loan-total').textContent=fmt(amount+result.totalInterest);
-  summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block';
-  saveBtn.onclick=()=>addHistory(t('tab_loan'), `${t('loan_lbl_amount')}: ${fmt(amount)} | ${t('loan_lbl_rate')}: ${fmt(annualRate)}% | ${t('loan_lbl_years')}: ${years} | ${t('loan_sum_monthly')}: ${fmt(result.monthlyPayment)} | ${t('loan_sum_count')}: ${result.n}`, {
-    tab:'loan', amount, rate:annualRate, years
+
+  let paymentSummaryHtml;
+  if(result.monthlyPayment!==null){
+    paymentSummaryHtml = `<div class="summary-card"><div class="s-label">${t('loan_sum_monthly')}</div><div class="s-value">${fmt(result.monthlyPayment)}</div></div>`;
+  } else {
+    const first = result.rows[0], last = result.rows[result.rows.length-1];
+    paymentSummaryHtml = `
+      <div class="summary-card"><div class="s-label">${t('loan_sum_first_installment')}</div><div class="s-value">${fmt(first.monthlyPayment)}</div></div>
+      <div class="summary-card"><div class="s-label">${t('loan_sum_last_installment')}</div><div class="s-value">${fmt(last.monthlyPayment)}</div></div>
+    `;
+  }
+  summaryEl.innerHTML = `
+    ${paymentSummaryHtml}
+    <div class="summary-card"><div class="s-label">${t('loan_sum_count')}</div><div class="s-value">${result.n}</div></div>
+    <div class="summary-card"><div class="s-label">${t('loan_sum_interest')}</div><div class="s-value">${fmt(result.totalInterest)}</div></div>
+    <div class="summary-card" style="grid-column:1/-1;"><div class="s-label">${t('loan_sum_total')}</div><div class="s-value">${fmt(amount+result.totalInterest)}</div></div>
+  `;
+  summaryEl.style.display='grid'; tableWrap.style.display='block'; exportBtn.style.display='block'; saveBtn.style.display='block'; walletBtn.style.display='block';
+  const paymentForLog = result.monthlyPayment!==null ? fmt(result.monthlyPayment) : `${fmt(result.rows[0].monthlyPayment)} → ${fmt(result.rows[result.rows.length-1].monthlyPayment)}`;
+  saveBtn.onclick=()=>addHistory(t('tab_loan'), `${t('loan_lbl_amount')}: ${fmt(amount)} | ${t('loan_lbl_rate')}: ${fmt(annualRate)}% | ${t('loan_lbl_years')}: ${years} | ${t('loan_type_'+loanType)}: ${paymentForLog} | ${t('loan_sum_count')}: ${result.n}`, {
+    tab:'loan', amount, rate:annualRate, years, loanType
   });
+  walletBtn.onclick = ()=> openWalletQuickAdd({ type:'expense', category:'installments', amount: result.monthlyPayment!==null ? result.monthlyPayment : result.rows[0].monthlyPayment, note: `${t('tab_loan')} — ${t('loan_type_'+loanType)}` });
 });
 document.getElementById('loan-export').addEventListener('click', ()=>{ if(loanRows.length) downloadCSV('loan_schedule.csv', loanRows); });
 const compareToggle=document.getElementById('loan-compare-toggle'), compareFields=document.getElementById('loan-compare-fields');
@@ -1783,15 +2031,18 @@ compareToggle.addEventListener('click', ()=>{
 document.getElementById('loan2-calc').addEventListener('click', ()=>{
   const amount1=toNum(document.getElementById('loan-amount').value), rate1=toNum(document.getElementById('loan-rate').value), years1=toNum(document.getElementById('loan-years').value);
   const amount2=toNum(document.getElementById('loan2-amount').value), rate2=toNum(document.getElementById('loan2-rate').value), years2=toNum(document.getElementById('loan2-years').value);
+  const loanType = loanTypeSelect.value;
   if([amount1,rate1,years1,amount2,rate2,years2].some(v=>v===null)||amount1<=0||amount2<=0||years1<=0||years2<=0) return;
-  const r1=computeLoan(amount1,rate1,years1), r2=computeLoan(amount2,rate2,years2);
-  document.getElementById('loanc-monthly1').textContent=fmt(r1.monthlyPayment);
-  document.getElementById('loanc-monthly2').textContent=fmt(r2.monthlyPayment);
+  const r1=computeLoan(amount1,rate1,years1,loanType), r2=computeLoan(amount2,rate2,years2,loanType);
+  const pay1 = r1.monthlyPayment!==null ? fmt(r1.monthlyPayment) : `${fmt(r1.rows[0].monthlyPayment)} → ${fmt(r1.rows[r1.rows.length-1].monthlyPayment)}`;
+  const pay2 = r2.monthlyPayment!==null ? fmt(r2.monthlyPayment) : `${fmt(r2.rows[0].monthlyPayment)} → ${fmt(r2.rows[r2.rows.length-1].monthlyPayment)}`;
+  document.getElementById('loanc-monthly1').textContent=pay1;
+  document.getElementById('loanc-monthly2').textContent=pay2;
   document.getElementById('loanc-interest1').textContent=fmt(r1.totalInterest);
   document.getElementById('loanc-interest2').textContent=fmt(r2.totalInterest);
   document.getElementById('loan-compare-summary').style.display='grid';
-  addHistory(t('loan_compare_title'), `${t('tab_loan')} 1: ${fmt(amount1)} (${fmt(r1.monthlyPayment)}) — ${t('tab_loan')} 2: ${fmt(amount2)} (${fmt(r2.monthlyPayment)})`, {
-    tab:'loan', amount:amount1, rate:rate1, years:years1,
+  addHistory(t('loan_compare_title'), `${t('tab_loan')} 1: ${fmt(amount1)} (${pay1}) — ${t('tab_loan')} 2: ${fmt(amount2)} (${pay2})`, {
+    tab:'loan', amount:amount1, rate:rate1, years:years1, loanType,
     compare:true, amount2, rate2, years2
   });
 });
@@ -1804,9 +2055,9 @@ curFrom.value='USD'; curTo.value='EGP';
 let ratesCache={}; let curLastText='';
 document.getElementById('cur-calc').addEventListener('click', async ()=>{
   const amount=toNum(document.getElementById('cur-amount').value), from=curFrom.value, to=curTo.value;
-  const errorEl=document.getElementById('cur-error'), receiptEl=document.getElementById('cur-receipt'), saveBtn=document.getElementById('cur-save');
+  const errorEl=document.getElementById('cur-error'), receiptEl=document.getElementById('cur-receipt'), saveBtn=document.getElementById('cur-save'), walletBtn=document.getElementById('cur-wallet');
   const btn=document.getElementById('cur-calc');
-  errorEl.style.display='none'; receiptEl.style.display='none'; saveBtn.style.display='none';
+  errorEl.style.display='none'; receiptEl.style.display='none'; saveBtn.style.display='none'; walletBtn.style.display='none';
   if(amount===null||amount<0){ errorEl.textContent=t('cur_error_amount'); errorEl.style.display='block'; return; }
   const originalLabel=btn.textContent; btn.disabled=true; btn.innerHTML=`<span class="spinner"></span>${t('cur_loading')}`;
   try{
@@ -1820,10 +2071,11 @@ document.getElementById('cur-calc').addEventListener('click', async ()=>{
     }
     const rate=rates[to]; if(rate===undefined) throw new Error('no rate');
     const converted=amount*rate;
-    receiptEl.style.display='block'; saveBtn.style.display='block';
+    receiptEl.style.display='block'; saveBtn.style.display='block'; walletBtn.style.display='block';
     document.getElementById('cur-out-label').textContent=`${amount} ${from} =`;
     document.getElementById('cur-out-value').textContent=fmt(converted)+' '+to;
     curLastText=`${fmt(amount)} ${from} = ${fmt(converted)} ${to} (${round2(rate)})`;
+    walletBtn.onclick = ()=> openWalletQuickAdd({ type:'expense', category:'other_expense', amount: converted, note: curLastText });
   } catch(err){
     errorEl.textContent=t('cur_error'); errorEl.style.display='block';
   } finally { btn.disabled=false; btn.textContent=originalLabel; }
@@ -1898,6 +2150,175 @@ document.getElementById('date-save').addEventListener('click', ()=>addHistory(t(
   wfirst:document.getElementById('dw-first').value, wsecond:document.getElementById('dw-second').value
 }));
 
+// ================= PAPER PRICE =================
+document.getElementById('paper-calc').addEventListener('click', ()=>{
+  const length = toNum(document.getElementById('paper-length').value);
+  const width = toNum(document.getElementById('paper-width').value);
+  const gsm = toNum(document.getElementById('paper-gsm').value);
+  const tonPrice = toNum(document.getElementById('paper-ton-price').value);
+  const qty = toNum(document.getElementById('paper-qty').value);
+  const errorEl = document.getElementById('paper-error'), summaryEl = document.getElementById('paper-summary');
+  const saveBtn = document.getElementById('paper-save'), walletBtn = document.getElementById('paper-wallet');
+  const totalCard = document.getElementById('paper-total-card');
+  if(length===null||length<=0||width===null||width<=0||gsm===null||gsm<=0||tonPrice===null||tonPrice<=0){
+    errorEl.style.display='block'; summaryEl.style.display='none'; saveBtn.style.display='none'; walletBtn.style.display='none'; return;
+  }
+  errorEl.style.display='none';
+  const sheetWeight = (length*width*gsm)/1000000;
+  const sheetPrice = sheetWeight * tonPrice / 1000000;
+  document.getElementById('paper-sheet-price').textContent = fmt(sheetPrice);
+  document.getElementById('paper-sheet-weight').textContent = fmt(sheetWeight);
+  let totalPrice = null;
+  if(qty!==null && qty>0){
+    totalPrice = sheetPrice*qty;
+    document.getElementById('paper-total-price').textContent = fmt(totalPrice);
+    totalCard.style.display='block';
+  } else {
+    totalCard.style.display='none';
+  }
+  summaryEl.style.display='grid'; saveBtn.style.display='block'; walletBtn.style.display='block';
+  const logText = `${t('paper_lbl_length')}: ${fmt(length)} | ${t('paper_lbl_width')}: ${fmt(width)} | GSM: ${fmt(gsm)} | ${t('paper_sum_sheet')}: ${fmt(sheetPrice)}` + (totalPrice!==null ? ` | ${t('paper_sum_total')}: ${fmt(totalPrice)}` : '');
+  saveBtn.onclick = ()=> addHistory(t('tab_paper'), logText, {
+    tab:'paper', length, width, gsm, tonPrice, qty
+  });
+  walletBtn.onclick = ()=> openWalletQuickAdd({ type:'expense', category:'other_expense', amount: totalPrice!==null?totalPrice:sheetPrice, note: logText });
+});
+
+// ================= WALLET =================
+const WALLET_CATEGORIES = {
+  expense: ['food','transport','bills','rent','health','education','entertainment','shopping','subscriptions','zakat_donations','installments','other_expense'],
+  income: ['salary','extra_income','other_income'],
+  saving: ['saving'],
+  investment: ['investment']
+};
+const WALLET_KEY = 'smartcalc_wallet';
+let walletTransactions = [];
+function saveWalletToStorage(){ try{ localStorage.setItem(WALLET_KEY, JSON.stringify(walletTransactions)); } catch(e){} }
+function loadWalletFromStorage(){
+  try{ const raw = localStorage.getItem(WALLET_KEY); if(raw) walletTransactions = JSON.parse(raw); }
+  catch(e){ walletTransactions = []; }
+}
+function addWalletTransaction(tx){
+  walletTransactions.unshift({ id: Date.now()+'-'+Math.random().toString(36).slice(2,8), ...tx });
+  saveWalletToStorage();
+  renderWallet();
+}
+function deleteWalletTransaction(id){
+  walletTransactions = walletTransactions.filter(tx=>tx.id!==id);
+  saveWalletToStorage();
+  renderWallet();
+}
+function isSameMonth(dateStr, ref){
+  if(!dateStr) return false;
+  const d = new Date(dateStr);
+  return !isNaN(d) && d.getFullYear()===ref.getFullYear() && d.getMonth()===ref.getMonth();
+}
+
+// -- main wallet tab: type selector + category list --
+let walletType = 'expense';
+const walletTypeBtns = document.querySelectorAll('#wallet .mode-btn[data-wtype]');
+function populateCategorySelect(selectEl, type){
+  selectEl.innerHTML = '';
+  (WALLET_CATEGORIES[type] || []).forEach(catId=>{
+    selectEl.appendChild(new Option(t('wallet_cat_'+catId), catId));
+  });
+}
+walletTypeBtns.forEach(b=>{
+  b.addEventListener('click', ()=>{
+    walletType = b.dataset.wtype;
+    walletTypeBtns.forEach(x=>x.classList.toggle('active', x===b));
+    populateCategorySelect(document.getElementById('wallet-category'), walletType);
+  });
+});
+document.getElementById('wallet-add-btn').addEventListener('click', ()=>{
+  const category = document.getElementById('wallet-category').value;
+  const amount = toNum(document.getElementById('wallet-amount').value);
+  const date = document.getElementById('wallet-date').value || new Date().toISOString().split('T')[0];
+  const note = document.getElementById('wallet-note').value.trim();
+  const errorEl = document.getElementById('wallet-error');
+  if(amount===null || amount<=0 || !category){ errorEl.style.display='block'; return; }
+  errorEl.style.display='none';
+  addWalletTransaction({ type: walletType, category, amount, note, date });
+  document.getElementById('wallet-amount').value = '';
+  document.getElementById('wallet-note').value = '';
+});
+
+function renderWalletSummary(){
+  const now = new Date();
+  const thisMonth = walletTransactions.filter(tx=>isSameMonth(tx.date, now));
+  const income = thisMonth.filter(tx=>tx.type==='income').reduce((s,tx)=>s+Number(tx.amount||0),0);
+  const expense = thisMonth.filter(tx=>tx.type==='expense').reduce((s,tx)=>s+Number(tx.amount||0),0);
+  const net = income - expense;
+  const totalSaving = walletTransactions.filter(tx=>tx.type==='saving').reduce((s,tx)=>s+Number(tx.amount||0),0);
+  const totalInvestment = walletTransactions.filter(tx=>tx.type==='investment').reduce((s,tx)=>s+Number(tx.amount||0),0);
+  document.getElementById('wallet-summary').innerHTML = `
+    <div class="summary-card"><div class="s-label">${t('wallet_sum_income')}</div><div class="s-value">${fmt(income)}</div></div>
+    <div class="summary-card alt"><div class="s-label">${t('wallet_sum_expense')}</div><div class="s-value">${fmt(expense)}</div></div>
+    <div class="summary-card" style="grid-column:1/-1;"><div class="s-label">${t('wallet_sum_net')}</div><div class="s-value">${fmt(net)}</div></div>
+    <div class="summary-card"><div class="s-label">${t('wallet_sum_saving_total')}</div><div class="s-value">${fmt(totalSaving)}</div></div>
+    <div class="summary-card"><div class="s-label">${t('wallet_sum_investment_total')}</div><div class="s-value">${fmt(totalInvestment)}</div></div>
+  `;
+}
+function renderWalletBreakdown(){
+  const now = new Date();
+  const totals = {};
+  walletTransactions.filter(tx=>tx.type==='expense' && isSameMonth(tx.date, now)).forEach(tx=>{
+    totals[tx.category] = (totals[tx.category]||0) + Number(tx.amount||0);
+  });
+  const sorted = Object.entries(totals).sort((a,b)=>b[1]-a[1]);
+  const container = document.getElementById('wallet-breakdown');
+  if(sorted.length===0){ container.innerHTML = `<p class="empty-hist">${t('wallet_no_expenses')}</p>`; return; }
+  container.innerHTML = sorted.map(([cat,total])=>`<div class="hist-item" style="cursor:default;"><div class="h-type">${t('wallet_cat_'+cat)}</div><div class="h-text">${fmt(total)}</div></div>`).join('');
+}
+let walletRows = [];
+function renderWalletTable(){
+  const tbody = document.getElementById('wallet-tbody');
+  tbody.innerHTML = '';
+  walletRows = [[t('wallet_th_date'), t('wallet_th_type'), t('wallet_th_category'), t('wallet_th_amount'), t('wallet_th_note')]];
+  walletTransactions.forEach(tx=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${tx.date||''}</td><td>${t('wallet_type_'+tx.type)}</td><td>${t('wallet_cat_'+tx.category)}</td><td>${fmt(tx.amount)}</td><td>${tx.note||''}</td><td><button class="wallet-del-btn" data-id="${tx.id}" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:14px;">✕</button></td>`;
+    tbody.appendChild(tr);
+    walletRows.push([tx.date||'', t('wallet_type_'+tx.type), t('wallet_cat_'+tx.category), round2(tx.amount), tx.note||'']);
+  });
+  tbody.querySelectorAll('.wallet-del-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> deleteWalletTransaction(btn.getAttribute('data-id')));
+  });
+}
+function renderWallet(){ renderWalletSummary(); renderWalletBreakdown(); renderWalletTable(); }
+document.getElementById('wallet-export').addEventListener('click', ()=>{ if(walletRows.length) downloadCSV('wallet.csv', walletRows); });
+
+// -- quick "add to wallet" modal used from every other tab --
+let walletQuickType = 'expense';
+const walletQuickBtns = document.querySelectorAll('#wallet-quick-modal .mode-btn[data-qwtype]');
+walletQuickBtns.forEach(b=>{
+  b.addEventListener('click', ()=>{
+    walletQuickType = b.dataset.qwtype;
+    walletQuickBtns.forEach(x=>x.classList.toggle('active', x===b));
+    populateCategorySelect(document.getElementById('wallet-quick-category'), walletQuickType);
+  });
+});
+function openWalletQuickAdd(defaults){
+  defaults = defaults || {};
+  walletQuickType = defaults.type || 'expense';
+  walletQuickBtns.forEach(x=>x.classList.toggle('active', x.dataset.qwtype===walletQuickType));
+  populateCategorySelect(document.getElementById('wallet-quick-category'), walletQuickType);
+  if(defaults.category) document.getElementById('wallet-quick-category').value = defaults.category;
+  document.getElementById('wallet-quick-amount').value = (defaults.amount!==undefined && defaults.amount!==null && !isNaN(defaults.amount)) ? round2(defaults.amount) : '';
+  document.getElementById('wallet-quick-note').value = defaults.note || '';
+  document.getElementById('wallet-quick-modal').classList.add('open');
+}
+document.getElementById('wallet-quick-close').addEventListener('click', ()=>document.getElementById('wallet-quick-modal').classList.remove('open'));
+document.getElementById('wallet-quick-modal').addEventListener('click', (e)=>{ if(e.target.id==='wallet-quick-modal') e.currentTarget.classList.remove('open'); });
+document.getElementById('wallet-quick-confirm').addEventListener('click', ()=>{
+  const category = document.getElementById('wallet-quick-category').value;
+  const amount = toNum(document.getElementById('wallet-quick-amount').value);
+  const note = document.getElementById('wallet-quick-note').value.trim();
+  if(amount===null || amount<=0 || !category) return;
+  addWalletTransaction({ type: walletQuickType, category, amount, note, date: new Date().toISOString().split('T')[0] });
+  document.getElementById('wallet-quick-modal').classList.remove('open');
+});
+
 // ---------- init ----------
 let savedLang = 'ar', savedTheme = 'dark';
 try{ savedLang = localStorage.getItem('smartcalc_lang') || 'ar'; } catch(e){}
@@ -1906,6 +2327,11 @@ applyLanguage(savedLang, true);
 applyTheme(savedTheme, true);
 loadHistoryFromStorage();
 renderHistory();
+populateCategorySelect(document.getElementById('wallet-category'), walletType);
+populateCategorySelect(document.getElementById('wallet-quick-category'), walletQuickType);
+document.getElementById('wallet-date').value = new Date().toISOString().split('T')[0];
+loadWalletFromStorage();
+renderWallet();
 
 // ---------- access gate ----------
 // عدّل هذا المسار لو اسم ملف قايمة الصلاحيات مختلف. لازم يكون مرفوع بجانب هذا الملف على نفس الاستضافة.
