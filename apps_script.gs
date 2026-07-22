@@ -5,7 +5,7 @@
  */
 
 // لازم تكون نفس القيمة بالظبط المكتوبة في LOG_SECRET_KEY جوه calculator.html
-var SECRET_KEY = 'GHAYYAR_EL_KOD_DA';
+var SECRET_KEY = 'Sm4rtC4lc_2026_XyZ99';
 
 function doPost(e) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
