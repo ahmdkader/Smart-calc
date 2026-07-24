@@ -117,22 +117,38 @@
   }
   html[dir="ltr"] .search-wrap::after{ left:auto; right:16px; transform:translateY(-50%); }
 
-  /* ---------- tabs ---------- */
-  .tabs{ display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; padding-bottom:16px; }
-  .tabs::-webkit-scrollbar{ display:none; }
+  /* ---------- tabs (now shown as a vertical list inside the tools menu modal) ---------- */
+  .tabs{ display:flex; flex-direction:column; gap:8px; max-height:52vh; overflow-y:auto; padding:2px 2px 4px; }
+  .tabs::-webkit-scrollbar{ width:6px; }
+  .tabs::-webkit-scrollbar-thumb{ background:var(--border-strong); border-radius:8px; }
   .tab{
-    flex:0 0 auto; display:flex; align-items:center; gap:6px;
+    width:100%; display:flex; align-items:center; gap:10px; justify-content:flex-start;
     background:var(--surface); color:var(--text-dim); border:1px solid var(--border);
-    border-radius:999px; padding:10px 16px; font-family:'IBM Plex Sans Arabic', sans-serif;
-    font-weight:600; font-size:13px; cursor:pointer; transition:all .15s ease; white-space:nowrap;
+    border-radius:13px; padding:12px 16px; font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-weight:600; font-size:13.5px; cursor:pointer; transition:all .15s ease;
   }
-  .tab .ic{ font-size:14px; }
+  .tab .ic{ font-size:16px; }
   .tab.active{
     background:linear-gradient(135deg, var(--accent), #1AA684); color:#052018; border-color:transparent;
     box-shadow:0 4px 14px rgba(34,211,170,.3);
   }
   .tab:not(.active):hover{ background:var(--surface-solid); color:var(--text); border-color:var(--border-strong); }
   .tab.hidden-tab{ display:none; }
+  #tools-menu-open{ display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:18px; }
+  #tools-menu-modal .search-wrap{ margin-bottom:14px; }
+
+  /* ---------- basic calculator ---------- */
+  .calc-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:18px; }
+  .calc-btn{
+    aspect-ratio:1; border-radius:16px; background:var(--surface-strong); border:1px solid var(--border);
+    color:var(--text); font-size:19px; font-weight:700; cursor:pointer; font-family:'IBM Plex Mono',monospace;
+    transition:filter .1s ease;
+  }
+  .calc-btn:active{ filter:brightness(0.85); }
+  .calc-btn-fn{ background:var(--surface); color:var(--accent-2); font-size:15px; }
+  .calc-btn-op{ background:var(--accent-soft); color:var(--accent); }
+  .calc-btn-op.calc-btn-active{ background:var(--accent); color:#052018; }
+  .calc-btn-equals{ background:linear-gradient(135deg, var(--accent), #1AA684); color:#052018; box-shadow:0 6px 16px rgba(34,211,170,.25); }
 
   /* ---------- card ---------- */
   .card{
@@ -369,27 +385,72 @@
       <button class="btn-primary" id="wallet-quick-confirm" data-i18n="wallet_quick_confirm">تأكيد الإضافة</button>
     </div>
   </div>
-  <div class="search-wrap">
-    <input type="text" id="tool-search" placeholder="دور على أداة... مثلاً: قروض، عملات، زكاة" data-i18n-placeholder="search_ph">
-  </div>
+  <button class="btn-primary" id="tools-menu-open" style="margin-top:0;">☰ <span data-i18n="tools_menu_btn">كل الأدوات والحاسبات</span></button>
 
-  <div class="tabs" id="tabs-container">
-    <button class="tab active" data-tab="pct"><span class="ic">🧮</span><span data-i18n="tab_pct">النسبة المئوية</span></button>
-    <button class="tab" data-tab="comp"><span class="ic">📈</span><span data-i18n="tab_comp">النسبة التراكمية</span></button>
-    <button class="tab" data-tab="grow"><span class="ic">💹</span><span data-i18n="tab_grow">الاستثمار والادخار</span></button>
-    <button class="tab" data-tab="pricing"><span class="ic">🏷️</span><span data-i18n="tab_pricing">الأسعار والنسب</span></button>
-    <button class="tab" data-tab="zakat"><span class="ic">🕌</span><span data-i18n="tab_zakat">الزكاة</span></button>
-    <button class="tab" data-tab="loan"><span class="ic">🏦</span><span data-i18n="tab_loan">القروض والأقساط</span></button>
-    <button class="tab" data-tab="currency"><span class="ic">💱</span><span data-i18n="tab_currency">تحويل العملات</span></button>
-    <button class="tab" data-tab="dates"><span class="ic">📅</span><span data-i18n="tab_dates">حاسبة التواريخ</span></button>
-    <button class="tab" data-tab="paper"><span class="ic">🧾</span><span data-i18n="tab_paper">سعر الورق</span></button>
-    <button class="tab" data-tab="wallet"><span class="ic">👛</span><span data-i18n="tab_wallet">المحفظة</span></button>
+  <div class="modal-overlay" id="tools-menu-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="tools-menu-close">✕</button>
+      <h2 data-i18n="tools_menu_title">كل الأدوات</h2>
+      <div class="search-wrap">
+        <input type="text" id="tool-search" placeholder="دور على أداة... مثلاً: قروض، عملات، زكاة" data-i18n-placeholder="search_ph">
+      </div>
+      <div class="tabs" id="tabs-container">
+        <button class="tab active" data-tab="basic"><span class="ic">🧮</span><span data-i18n="tab_basic">الآلة الحاسبة</span></button>
+        <button class="tab" data-tab="pct"><span class="ic">%</span><span data-i18n="tab_pct">النسبة المئوية</span></button>
+        <button class="tab" data-tab="comp"><span class="ic">📈</span><span data-i18n="tab_comp">النسبة التراكمية</span></button>
+        <button class="tab" data-tab="grow"><span class="ic">💹</span><span data-i18n="tab_grow">الاستثمار والادخار</span></button>
+        <button class="tab" data-tab="pricing"><span class="ic">🏷️</span><span data-i18n="tab_pricing">الأسعار والنسب</span></button>
+        <button class="tab" data-tab="zakat"><span class="ic">🕌</span><span data-i18n="tab_zakat">الزكاة</span></button>
+        <button class="tab" data-tab="loan"><span class="ic">🏦</span><span data-i18n="tab_loan">القروض والأقساط</span></button>
+        <button class="tab" data-tab="currency"><span class="ic">💱</span><span data-i18n="tab_currency">تحويل العملات</span></button>
+        <button class="tab" data-tab="dates"><span class="ic">📅</span><span data-i18n="tab_dates">حاسبة التواريخ</span></button>
+        <button class="tab" data-tab="paper"><span class="ic">🧾</span><span data-i18n="tab_paper">سعر الورق</span></button>
+        <button class="tab" data-tab="wallet"><span class="ic">👛</span><span data-i18n="tab_wallet">المحفظة</span></button>
+      </div>
+    </div>
   </div>
 
   <div class="card">
 
+    <!-- ============ TAB: BASIC CALCULATOR ============ -->
+    <div id="basic" class="panel" data-keywords="حاسبة عادية calculator basic">
+      <div class="section-title"><span class="ic">🧮</span><span data-i18n="basic_title">الآلة الحاسبة</span></div>
+      <div class="result-card" style="margin-top:6px;">
+        <div class="r-label" id="basic-expression" style="min-height:16px;">&nbsp;</div>
+        <div class="r-value" id="basic-display" style="font-size:36px;">0</div>
+      </div>
+      <div class="calc-grid">
+        <button class="calc-btn calc-btn-fn" data-cact="clear">AC</button>
+        <button class="calc-btn calc-btn-fn" data-cact="backspace">⌫</button>
+        <button class="calc-btn calc-btn-fn" data-cact="percent">%</button>
+        <button class="calc-btn calc-btn-op" data-cop="/">÷</button>
+
+        <button class="calc-btn" data-cnum="7">7</button>
+        <button class="calc-btn" data-cnum="8">8</button>
+        <button class="calc-btn" data-cnum="9">9</button>
+        <button class="calc-btn calc-btn-op" data-cop="*">×</button>
+
+        <button class="calc-btn" data-cnum="4">4</button>
+        <button class="calc-btn" data-cnum="5">5</button>
+        <button class="calc-btn" data-cnum="6">6</button>
+        <button class="calc-btn calc-btn-op" data-cop="-">−</button>
+
+        <button class="calc-btn" data-cnum="1">1</button>
+        <button class="calc-btn" data-cnum="2">2</button>
+        <button class="calc-btn" data-cnum="3">3</button>
+        <button class="calc-btn calc-btn-op" data-cop="+">+</button>
+
+        <button class="calc-btn" data-cact="sign">±</button>
+        <button class="calc-btn" data-cnum="0">0</button>
+        <button class="calc-btn" data-cact="decimal">.</button>
+        <button class="calc-btn calc-btn-equals" data-cact="equals">=</button>
+      </div>
+      <button class="btn-secondary" id="basic-save" style="display:none;" data-i18n="btn_save">➕ حفظ في السجل</button>
+      <button class="btn-secondary" id="basic-wallet" style="display:none;" data-i18n="btn_add_wallet">👛 ضيف للمحفظة</button>
+    </div>
+
     <!-- ============ TAB: PERCENTAGE ============ -->
-    <div id="pct" class="panel" data-keywords="نسبة مئوية percentage">
+    <div id="pct" class="panel" data-keywords="نسبة مئوية percentage" style="display:none;">
       <div class="section-title"><span class="ic">🧮</span><span data-i18n="pct_title">حاسبة النسبة المئوية</span></div>
       <p class="section-sub" data-i18n="pct_sub">اختار الخانة اللي عايز تحسبها، واملأ الخانتين التانيين.</p>
 
@@ -870,6 +931,8 @@
 const translations = {
   ar: {
     h_tagline:'كل أدواتك المالية في مكان واحد', search_ph:'دور على أداة... مثلاً: قروض، عملات، زكاة',
+    tools_menu_btn:'كل الأدوات والحاسبات', tools_menu_title:'كل الأدوات',
+    tab_basic:'الآلة الحاسبة', basic_title:'الآلة الحاسبة', basic_error:'خطأ',
     tab_pct:'النسبة المئوية', tab_comp:'النسبة التراكمية', tab_grow:'الاستثمار والادخار', tab_pricing:'الأسعار والنسب',
     tab_zakat:'الزكاة', tab_loan:'القروض والأقساط', tab_currency:'تحويل العملات', tab_dates:'حاسبة التواريخ',
     pct_title:'حاسبة النسبة المئوية', pct_sub:'اختار الخانة اللي عايز تحسبها، واملأ الخانتين التانيين.',
@@ -1015,6 +1078,8 @@ const translations = {
   },
   en: {
     h_tagline:'All your financial tools in one place', search_ph:'Search a tool... e.g. loans, currency, zakat',
+    tools_menu_btn:'All tools & calculators', tools_menu_title:'All Tools',
+    tab_basic:'Calculator', basic_title:'Calculator', basic_error:'Error',
     tab_pct:'Percentage', tab_comp:'Compound %', tab_grow:'Invest & Save', tab_pricing:'Pricing & Rates',
     tab_zakat:'Zakat', tab_loan:'Loans', tab_currency:'Currency', tab_dates:'Dates',
     pct_title:'Percentage Calculator', pct_sub:'Choose the field you want to calculate, and fill in the other two.',
@@ -1266,7 +1331,12 @@ function restoreHistoryItem(entry){
   document.getElementById('history-modal').classList.remove('open');
   switchToTab(r.tab);
 
-  if(r.tab==='pct'){
+  if(r.tab==='basic'){
+    calcClearAll();
+    calcDisplay = String(r.result);
+    calcUpdateDisplay();
+
+  } else if(r.tab==='pct'){
     setPctMode(r.mode);
     setVal('pct-number', r.number); setVal('pct-percent', r.percent); setVal('pct-result', r.result);
     computePct();
@@ -1422,8 +1492,12 @@ tabs.forEach(tab=>{
     tab.classList.add('active');
     document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
     document.getElementById(tab.dataset.tab).style.display='block';
+    document.getElementById('tools-menu-modal').classList.remove('open');
   });
 });
+document.getElementById('tools-menu-open').addEventListener('click', ()=>document.getElementById('tools-menu-modal').classList.add('open'));
+document.getElementById('tools-menu-close').addEventListener('click', ()=>document.getElementById('tools-menu-modal').classList.remove('open'));
+document.getElementById('tools-menu-modal').addEventListener('click', (e)=>{ if(e.target.id==='tools-menu-modal') e.currentTarget.classList.remove('open'); });
 
 // ---------- smart search ----------
 document.getElementById('tool-search').addEventListener('input', (e)=>{
@@ -1434,6 +1508,131 @@ document.getElementById('tool-search').addEventListener('input', (e)=>{
     tab.classList.toggle('hidden-tab', !(q==='' || haystack.includes(q)));
   });
 });
+
+// ================= BASIC CALCULATOR =================
+let calcDisplay = '0';
+let calcPrevValue = null;
+let calcOperator = null;
+let calcWaitingForOperand = false;
+let calcExpressionText = '';
+const calcDisplayEl = document.getElementById('basic-display');
+const calcExpressionEl = document.getElementById('basic-expression');
+const calcSaveBtn = document.getElementById('basic-save');
+const calcWalletBtn = document.getElementById('basic-wallet');
+const calcOpSymbols = { '+':'+', '-':'−', '*':'×', '/':'÷' };
+
+function trimNumber(n){
+  if(!isFinite(n)) return t('basic_error');
+  if(Math.abs(n) > 1e15) return t('basic_error');
+  let s = n.toFixed(10);
+  if(s.indexOf('.')!==-1) s = s.replace(/0+$/,'').replace(/\.$/,'');
+  return s;
+}
+function calcUpdateDisplay(){
+  calcDisplayEl.textContent = calcDisplay;
+  calcExpressionEl.textContent = calcExpressionText || '\u00A0';
+  const hasResult = calcOperator===null && calcPrevValue===null && calcDisplay!=='0' && calcExpressionText==='';
+  calcSaveBtn.style.display = hasResult ? 'block' : 'none';
+  calcWalletBtn.style.display = hasResult ? 'block' : 'none';
+}
+function calcClearAll(){
+  calcDisplay='0'; calcPrevValue=null; calcOperator=null; calcWaitingForOperand=false; calcExpressionText='';
+  calcUpdateDisplay();
+}
+function calcInputDigit(d){
+  if(calcWaitingForOperand){ calcDisplay = d; calcWaitingForOperand = false; }
+  else { calcDisplay = (calcDisplay==='0') ? d : calcDisplay+d; }
+  calcUpdateDisplay();
+}
+function calcInputDecimal(){
+  if(calcWaitingForOperand){ calcDisplay='0.'; calcWaitingForOperand=false; calcUpdateDisplay(); return; }
+  if(calcDisplay.indexOf('.')===-1) calcDisplay += '.';
+  calcUpdateDisplay();
+}
+function calcBackspace(){
+  if(calcWaitingForOperand) return;
+  calcDisplay = calcDisplay.length>1 ? calcDisplay.slice(0,-1) : '0';
+  calcUpdateDisplay();
+}
+function calcToggleSign(){
+  if(calcDisplay==='0') return;
+  calcDisplay = calcDisplay.startsWith('-') ? calcDisplay.slice(1) : ('-'+calcDisplay);
+  calcUpdateDisplay();
+}
+function calcPercentBtn(){
+  calcDisplay = trimNumber(parseFloat(calcDisplay)/100);
+  calcUpdateDisplay();
+}
+function calcCompute(a,b,op){
+  switch(op){
+    case '+': return a+b;
+    case '-': return a-b;
+    case '*': return a*b;
+    case '/': return b===0 ? NaN : a/b;
+    default: return b;
+  }
+}
+function calcInputOperator(nextOp){
+  const inputValue = parseFloat(calcDisplay);
+  if(calcPrevValue===null){
+    calcPrevValue = inputValue;
+  } else if(calcOperator && !calcWaitingForOperand){
+    const result = calcCompute(calcPrevValue, inputValue, calcOperator);
+    calcDisplay = trimNumber(result);
+    calcPrevValue = parseFloat(calcDisplay);
+    calcDisplayEl.textContent = calcDisplay;
+  }
+  calcExpressionText = `${fmt(calcPrevValue)} ${calcOpSymbols[nextOp]}`;
+  calcWaitingForOperand = true;
+  calcOperator = nextOp;
+  calcUpdateDisplay();
+}
+function calcEquals(){
+  const inputValue = parseFloat(calcDisplay);
+  if(calcOperator && calcPrevValue!==null && !calcWaitingForOperand){
+    const result = calcCompute(calcPrevValue, inputValue, calcOperator);
+    calcExpressionText = `${fmt(calcPrevValue)} ${calcOpSymbols[calcOperator]} ${fmt(inputValue)} =`;
+    calcDisplay = trimNumber(result);
+    calcPrevValue = null;
+    calcOperator = null;
+    calcWaitingForOperand = false;
+    calcUpdateDisplay();
+    const finalExpr = calcExpressionText, finalResult = calcDisplay;
+    calcExpressionText = '';
+    calcUpdateDisplay();
+    calcSaveBtn.onclick = ()=> addHistory(t('tab_basic'), `${finalExpr} ${finalResult}`, { tab:'basic', result: finalResult });
+    calcWalletBtn.onclick = ()=> openWalletQuickAdd({ type:'expense', category:'other_expense', amount: parseFloat(finalResult), note: `${finalExpr} ${finalResult}` });
+  }
+}
+document.querySelectorAll('#basic .calc-btn[data-cnum]').forEach(btn=>{
+  btn.addEventListener('click', ()=> calcInputDigit(btn.dataset.cnum));
+});
+document.querySelectorAll('#basic .calc-btn[data-cop]').forEach(btn=>{
+  btn.addEventListener('click', ()=> calcInputOperator(btn.dataset.cop));
+});
+document.querySelectorAll('#basic .calc-btn[data-cact]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const act = btn.dataset.cact;
+    if(act==='clear') calcClearAll();
+    else if(act==='backspace') calcBackspace();
+    else if(act==='sign') calcToggleSign();
+    else if(act==='percent') calcPercentBtn();
+    else if(act==='decimal') calcInputDecimal();
+    else if(act==='equals') calcEquals();
+  });
+});
+document.addEventListener('keydown', (e)=>{
+  if(document.getElementById('basic').style.display==='none') return;
+  if(document.activeElement && ['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName)) return;
+  if(e.key>='0' && e.key<='9'){ calcInputDigit(e.key); }
+  else if(e.key==='.'){ calcInputDecimal(); }
+  else if(['+','-','*','/'].includes(e.key)){ calcInputOperator(e.key); }
+  else if(e.key==='Enter' || e.key==='='){ e.preventDefault(); calcEquals(); }
+  else if(e.key==='Backspace'){ calcBackspace(); }
+  else if(e.key==='Escape'){ calcClearAll(); }
+  else if(e.key==='%'){ calcPercentBtn(); }
+});
+calcUpdateDisplay();
 
 // track which "required" tag is currently shown, to re-translate on language switch
 let requiredTagEl = null;
@@ -2368,9 +2567,9 @@ const INACTIVITY_LIMIT_MS = 30 * 24 * 60 * 60 * 1000; // 30 يوم بدون اس
 
 // عدّل الرابط ده بعد ما تعمل Google Apps Script Web App (شرح الخطوات في الرسالة).
 // سيبه فاضي '' لو مش عايز تسجيل الدخول يتبعت لحد الآن — الابلكيشن هيشتغل عادي من غيره.
-const LOG_ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbyyzpwEdLYFWvOROXEv82ngEe-aIr9flfOsIVK52IKIMEfVLtEeoiKoxa_XT3elKhyMhA/exec';
+const LOG_ENDPOINT_URL = '';
 // نفس القيمة لازم تتحط في متغير SECRET_KEY جوه كود Apps Script. أي طلب من غير المفتاح ده، السكريبت هيرفضه.
-const LOG_SECRET_KEY = 'Sm4rtC4lc_2026_XyZ99';
+const LOG_SECRET_KEY = 'GHAYYAR_EL_KOD_DA';
 
 // ---------- device identity (تمييز نفس الجهاز عن جهاز مختلف) ----------
 function getDeviceId(){
